@@ -1,0 +1,17 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- hosts: clab
+  gather_facts: no
+  tasks:
+    # this task ensures that we can get information for a container
+    - name: json RPC get
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /system/foo
+            datastore: state
+      register: response
+
+    - debug:
+        var: response

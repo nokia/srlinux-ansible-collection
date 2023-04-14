@@ -1,0 +1,11 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: ansible
+
+topology:
+  nodes:
+    srl:
+      kind: srl
+      image: ghcr.io/srl-labs/srlinux:test-ansible

@@ -1,0 +1,47 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set leaves with check and diff modes
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Test check mode
+      nokia.srl.jsonrpc_set:
+        update:
+          - path: /system/information
+            value:
+              location: Some location
+              contact: Some contact
+      check_mode: true
+      register: set_response
+      failed_when: set_response.changed != true and "Some contact" not in set_response.diff.prepared
+
+    - debug:
+        var: set_response
+
+    - name: Test check mode with diff
+      nokia.srl.jsonrpc_set:
+        update:
+          - path: /system/information
+            value:
+              location: Some location
+              contact: Some contact
+      check_mode: true
+      diff: true
+      register: set_response
+      failed_when: set_response.changed != true and "Some contact" not in set_response.diff.prepared
+
+    - debug:
+        var: set_response
+
+    - name: Ensure no changes were made to the device
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /system/information
+            datastore: state
+      register: get_response
+      failed_when: response.json.result[0].location is defined
+
+    - debug:
+        var: get_response

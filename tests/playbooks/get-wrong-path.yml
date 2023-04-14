@@ -1,0 +1,19 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Get wrong path
+  hosts: clab
+  gather_facts: false
+  tasks:
+    # this task ensures that we fail with expected error when get is targeted to a wrong path
+    - name: Get wrong path
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /system/informations
+            datastore: state
+      register: response
+      failed_when: not response.failed and "Path not found" not in response.msg
+
+    - debug:
+        var: response

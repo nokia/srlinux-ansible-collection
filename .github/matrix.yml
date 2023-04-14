@@ -1,0 +1,58 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+# a matrix list of variables used in testing
+# kind of a manual way of creating a testing matrix with a flexibility of selecting permuatations
+# support matrix for ansible control node - https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#node-requirement-summary
+include:
+  # Python 3.5
+  # - python-version: "3.5.10"
+  #   ansible-core-version: "2.11.11"
+  #   runs-on: "ubuntu-20.04"
+
+  # Python 3.6
+  # - python-version: "3.6.15"
+  #   ansible-core-version: "2.11.11"
+  #   runs-on: "ubuntu-20.04"
+
+  # Python 3.7
+  # - python-version: "3.7"
+  #   ansible-core-version: "2.11.11"
+  #   runs-on: "ubuntu-22.04"
+
+  # Python 3.8
+  - python-version: "3.8"
+    ansible-core-version: "2.11.11"
+    runs-on: "ubuntu-22.04"
+  # - python-version: "3.8"
+  #   ansible-core-version: "2.12.10"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.8"
+  #   ansible-core-version: "2.13.8"
+  #   runs-on: "ubuntu-22.04"
+
+  # Python 3.9
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.11.11"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.12.10"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.13.8"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.14.3"
+  #   runs-on: "ubuntu-22.04"
+
+  # Python 3.10
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.12.10"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.13.8"
+  #   runs-on: "ubuntu-22.04"
+  # - python-version: "3.9"
+  #   ansible-core-version: "2.14.3"
+  #   runs-on: "ubuntu-22.04"

@@ -1,0 +1,37 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Delete leaf nodes
+  hosts: clab
+  gather_facts: false
+  tasks:
+    # test preparation step
+    - name: Set system information with values
+      nokia.srl.jsonrpc_set:
+        update:
+          - path: /system/information
+            value:
+              location: Some location
+              contact: Some contact
+
+    - name: Test Delete operation on leaf nodes
+      nokia.srl.jsonrpc_set:
+        delete:
+          - path: /system/information/location
+          - path: /system/information/contact
+      register: delete_response
+
+    - debug:
+        var: delete_response
+
+    - name: Ensure leaves were deleted
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /system/information
+            datastore: state
+      register: get_response
+      failed_when: get_response.json.result[0].location is defined or get_response.json.result[0].contact is defined
+
+    - debug:
+        var: get_response

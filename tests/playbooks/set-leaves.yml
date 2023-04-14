@@ -1,0 +1,30 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set leaves
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Set system information with values
+      nokia.srl.jsonrpc_set:
+        update:
+          - path: /system/information
+            value:
+              location: Some location
+              contact: Some contact
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: Ensure changes were made to the device
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /system/information
+            datastore: state
+      register: get_response
+      failed_when: get_response.json.result[0].location != "Some location" or get_response.json.result[0].contact != "Some contact"
+
+    - debug:
+        var: get_response

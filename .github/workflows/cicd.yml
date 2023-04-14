@@ -1,0 +1,63 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+---
+name: CICD
+"on":
+  workflow_dispatch:
+
+jobs:
+  prepare-matrix:
+    runs-on: ubuntu-22.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.output }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: fabasoad/data-format-converter-action@main
+        id: matrix
+        with:
+          input: ".github/matrix.yml"
+          from: "yaml"
+          to: "json"
+
+  test:
+    runs-on: ${{ matrix.runs-on }}
+    needs: [prepare-matrix]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install ansible core
+        run: pip install ansible-core==${{ matrix.ansible-core-version }}
+
+      - name: ghcr.io login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        run: ./run.sh ci-test
+
+  ansible-sanity-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Install ansible core
+        run: pip install ansible-core==2.13.8
+
+      - name: Ansible sanity test
+        run: ./run.sh sanity-test

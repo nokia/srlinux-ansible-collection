@@ -1,0 +1,17 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Run "show version" CLI command
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Run "show version" CLI command
+      nokia.srl.jsonrpc_cli:
+        commands:
+          - show version
+      register: response
+      failed_when: response.json.result[0]["basic system info"].Architecture != "x86_64"
+
+    - debug:
+        var: response

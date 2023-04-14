@@ -1,0 +1,31 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Replace full config
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Replace entire config from file
+      nokia.srl.jsonrpc_set:
+        replace:
+          - path: /
+            value: "{{lookup('ansible.builtin.template', '{{playbook_dir}}/golden/{{inventory_hostname}}-golden.cfg.json.j2') }}"
+      register: set_response
+      diff: true
+      # check_mode: true
+
+    - debug:
+        var: set_response
+
+    - name: Ensure changes were made to the device
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /interface[name=ethernet-1/1]/description
+            datastore: state
+      register: get_response
+      # check if the expected interface description is present as a result of config replace
+      failed_when: ("ethernet-1/1 interface on "+vars.inventory_hostname) not in get_response.json.result[0]
+
+    - debug:
+        var: get_response

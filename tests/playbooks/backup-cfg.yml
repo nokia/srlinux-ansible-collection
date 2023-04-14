@@ -1,0 +1,37 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Backup config
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Delete old config files
+      ansible.builtin.file:
+        path: "{{item}}"
+        state: absent
+      with_fileglob:
+        - "/tmp/{{inventory_hostname}}.cfg.*"
+
+    - name: Get entire running config
+      nokia.srl.jsonrpc_get:
+        paths:
+          - path: /
+            datastore: running
+      register: response
+
+    - name: Save fetched config in JSON
+      ansible.builtin.copy:
+        content: "{{response.json.result[0] | to_nice_json}}"
+        dest: "/tmp/{{inventory_hostname}}.cfg.json"
+
+    - name: Save fetched config in YAML
+      ansible.builtin.copy:
+        content: "{{response.json.result[0] | to_nice_yaml}}"
+        dest: "/tmp/{{inventory_hostname}}.cfg.yml"
+
+    - name: check if saved file contains "srl_nokia"
+      ansible.builtin.shell:
+        cmd: "grep srl_nokia {{item}}"
+      with_fileglob:
+        - "/tmp/{{inventory_hostname}}.cfg.*"
