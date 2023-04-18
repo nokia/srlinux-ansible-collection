@@ -8,4 +8,4 @@ topology:
   nodes:
     srl:
       kind: srl
-      image: ghcr.io/srl-labs/srlinux:test-ansible
+      image: ghcr.io/nokia/srlinux:23.3.1
