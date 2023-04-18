@@ -48,6 +48,11 @@ function install-local-collection {
   ansible-galaxy collection install --force ..
 }
 
+# Install a netcommon dependency in case ansible-core is installed.
+function install-netcommon {
+  ansible-galaxy collection install --force ansible.netcommon:==4.1.0
+}
+
 # Deploy test lab.
 function deploy-lab {
   cd ${SCRIPTS_DIR}
