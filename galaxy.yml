@@ -22,10 +22,11 @@ readme: README.md
 authors:
   - Roman Dodin <roman.dodin@nokia.com>
   - Patrick Dumais <patrick.dumais@nokia.com>
+  - Walter De Smedt <walter.de_smedt@nokia.com>
 
 ### OPTIONAL but strongly recommended
 # A short summary description of the collection
-description: your collection description
+description: An Ansible collection for Nokia SR Linux Network OS that enables model-driven management of the network elements using JSON-RPC API.
 
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
@@ -46,7 +47,7 @@ tags:
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: { "ansible.netcommon": "*" }
+dependencies: { "ansible.netcommon": ">=4.1.0" }
 
 # The URL of the originating SCM repository
 repository: https://github.com/nokia/srlinux-ansible-collection
@@ -66,3 +67,7 @@ issues: https://github.com/nokia/srlinux-ansible-collection/issues
 # and '.git' are always filtered
 build_ignore:
   - scripts
+  - run.sh
+  - tests
+  - .github
+  - .vscode
