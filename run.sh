@@ -138,6 +138,12 @@ function test-cli-show-version {
   ansible-playbook playbooks/cli-show-version.yml "$@"
 }
 
+function test-cli-wrong-cmd {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/cli-wrong-cmd.yml "$@"
+}
+
 function test-set-check-mode {
   _cdTests
   revert-to-checkpoint
@@ -190,6 +196,7 @@ function _run-tests {
   test-config-backup "$@"
   test-get-wrong-path "$@"
   test-cli-show-version "$@"
+  test-cli-wrong-cmd "$@"
   test-tls-fail "$@"
   test-tls-skip "$@"
   test-set-check-mode "$@"
