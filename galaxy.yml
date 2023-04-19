@@ -68,6 +68,6 @@ issues: https://github.com/nokia/srlinux-ansible-collection/issues
 build_ignore:
   - scripts
   - run.sh
-  - tests
+  # - tests
   - .github
   - .vscode
