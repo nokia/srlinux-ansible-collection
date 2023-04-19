@@ -1,5 +1,8 @@
 # SR Linux Ansible Collection
 
+> **Warning**
+> This is a work in progress. The collection is not yet published to Ansible Galaxy.
+
 ## Dev setup
 
 Start with cloning the repo:
