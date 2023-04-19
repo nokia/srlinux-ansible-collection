@@ -69,7 +69,7 @@ function prepare-dev-env {
   ln -s "$(pwd)" /tmp/srl_ansible_dev/ansible_collections/nokia/srl
 
   # setup .env file for python to resolve imports
-  echo "PYTHONPATH=/tmp/srl_ansible_dev" > .env
+  echo "PYTHONPATH=$(realpath ~)/.ansible/collections:/tmp/srl_ansible_dev" > .env
 }
 
 # revert to initial checkpoint to guarantee the node initial state

@@ -13,7 +13,7 @@
           - path: /system/information
             datastore: state
       register: response
-      failed_when: '"SRLinux" not in response.json.result[0].description'
+      failed_when: '"SRLinux" not in response.result[0].description'
 
     - debug:
         var: response
