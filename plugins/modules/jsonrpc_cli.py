@@ -75,15 +75,23 @@ def main():
     }
     ret = client.post(payload=json.dumps(data))
 
-    if ret:
-        json_output["changed"] = True
-        json_output["json"] = ret
-        module.exit_json(**json_output)
-        return
+    # populate the output using custom keys
+    json_output["jsonrpc_req_id"] = ret["id"]
+    json_output["jsonrpc_version"] = ret["jsonrpc"]
+    json_output["result"] = ret.get("result")
+    err = ret.get("error")
+    if err:
+        json_output["error"] = err
 
-    json_output["ret"] = ret
+    if ret and ret.get("result"):
+        module.exit_json(**json_output)
+
+    # handling error case
     json_output["failed"] = True
-    module.exit_json(**json_output)
+    module.fail_json(
+        msg=json_output["error"]["message"],
+        jsonrpc_req_id=json_output["jsonrpc_req_id"],
+    )
 
 
 if __name__ == "__main__":

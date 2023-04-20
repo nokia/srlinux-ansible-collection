@@ -6,6 +6,10 @@
 name: CICD
 "on":
   workflow_dispatch:
+  pull_request:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   prepare-matrix:

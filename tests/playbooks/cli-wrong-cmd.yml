@@ -2,16 +2,16 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-- name: Run "show version" CLI command
+- name: Run wrong CLI command
   hosts: clab
   gather_facts: false
   tasks:
-    - name: Run "show version" CLI command
+    - name: Run wrong CLI command
       nokia.srl.jsonrpc_cli:
         commands:
-          - show version
+          - show wrong
       register: response
-      failed_when: response.result[0]["basic system info"].Architecture != "x86_64"
+      failed_when: '("Parsing error: Unknown token" not in response.msg) or (response.failed is not true)'
 
     - debug:
         var: response

@@ -24,7 +24,7 @@
           - path: /system/information
             datastore: state
       register: get_response
-      failed_when: get_response.json.result[0].location != "Some location" or get_response.json.result[0].contact != "Some contact"
+      failed_when: get_response.result[0].location != "Some location" or get_response.result[0].contact != "Some contact"
 
     - debug:
         var: get_response

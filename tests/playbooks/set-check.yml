@@ -41,7 +41,7 @@
           - path: /system/information
             datastore: state
       register: get_response
-      failed_when: response.json.result[0].location is defined
+      failed_when: response.result[0].location is defined
 
     - debug:
         var: get_response

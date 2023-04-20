@@ -22,12 +22,12 @@
 
     - name: Save fetched config in JSON
       ansible.builtin.copy:
-        content: "{{response.json.result[0] | to_nice_json}}"
+        content: "{{response.result[0] | to_nice_json}}"
         dest: "/tmp/{{inventory_hostname}}.cfg.json"
 
     - name: Save fetched config in YAML
       ansible.builtin.copy:
-        content: "{{response.json.result[0] | to_nice_yaml}}"
+        content: "{{response.result[0] | to_nice_yaml}}"
         dest: "/tmp/{{inventory_hostname}}.cfg.yml"
 
     - name: check if saved file contains "srl_nokia"
