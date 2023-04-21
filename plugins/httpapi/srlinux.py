@@ -33,17 +33,12 @@ BASE_HEADERS = {"Content-Type": "application/json"}
 
 
 class HttpApi(HttpApiBase):
-    """HttpApi reimplementation for SRL"""
+    """HttpApi plugin for Nokia SR Linux"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.headers = {"Content-Type": "application/json"}
-        self.params = {}
+        self.headers = BASE_HEADERS
         self.error = None
-
-    def set_params(self, params):
-        """To set parameters of class"""
-        self.params = params
 
     # pylint: disable=arguments-differ
     def send_request(self, data, method="POST", path="/jsonrpc"):
@@ -66,14 +61,13 @@ class HttpApi(HttpApiBase):
                 raise
             if to_text("401") in to_text(e):
                 return 401, "Authentication failure"
-            else:
-                return 404, "Object not found"
+            return 404, "Object not found"
         except HTTPError as e:
             error = e.read()
             return e.code, error
 
     def _display_request(self, request_method, path):
-        self.connection.queue_message("vvvv", f"Web Services: {request_method} {path}")
+        self.connection.queue_message("vvvv", f"HTTP Request: {request_method} {path}")
 
     def _get_response_value(self, response_data):
         return to_text(response_data.getvalue())
