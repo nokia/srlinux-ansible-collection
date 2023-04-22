@@ -9,7 +9,9 @@ import json
 
 __metaclass__ = type  # pylint: disable=invalid-name
 
+from json.decoder import JSONDecodeError
 from urllib.error import HTTPError
+
 from ansible.errors import AnsibleConnectionFailure
 from ansible.module_utils.basic import to_text
 from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import (
@@ -35,16 +37,10 @@ BASE_HEADERS = {"Content-Type": "application/json"}
 class HttpApi(HttpApiBase):
     """HttpApi plugin for Nokia SR Linux"""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.headers = BASE_HEADERS
-        self.error = None
-
     # pylint: disable=arguments-differ
     def send_request(self, data, method="POST", path="/jsonrpc"):
         try:
-            # return 200, to_text(self.connection)
-            self._display_request(method, path)
+            self._display_request(data)
             response, response_data = self.connection.send(
                 path,
                 data,
@@ -52,9 +48,10 @@ class HttpApi(HttpApiBase):
                 headers=BASE_HEADERS,
                 force_basic_auth=True,
             )
-            value = self._get_response_value(response_data)
 
-            return response.getcode(), self._response_to_json(value)
+            return response.getcode(), self._response_to_json(
+                to_text(response_data.getvalue())
+            )
         except AnsibleConnectionFailure as e:
             self.connection.queue_message("vvv", f"AnsibleConnectionFailure: {e}")
             if to_text("Could not connect to") in to_text(e):
@@ -66,15 +63,12 @@ class HttpApi(HttpApiBase):
             error = e.read()
             return e.code, error
 
-    def _display_request(self, request_method, path):
-        self.connection.queue_message("vvvv", f"HTTP Request: {request_method} {path}")
-
-    def _get_response_value(self, response_data):
-        return to_text(response_data.getvalue())
+    def _display_request(self, data):
+        self.connection.queue_message("vvvv", f"HTTP Request data: {data}")
 
     def _response_to_json(self, response_text):
         try:
             return json.loads(response_text) if response_text else {}
-        # JSONDecodeError only available on Python 3.5+
-        except ValueError as exc:
+
+        except JSONDecodeError as exc:
             raise ConnectionError(f"Invalid JSON response: {response_text}") from exc

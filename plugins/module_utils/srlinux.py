@@ -18,13 +18,10 @@ from ansible.module_utils.urls import CertificateError
 class JSONRPCClient:
     """SRLinux JSON-RPC client"""
 
-    def __init__(self, module=None, connection=None):
+    def __init__(self, module=None):
         self.module = module
         if module:
             self.connection = Connection(self.module._socket_path)
-        elif connection:
-            self.connection = connection
-            self.connection.load_platform_plugins("nokia.srl.srlinux")
 
     def _httpapi_error_handle(self, method="POST", path="/jsonrpc", payload=None):
         try:
@@ -38,10 +35,9 @@ class JSONRPCClient:
                 ) in to_text(response):
                     return {}
 
-            if not (code >= 200 and code < 300):
-                responsestr = response.decode("utf-8")
+            if not (200 <= code < 300):
                 self.module.fail_json(
-                    msg=f"srlinux httpapi returned error {code} with message {responsestr}"
+                    msg=f"srlinux httpapi returned error {code} with message {to_text(response)}"
                 )
 
             return response
@@ -61,5 +57,5 @@ class JSONRPCClient:
                 pass
 
     def post(self, url="/jsonrpc", payload=None, **kwargs):
-        """SRL JsonRPC Post function"""
+        """JSON-RPC POST request"""
         return self._httpapi_error_handle("POST", url, payload=payload, **kwargs)
