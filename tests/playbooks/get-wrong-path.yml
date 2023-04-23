@@ -8,7 +8,7 @@
   tasks:
     # this task ensures that we fail with expected error when get is targeted to a wrong path
     - name: Get wrong path
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/informations
             datastore: state

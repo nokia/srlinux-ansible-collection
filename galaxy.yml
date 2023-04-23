@@ -9,7 +9,7 @@
 namespace: nokia
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: srl
+name: srlinux
 
 # The version of the collection. Must be compatible with semantic versioning
 version: 0.1.0

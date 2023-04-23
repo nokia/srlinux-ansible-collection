@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Run "show version" CLI command
-      nokia.srl.jsonrpc_cli:
+      nokia.srlinux.cli:
         commands:
           - show version
       register: response

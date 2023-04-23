@@ -11,8 +11,10 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srl.plugins.module_utils.srlinux import JSONRPCClient
-from ansible_collections.nokia.srl.plugins.module_utils.const import JSON_RPC_VERSION
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
+from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
+    JSON_RPC_VERSION,
+)
 
 # pylint: disable=invalid-name
 __metaclass__ = type
@@ -57,7 +59,7 @@ author:
 
 EXAMPLES = """
 - name: Get /system/information container
-  nokia.srl.jsonrpc_get:
+  nokia.srlinux.get:
     paths:
       - path: /system/information
         datastore: state

@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Test check mode
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         update:
           - path: /system/information
             value:
@@ -21,7 +21,7 @@
         var: set_response
 
     - name: Test check mode with diff
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         update:
           - path: /system/information
             value:
@@ -36,7 +36,7 @@
         var: set_response
 
     - name: Ensure no changes were made to the device
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Set system information with values
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         update:
           - path: /system/information
             value:
@@ -19,7 +19,7 @@
         var: set_response
 
     - name: Ensure changes were made to the device
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

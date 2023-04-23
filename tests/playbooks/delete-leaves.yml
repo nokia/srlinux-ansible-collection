@@ -8,7 +8,7 @@
   tasks:
     # test preparation step
     - name: Set system information with values
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         update:
           - path: /system/information
             value:
@@ -16,7 +16,7 @@
               contact: Some contact
 
     - name: Test Delete operation on leaf nodes
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         delete:
           - path: /system/information/location
           - path: /system/information/contact
@@ -26,7 +26,7 @@
         var: delete_response
 
     - name: Ensure leaves were deleted
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

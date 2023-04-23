@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Replace entire config from file
-      nokia.srl.jsonrpc_set:
+      nokia.srlinux.set:
         replace:
           - path: /
             value: "{{lookup('ansible.builtin.template', '{{playbook_dir}}/golden/{{inventory_hostname}}-golden.cfg.json.j2') }}"
@@ -19,7 +19,7 @@
         var: set_response
 
     - name: Ensure changes were made to the device
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /interface[name=ethernet-1/1]/description
             datastore: state

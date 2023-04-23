@@ -10,7 +10,7 @@
     ansible_httpapi_validate_certs: no
   tasks:
     - name: json RPC get
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state
