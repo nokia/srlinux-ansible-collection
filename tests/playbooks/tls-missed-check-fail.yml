@@ -9,7 +9,7 @@
     ansible_httpapi_use_ssl: yes
   tasks:
     - name: json RPC get
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.jsonrpc_get:
         paths:
           - path: /system/information
             datastore: state

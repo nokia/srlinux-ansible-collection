@@ -12,8 +12,8 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srl.plugins.module_utils.srlinux import JSONRPCClient
-from ansible_collections.nokia.srl.plugins.module_utils.const import (
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
+from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
     TEXT_FORMAT,
     TOOLS_DATASTORE,
@@ -91,7 +91,7 @@ author:
 
 EXAMPLES = """
 - name: Set system information with values
-  nokia.srl.jsonrpc_set:
+  nokia.srlinux.jsonrpc_set:
     update:
       - path: /system/information
         value:

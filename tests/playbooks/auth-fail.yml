@@ -9,7 +9,7 @@
     ansible_password: wrong
   tasks:
     - name: Get system information
-      nokia.srl.jsonrpc_get:
+      nokia.srlinux.jsonrpc_get:
         paths:
           - path: /system/information
             datastore: state
