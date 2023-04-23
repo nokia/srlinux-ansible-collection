@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Run wrong CLI command
-      nokia.srl.jsonrpc_cli:
+      nokia.srlinux.jsonrpc_cli:
         commands:
           - show wrong
       register: response

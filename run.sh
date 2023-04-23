@@ -64,9 +64,9 @@ function deploy-lab {
 # Prepare local dev environment by setting the symlink to the collection.
 function prepare-dev-env {
   # setup the symlink for ansible to resolve collection paths
-  rm -f /tmp/srl_ansible_dev/ansible_collections/nokia/srl
+  rm -f /tmp/srl_ansible_dev/ansible_collections/nokia/srlinux
   mkdir -p /tmp/srl_ansible_dev/ansible_collections/nokia
-  ln -s "$(pwd)" /tmp/srl_ansible_dev/ansible_collections/nokia/srl
+  ln -s "$(pwd)" /tmp/srl_ansible_dev/ansible_collections/nokia/srlinux
 
   # setup .env file for python to resolve imports
   echo "PYTHONPATH=$(realpath ~)/.ansible/collections:/tmp/srl_ansible_dev" > .env
@@ -231,7 +231,7 @@ function ci-test {
 function sanity-test {
   install-local-collection
 
-  cd ~/.ansible/collections/ansible_collections/nokia/srl
+  cd ~/.ansible/collections/ansible_collections/nokia/srlinux
   ansible-test sanity --docker default -v "$@"
 }
 
