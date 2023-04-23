@@ -231,7 +231,7 @@ function ci-test {
 function sanity-test {
   install-local-collection
 
-  cd ~/.ansible/collections/ansible_collections/nokia/srl
+  cd ~/.ansible/collections/ansible_collections/nokia/srlinux
   ansible-test sanity --docker default -v "$@"
 }
 
