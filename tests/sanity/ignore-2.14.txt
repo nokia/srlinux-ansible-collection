@@ -12,10 +12,10 @@ plugins/modules/config.py import-2.7!skip
 plugins/modules/config.py import-3.5!skip
 plugins/modules/config.py validate-modules:missing-gplv3-license
 plugins/modules/config.py validate-modules:import-before-documentation
-plugins/modules/jsonrpc_validate.py import-2.7!skip
-plugins/modules/jsonrpc_validate.py import-3.5!skip
-plugins/modules/jsonrpc_validate.py validate-modules:missing-gplv3-license
-plugins/modules/jsonrpc_validate.py validate-modules:import-before-documentation
+plugins/modules/validate.py import-2.7!skip
+plugins/modules/validate.py import-3.5!skip
+plugins/modules/validate.py validate-modules:missing-gplv3-license
+plugins/modules/validate.py validate-modules:import-before-documentation
 plugins/module_utils/srlinux.py import-2.7!skip
 plugins/module_utils/srlinux.py import-3.5!skip
 plugins/module_utils/const.py import-2.7!skip

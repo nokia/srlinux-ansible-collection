@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Validate a valid change set
-      nokia.srlinux.jsonrpc_validate:
+      nokia.srlinux.validate:
         update:
           - path: /system/information
             value:
@@ -19,7 +19,7 @@
         var: response
 
     - name: Validate an invalid change set
-      nokia.srlinux.jsonrpc_validate:
+      nokia.srlinux.validate:
         update:
           - path: /system/information
             value:
