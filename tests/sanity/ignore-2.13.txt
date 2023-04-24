@@ -8,10 +8,10 @@ plugins/modules/jsonrpc_get.py import-2.7!skip
 plugins/modules/jsonrpc_get.py import-3.5!skip
 plugins/modules/jsonrpc_get.py validate-modules:missing-gplv3-license
 plugins/modules/jsonrpc_get.py validate-modules:import-before-documentation
-plugins/modules/jsonrpc_set.py import-2.7!skip
-plugins/modules/jsonrpc_set.py import-3.5!skip
-plugins/modules/jsonrpc_set.py validate-modules:missing-gplv3-license
-plugins/modules/jsonrpc_set.py validate-modules:import-before-documentation
+plugins/modules/config.py import-2.7!skip
+plugins/modules/config.py import-3.5!skip
+plugins/modules/config.py validate-modules:missing-gplv3-license
+plugins/modules/config.py validate-modules:import-before-documentation
 plugins/modules/jsonrpc_validate.py import-2.7!skip
 plugins/modules/jsonrpc_validate.py import-3.5!skip
 plugins/modules/jsonrpc_validate.py validate-modules:missing-gplv3-license

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # -*- coding: utf-8 -*-
-"""Ansible module for jsonrpc set"""
+"""Ansible module for configuring SR Linux devices"""
 
 from __future__ import absolute_import, division, print_function
 
@@ -25,8 +25,8 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: jsonrpc_set
-short_description: "Implementation of the Nokia SR Linux JSON-RPC's Set method."
+module: config
+short_description: "Update, replace and delete configuration on SR Linux devices."
 description:
   - This module allows to set a configuration or run operational transaction. The set method can be used with the candidate and tools datastores.
 version_added: "0.1.0"
@@ -91,7 +91,7 @@ author:
 
 EXAMPLES = """
 - name: Set system information with values
-  nokia.srlinux.jsonrpc_set:
+  nokia.srlinux.config:
     update:
       - path: /system/information
         value:

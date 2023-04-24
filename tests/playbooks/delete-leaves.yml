@@ -8,7 +8,7 @@
   tasks:
     # test preparation step
     - name: Set system information with values
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:
@@ -16,7 +16,7 @@
               contact: Some contact
 
     - name: Test Delete operation on leaf nodes
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         delete:
           - path: /system/information/location
           - path: /system/information/contact

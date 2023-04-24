@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Set system information with values
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:
