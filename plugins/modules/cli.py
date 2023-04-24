@@ -3,7 +3,7 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-"""Ansible module for jsonrpc cli"""
+"""Ansible module for executing CLI commands to SR Linux devices"""
 
 from __future__ import absolute_import, division, print_function
 
@@ -21,8 +21,8 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: jsonrpc_cli
-short_description: "Implementation of the Nokia SR Linux JSON-RPC's CLI method."
+module: cli
+short_description: "Execute CLI commands on SR Linux devices."
 description:
   - This module allows CLI commands to be executed in Nokia SR Linux using JSON-RPC interface.
 version_added: "0.1.0"
@@ -42,11 +42,10 @@ author:
 
 EXAMPLES = """
 - name: Run \"show version\" CLI command
-  nokia.srlinux.jsonrpc_cli:
+  nokia.srlinux.cli:
     commands:
       - show version
   register: response
-  failed_when: response.json.result[0]["basic system info"].Architecture != "x86_64"
 """
 
 
