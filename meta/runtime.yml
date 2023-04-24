@@ -1,0 +1,6 @@
+plugin_routing:
+  modules:
+    srl_config:
+      redirect: nokia.srlinux.config
+    srl_get:
+      redirect: nokia.srlinux.get
