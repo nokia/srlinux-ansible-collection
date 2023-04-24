@@ -36,7 +36,7 @@
         var: set_response
 
     - name: Ensure no changes were made to the device
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

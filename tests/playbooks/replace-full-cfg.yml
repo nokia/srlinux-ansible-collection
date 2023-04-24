@@ -19,7 +19,7 @@
         var: set_response
 
     - name: Ensure changes were made to the device
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /interface[name=ethernet-1/1]/description
             datastore: state

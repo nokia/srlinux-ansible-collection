@@ -8,7 +8,7 @@
   tasks:
     # this task ensures that we can get information for a container
     - name: Get /system/information container
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

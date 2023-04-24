@@ -4,10 +4,10 @@ plugins/modules/jsonrpc_cli.py import-2.7!skip # srlinux collection requires py3
 plugins/modules/jsonrpc_cli.py import-3.5!skip
 plugins/modules/jsonrpc_cli.py validate-modules:missing-gplv3-license
 plugins/modules/jsonrpc_cli.py validate-modules:import-before-documentation
-plugins/modules/jsonrpc_get.py import-2.7!skip
-plugins/modules/jsonrpc_get.py import-3.5!skip
-plugins/modules/jsonrpc_get.py validate-modules:missing-gplv3-license
-plugins/modules/jsonrpc_get.py validate-modules:import-before-documentation
+plugins/modules/get.py import-2.7!skip
+plugins/modules/get.py import-3.5!skip
+plugins/modules/get.py validate-modules:missing-gplv3-license
+plugins/modules/get.py validate-modules:import-before-documentation
 plugins/modules/config.py import-2.7!skip
 plugins/modules/config.py import-3.5!skip
 plugins/modules/config.py validate-modules:missing-gplv3-license

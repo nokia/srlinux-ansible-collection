@@ -26,7 +26,7 @@
         var: delete_response
 
     - name: Ensure leaves were deleted
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state
