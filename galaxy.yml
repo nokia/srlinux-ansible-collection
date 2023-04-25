@@ -45,7 +45,8 @@ tags:
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: { "ansible.netcommon": "==4.1.0" }
+dependencies:
+  "ansible.netcommon": ">=5.1.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/nokia/srlinux-ansible-collection
@@ -54,7 +55,7 @@ repository: https://github.com/nokia/srlinux-ansible-collection
 issues: https://github.com/nokia/srlinux-ansible-collection/issues
 
 # The URL to any online docs
-documentation: https://learn.srlinux.dev/programmability/ansible/
+documentation: https://learn.srlinux.dev/ansible/collection/
 
 # A list of file glob-like patterns used to filter any files or directories that should not be included in the build
 # artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This

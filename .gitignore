@@ -6,6 +6,10 @@
 
 ### Private folder ###
 private/
+# galaxy api key
+apikey
+# ignore build artifacts
+*.tar.gz
 
 ### containerlab ###
 **/clab-*/

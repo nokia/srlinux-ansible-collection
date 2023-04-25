@@ -235,6 +235,14 @@ function sanity-test {
   ansible-test sanity --docker default -v "$@"
 }
 
+# -----------------------------------------------------------------------------
+# Publish functions.
+# -----------------------------------------------------------------------------
+
+function build-collection {
+  # build the collection
+  ansible-galaxy collection build --force
+}
 
 # -----------------------------------------------------------------------------
 # Bash runner functions.

@@ -1,15 +1,14 @@
 # SR Linux Ansible Collection
 
-> **Warning**
-> This is a work in progress. The collection is not yet published to Ansible Galaxy.
+Ansible Collection to manage Nokia SR Linux devices. Documentation is provided at <https://learn.srlinux.dev/ansible/collection/>
 
 ## Dev setup
 
 Start with cloning the repo:
 
 ```bash
-git clone git@github.com:srl-labs/srl-ansible-collection.git
-cd srl-ansible-collection
+git clone git@github.com:nokia/srlinux-ansible-collection.git
+cd srlinux-ansible-collection
 ```
 
 Deploy the lab to support the tests:
