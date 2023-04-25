@@ -235,6 +235,22 @@ function sanity-test {
   ansible-test sanity --docker default -v "$@"
 }
 
+# -----------------------------------------------------------------------------
+# Publish functions.
+# -----------------------------------------------------------------------------
+
+function build-collection {
+  # cleanup
+  rm -f nokia-srlinux-*.tar.gz
+  # build the collection
+  ansible-galaxy collection build --force
+}
+
+function publish-collection {
+  # build the collection
+  build-collection
+  ansible-galaxy collection publish -v --token $(cat apikey) $(ls -1 nokia-srlinux-*.tar.gz)
+}
 
 # -----------------------------------------------------------------------------
 # Bash runner functions.

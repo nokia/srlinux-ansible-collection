@@ -41,12 +41,13 @@ jobs:
       - name: Install ansible core
         run: pip install ansible-core==${{ matrix.ansible-core-version }}
 
-      - name: ghcr.io login
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # Uncomment this section to use private images
+      # - name: ghcr.io login
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test
         run: ./run.sh ci-test
