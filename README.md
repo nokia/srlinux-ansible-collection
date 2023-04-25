@@ -23,7 +23,7 @@ Run the automated suite of tests to make sure nothing is missing. This will also
 ./run.sh test
 ```
 
-To validate that the code passes ansible's sanity check, run:
+To validate that the code passes Ansible's sanity check, run:
 
 ```bash
 ./run.sh sanity-test

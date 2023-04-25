@@ -244,6 +244,11 @@ function build-collection {
   ansible-galaxy collection build --force
 }
 
+function publish-collection {
+  # build the collection
+  ansible-galaxy collection publish --token $(cat apikey)
+}
+
 # -----------------------------------------------------------------------------
 # Bash runner functions.
 # -----------------------------------------------------------------------------
