@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Set system information with values
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:
@@ -20,7 +20,7 @@
         var: set_response
 
     - name: Ensure changes were made to the device
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state
@@ -31,7 +31,7 @@
         var: get_response
 
     - name: Repeated set should not run
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:
@@ -44,7 +44,7 @@
         var: set_response
 
     - name: Repeated set should not run with diff
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:

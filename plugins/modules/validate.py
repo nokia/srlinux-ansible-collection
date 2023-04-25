@@ -2,7 +2,7 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-"""Ansible module for jsonrpc validate"""
+"""Ansible module for validating configuration on SR Linux devices"""
 from __future__ import absolute_import, division, print_function
 
 import json
@@ -19,10 +19,10 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: jsonrpc_validate
-short_description: "Implementation of the Nokia SR Linux JSON-RPC's Validate method."
+module: validate
+short_description: "Validating configuration on SR Linux devices."
 description:
-  - This module allows to verify that the system accepts a configuration transaction before applying it to the system.
+  - Validating configuration on SR Linux devices using `commit validate` feature of SR Linux.
 version_added: "0.1.0"
 options:
   update:
@@ -80,7 +80,7 @@ author:
 
 EXAMPLES = """
 - name: Validate a valid change set
-  nokia.srlinux.jsonrpc_validate:
+  nokia.srlinux.validate:
     update:
       - path: /system/information
         value:

@@ -7,7 +7,8 @@
   gather_facts: false
   tasks:
     - name: Test check mode
-      nokia.srlinux.jsonrpc_set:
+      # srl_config module name tests the redirection to nokia.srlinux.config
+      nokia.srlinux.srl_config:
         update:
           - path: /system/information
             value:
@@ -21,7 +22,7 @@
         var: set_response
 
     - name: Test check mode with diff
-      nokia.srlinux.jsonrpc_set:
+      nokia.srlinux.config:
         update:
           - path: /system/information
             value:
@@ -36,7 +37,7 @@
         var: set_response
 
     - name: Ensure no changes were made to the device
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state

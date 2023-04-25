@@ -3,7 +3,7 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-"""Ansible module for jsonrpc get"""
+"""Ansible module for retrieving configuration and state from SR Linux devices"""
 
 from __future__ import absolute_import, division, print_function
 
@@ -21,8 +21,8 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
-module: jsonrpc_get
-short_description: "Implementation of the Nokia SR Linux JSON-RPC's Get method."
+module: get
+short_description: "Retrieve configuration or state element from Nokia SR Linux devices."
 description:
   - >-
     This module allows to retrieve configuration and state details from the system.
@@ -59,7 +59,7 @@ author:
 
 EXAMPLES = """
 - name: Get /system/information container
-  nokia.srlinux.jsonrpc_get:
+  nokia.srlinux.get:
     paths:
       - path: /system/information
         datastore: state

@@ -14,7 +14,7 @@
         - "/tmp/{{inventory_hostname}}.cfg.*"
 
     - name: Get entire running config
-      nokia.srlinux.jsonrpc_get:
+      nokia.srlinux.get:
         paths:
           - path: /
             datastore: running
