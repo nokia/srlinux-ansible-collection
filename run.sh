@@ -48,6 +48,10 @@ function install-local-collection {
   ansible-galaxy collection install --force ..
 }
 
+function remove-local-collection {
+  rm -rf ~/.ansible/collections/ansible_collections/nokia
+}
+
 # Install a netcommon dependency in case ansible-core is installed.
 function install-netcommon {
   ansible-galaxy collection install --force ansible.netcommon:==4.1.0
@@ -118,6 +122,11 @@ function test-get-container {
   _cdTests
   revert-to-checkpoint
   ansible-playbook playbooks/get-container.yml "$@"
+}
+
+function test-get-oc-container {
+  _cdTests
+  ansible-playbook playbooks/get-oc-container.yml "$@"
 }
 
 function test-get-wrong-path {
@@ -211,6 +220,9 @@ function _run-tests {
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
+
+  # OC-related tests
+  test-get-oc-container "$@"
 }
 
 # prepare local dev environment and run tests
@@ -240,6 +252,8 @@ function sanity-test {
 
   cd ~/.ansible/collections/ansible_collections/nokia/srlinux
   ansible-test sanity --docker default -v "$@"
+
+  remove-local-collection
 }
 
 # -----------------------------------------------------------------------------
