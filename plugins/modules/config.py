@@ -98,6 +98,7 @@ options:
     choices:
       - srl
       - oc
+    default: srl
 author:
   - Patrick Dumais (@Nokia)
   - Roman Dodin (@Nokia)
