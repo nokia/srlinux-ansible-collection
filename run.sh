@@ -164,6 +164,12 @@ function test-set-leaves {
   ansible-playbook playbooks/set-leaves.yml "$@"
 }
 
+function test-set-tools {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-tools.yml "$@"
+}
+
 function test-delete-leaves {
   _cdTests
   revert-to-checkpoint
@@ -201,6 +207,7 @@ function _run-tests {
   test-tls-skip "$@"
   test-set-check-mode "$@"
   test-set-leaves "$@"
+  test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
