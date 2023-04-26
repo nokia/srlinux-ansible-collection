@@ -53,7 +53,6 @@ options:
         type: dict
         description:
           - values to update
-        required: true
   delete:
     description:
       - Delete operation.
@@ -83,6 +82,15 @@ options:
           - values to replace
         required: true
         type: dict
+  datastore:
+    type: str
+    description:
+      - The datastore to use
+    choices:
+      - candidate
+      - tools
+    required: false
+    default: candidate
 author:
   - Patrick Dumais (@Nokia)
   - Roman Dodin (@Nokia)
@@ -109,7 +117,7 @@ def main():
             "required": False,
             "options": {
                 "path": {"type": "str", "required": True},
-                "value": {"type": "dict", "required": True},
+                "value": {"type": "dict"},
             },
         },
         "delete": {
@@ -130,6 +138,7 @@ def main():
             },
         },
         "save_when": {"choices": ["always", "never", "changed"], "default": "never"},
+        "datastore": {"choices": ["candidate", "tools"], "default": "candidate"},
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -146,6 +155,7 @@ def main():
     updates = module.params.get("update") or []
     deletes = module.params.get("delete") or []
     replaces = module.params.get("replace") or []
+    datastore = module.params.get("datastore")
 
     commands = []
     for x in updates:
@@ -158,23 +168,26 @@ def main():
         x["action"] = "replace"
         commands += [x]
 
-    # collecting the diff
-    data = {
-        "jsonrpc": JSON_RPC_VERSION,
-        "id": random.randint(0, 65535),
-        "method": "diff",
-        "params": {
-            "commands": commands,
-            "output-format": TEXT_FORMAT,
-        },
-    }
-    diff_resp = client.post(payload=json.dumps(data))
+    diff_resp = {}
+    # if datastore is tools, collecting diff is a noop, as well as check and diff modes
+    if datastore != TOOLS_DATASTORE:
+        # collecting the diff
+        data = {
+            "jsonrpc": JSON_RPC_VERSION,
+            "id": random.randint(0, 65535),
+            "method": "diff",
+            "params": {
+                "commands": commands,
+                "output-format": TEXT_FORMAT,
+            },
+        }
 
-    # failed to get diff response means something went wrong
-    # we have to fail the module
-    if not diff_resp:
-        json_output["failed"] = True
-        module.fail_json(**json_output)
+        diff_resp = client.post(payload=json.dumps(data))
+        # failed to get diff response means something went wrong
+        # we have to fail the module
+        if not diff_resp:
+            json_output["failed"] = True
+            module.fail_json(**json_output)
 
     # fail the module if an error is reported by diff
     if diff_resp.get("error"):
@@ -191,7 +204,7 @@ def main():
         # remove empty lines from the diff output
         res = [x for x in res if x != ""]
         if len(res):
-            # save succesfull diff in the json_output
+            # save successful diff in the json_output
             # so that it is returned to the user
             json_output["diff"] = diff_resp
             changed = True
@@ -212,7 +225,7 @@ def main():
         "jsonrpc": JSON_RPC_VERSION,
         "id": random.randint(0, 65535),
         "method": "set",
-        "params": {"commands": commands},
+        "params": {"commands": commands, "datastore": datastore},
     }
     set_resp = client.post(payload=json.dumps(data))
 
