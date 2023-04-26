@@ -209,6 +209,12 @@ function test-validate {
   ansible-playbook playbooks/validate.yml "$@"
 }
 
+function test-validate-oc {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/validate-oc.yml "$@"
+}
+
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {

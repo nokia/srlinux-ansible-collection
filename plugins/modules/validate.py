@@ -71,6 +71,13 @@ options:
           - values to replace
         required: true
         type: dict
+  yang_models:
+    type: str
+    description:
+      - YANG models to use for the get operation.
+    choices:
+      - srl
+      - oc
 
 author:
   - Patrick Dumais (@Nokia)
@@ -118,6 +125,7 @@ def main():
                 "value": {"type": "dict", "required": True},
             },
         },
+        "yang_models": {"choices": ["srl", "oc"], "default": "srl"},
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -129,6 +137,7 @@ def main():
     updates = module.params.get("update") or []
     deletes = module.params.get("deletes") or []
     replaces = module.params.get("replace") or []
+    yang_models = module.params.get("yang_models")
 
     commands = []
     for x in updates:
@@ -145,7 +154,10 @@ def main():
         "jsonrpc": JSON_RPC_VERSION,
         "id": random.randint(0, 65535),
         "method": "validate",
-        "params": {"commands": commands},
+        "params": {
+            "commands": commands,
+            "yang-models": yang_models,
+        },
     }
     ret = client.post(payload=json.dumps(data))
 
