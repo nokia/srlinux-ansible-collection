@@ -209,10 +209,10 @@ function test-validate {
   ansible-playbook playbooks/validate.yml "$@"
 }
 
-function test-validate-oc {
+function test-oc-validate {
   _cdTests
   revert-to-checkpoint
-  ansible-playbook playbooks/validate-oc.yml "$@"
+  ansible-playbook playbooks/oc-validate.yml "$@"
 }
 
 # Shouldn't be called directly, use test or ci-test instead.
@@ -235,6 +235,8 @@ function _run-tests {
 
   # OC-related tests
   test-get-oc-container "$@"
+  test-set-oc-leaf "$@"
+  test-oc-validate "$@"
 }
 
 # prepare local dev environment and run tests
