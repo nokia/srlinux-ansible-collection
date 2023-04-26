@@ -33,6 +33,13 @@ options:
     type: list
     elements: str
     required: true
+  output_format:
+    description:
+      - Output format.
+    type: str
+    choices: ["json", "text", "table"]
+    default: json
+    required: false
 
 author:
   - Patrick Dumais (@Nokia)
@@ -57,6 +64,11 @@ def main():
             "elements": "str",
             "required": True,
         },
+        "output_format": {
+            "type": "str",
+            "choices": ["json", "text", "table"],
+            "default": "json",
+        },
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -67,12 +79,13 @@ def main():
     json_output["changed"] = False
 
     commands = module.params.get("commands")
+    out_format = module.params.get("output_format")
 
     data = {
         "jsonrpc": JSON_RPC_VERSION,
         "id": random.randint(0, 65535),
         "method": "cli",
-        "params": {"commands": commands},
+        "params": {"commands": commands, "output-format": out_format},
     }
     ret = client.post(payload=json.dumps(data))
 

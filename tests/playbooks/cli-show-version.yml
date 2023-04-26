@@ -15,3 +15,18 @@
 
     - debug:
         var: response
+
+- name: Run "show version" CLI command with text output format
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Run "show version" CLI command with text output format
+      nokia.srlinux.cli:
+        commands:
+          - show version
+        output_format: text
+      register: response
+      failed_when: '"Serial Number        : Sim Serial No" not in response.result[0]'
+
+    - debug:
+        var: response
