@@ -48,6 +48,10 @@ function install-local-collection {
   ansible-galaxy collection install --force ..
 }
 
+function remove-local-collection {
+  rm -rf ~/.ansible/collections/ansible_collections/nokia
+}
+
 # Install a netcommon dependency in case ansible-core is installed.
 function install-netcommon {
   ansible-galaxy collection install --force ansible.netcommon:==4.1.0
@@ -120,6 +124,11 @@ function test-get-container {
   ansible-playbook playbooks/get-container.yml "$@"
 }
 
+function test-get-oc-container {
+  _cdTests
+  ansible-playbook playbooks/get-oc-container.yml "$@"
+}
+
 function test-get-wrong-path {
   _cdTests
   revert-to-checkpoint
@@ -164,6 +173,12 @@ function test-set-leaves {
   ansible-playbook playbooks/set-leaves.yml "$@"
 }
 
+function test-set-oc-leaf {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-oc-leaf.yml "$@"
+}
+
 function test-set-tools {
   _cdTests
   revert-to-checkpoint
@@ -194,6 +209,12 @@ function test-validate {
   ansible-playbook playbooks/validate.yml "$@"
 }
 
+function test-oc-validate {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/oc-validate.yml "$@"
+}
+
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {
@@ -211,6 +232,11 @@ function _run-tests {
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
+
+  # OC-related tests
+  test-get-oc-container "$@"
+  test-set-oc-leaf "$@"
+  test-oc-validate "$@"
 }
 
 # prepare local dev environment and run tests
@@ -240,6 +266,8 @@ function sanity-test {
 
   cd ~/.ansible/collections/ansible_collections/nokia/srlinux
   ansible-test sanity --docker default -v "$@"
+
+  remove-local-collection
 }
 
 # -----------------------------------------------------------------------------

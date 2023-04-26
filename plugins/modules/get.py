@@ -11,7 +11,10 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertIdentifiers,
+)
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
 )
@@ -40,6 +43,7 @@ options:
         description:
           - The datastore to query
         choices:
+          - baseline
           - candidate
           - running
           - state
@@ -50,6 +54,13 @@ options:
           - the YANG path of a datastore node
         type: str
         required: true
+      yang_models:
+        type: str
+        description:
+          - YANG models to use for the get operation.
+        choices:
+          - srl
+          - oc
 
 author:
   - Patrick Dumais (@Nokia)
@@ -77,11 +88,15 @@ def main():
                 "path": {"type": "str", "required": True},
                 "datastore": {
                     "type": "str",
-                    "choices": ["candidate", "running", "state", "tools"],
+                    "choices": ["baseline", "candidate", "running", "state", "tools"],
                     "required": True,
                 },
+                "yang_models": {
+                    "type": "str",
+                    "choices": ["srl", "oc"],
+                },
             },
-        }
+        },
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -91,11 +106,15 @@ def main():
     json_output = {}
 
     paths = module.params.get("paths")
+    convertIdentifiers(paths)
+
     data = {
         "jsonrpc": JSON_RPC_VERSION,
         "id": random.randint(1, 65535),
         "method": "get",
-        "params": {"commands": paths},
+        "params": {
+            "commands": paths,
+        },
     }
 
     ret = client.post(payload=json.dumps(data))

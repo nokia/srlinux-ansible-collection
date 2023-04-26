@@ -1,0 +1,23 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Get OC container
+  hosts: clab
+  gather_facts: false
+  tasks:
+    # this task ensures that we can get openconfig container
+    - name: Get /system/information container
+      nokia.srlinux.get:
+        paths:
+          - path: /system/state/hostname
+            yang_models: oc
+            datastore: state
+          - path: /system/information
+            yang_models: srl
+            datastore: state
+      register: response
+      failed_when: '("SRLinux" not in response.result[1].description) or ("srl" not in response.result[0])'
+
+    - debug:
+        var: response

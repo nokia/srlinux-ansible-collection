@@ -59,3 +59,19 @@ class JSONRPCClient:
     def post(self, url="/jsonrpc", payload=None, **kwargs):
         """JSON-RPC POST request"""
         return self._httpapi_error_handle("POST", url, payload=payload, **kwargs)
+
+
+def convertIdentifiers(data):
+    """Converts keys in the list of dicts to have dashes instead of underscores.
+
+    This is needed, because the JSON-RPC API uses dashes in the keys, but the ansible linter does not allow them.
+    """
+    if isinstance(data, list):
+        for item in data:
+            convertIdentifiers(item)
+    elif isinstance(data, dict):
+        for key, value in list(data.items()):
+            if "_" in key:
+                new_key = key.replace("_", "-")
+                data[new_key] = data.pop(key)
+            convertIdentifiers(value)

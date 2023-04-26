@@ -9,3 +9,6 @@ topology:
     srl:
       kind: srl
       image: ghcr.io/nokia/srlinux:23.3.1
+      # type and startup config are used to test Openconfig modules
+      type: ixr6
+      startup-config: oc.cfg

@@ -91,6 +91,14 @@ options:
       - tools
     required: false
     default: candidate
+  yang_models:
+    type: str
+    description:
+      - YANG models to use for the get operation.
+    choices:
+      - srl
+      - oc
+    default: srl
 author:
   - Patrick Dumais (@Nokia)
   - Roman Dodin (@Nokia)
@@ -139,6 +147,7 @@ def main():
         },
         "save_when": {"choices": ["always", "never", "changed"], "default": "never"},
         "datastore": {"choices": ["candidate", "tools"], "default": "candidate"},
+        "yang_models": {"choices": ["srl", "oc"], "default": "srl"},
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -156,6 +165,7 @@ def main():
     deletes = module.params.get("delete") or []
     replaces = module.params.get("replace") or []
     datastore = module.params.get("datastore")
+    yang_models = module.params.get("yang_models")
 
     commands = []
     for x in updates:
@@ -179,6 +189,7 @@ def main():
             "params": {
                 "commands": commands,
                 "output-format": TEXT_FORMAT,
+                "yang-models": yang_models,
             },
         }
 
@@ -225,7 +236,11 @@ def main():
         "jsonrpc": JSON_RPC_VERSION,
         "id": random.randint(0, 65535),
         "method": "set",
-        "params": {"commands": commands, "datastore": datastore},
+        "params": {
+            "commands": commands,
+            "datastore": datastore,
+            "yang-models": yang_models,
+        },
     }
     set_resp = client.post(payload=json.dumps(data))
 
