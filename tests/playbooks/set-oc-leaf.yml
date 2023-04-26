@@ -1,0 +1,31 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set OC leaf
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Set openconfig leaf
+      nokia.srlinux.config:
+        update:
+          - path: /system/config
+            value:
+              motd-banner: "hey ansible"
+        yang_models: oc
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: Ensure changes were made to the device
+      nokia.srlinux.get:
+        paths:
+          - path: /system/config/motd-banner
+            datastore: state
+            yang_models: oc
+      register: get_response
+      failed_when: get_response.result[0] != "hey ansible"
+
+    - debug:
+        var: get_response

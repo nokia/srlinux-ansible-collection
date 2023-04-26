@@ -173,6 +173,12 @@ function test-set-leaves {
   ansible-playbook playbooks/set-leaves.yml "$@"
 }
 
+function test-set-oc-leaf {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-oc-leaf.yml "$@"
+}
+
 function test-set-tools {
   _cdTests
   revert-to-checkpoint
