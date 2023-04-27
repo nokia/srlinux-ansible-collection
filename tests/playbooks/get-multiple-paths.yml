@@ -1,0 +1,26 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Get multiple paths
+  hosts: clab
+  gather_facts: false
+  tasks:
+    # this task ensures that we can get information for a container
+    - name: Get multiple paths
+      nokia.srlinux.get:
+        paths:
+          - path: /system/state/hostname
+            datastore: state
+            yang_models: oc
+          - path: /system/information/description
+            datastore: state
+            yang_models: srl
+          - path: /system/json-rpc-server
+            datastore: running
+            yang_models: srl
+      register: response
+      failed_when: '("srl" not in response.result[0]) or ("SRLinux" not in response.result[1]) or ("mgmt" not in response.result[2]["network-instance"][0].name)'
+
+    - debug:
+        var: response

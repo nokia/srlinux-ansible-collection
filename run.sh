@@ -124,6 +124,12 @@ function test-get-container {
   ansible-playbook playbooks/get-container.yml "$@"
 }
 
+function test-get-multiple-paths {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/get-multiple-paths.yml "$@"
+}
+
 function test-get-oc-container {
   _cdTests
   ansible-playbook playbooks/get-oc-container.yml "$@"
@@ -232,6 +238,7 @@ function _run-tests {
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
+  test-get-multiple-paths "$@"
 
   # OC-related tests
   test-get-oc-container "$@"
