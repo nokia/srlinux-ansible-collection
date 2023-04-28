@@ -26,7 +26,7 @@
               wrong: Some location
               contact: Some contact
       register: response
-      failed_when: response.failed != false and "has no local leaf with the name 'wrong'" not in response.json.error.message
+      failed_when: (response.failed == false) or ("has no local leaf with the name 'wrong'" not in response.msg)
 
     - debug:
         var: response
