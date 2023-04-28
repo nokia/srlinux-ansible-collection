@@ -12,7 +12,10 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertResponseKeys,
+)
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
     TEXT_FORMAT,
@@ -194,6 +197,8 @@ def main():
         }
 
         diff_resp = client.post(payload=json.dumps(data))
+        convertResponseKeys(diff_resp)
+
         # failed to get diff response means something went wrong
         # we have to fail the module
         if not diff_resp:
@@ -243,6 +248,7 @@ def main():
         },
     }
     set_resp = client.post(payload=json.dumps(data))
+    convertResponseKeys(set_resp)
 
     # failed to get set response means something went wrong
     # we have to fail the module
@@ -250,7 +256,7 @@ def main():
         json_output["failed"] = True
         module.fail_json(**json_output)
 
-    # we have a successfull operation
+    # we have a successful operation
     if set_resp.get("result"):
         # if diff mode was set without check mode,
         # we add the prepared diff to the output if diff response is not empty

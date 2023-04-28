@@ -75,3 +75,13 @@ def convertIdentifiers(data):
                 new_key = key.replace("_", "-")
                 data[new_key] = data.pop(key)
             convertIdentifiers(value)
+
+
+def convertResponseKeys(response):
+    """Converts keys in the reponse object in the following manner:
+    `jsonrpc` -> `jsonrpc_version
+    `id` -> `jsonrpc_req_id`"""
+    if "jsonrpc" in response:
+        response["jsonrpc_version"] = response.pop("jsonrpc")
+    if "id" in response:
+        response["jsonrpc_req_id"] = response.pop("id")

@@ -11,9 +11,12 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
+)
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertResponseKeys,
 )
 
 # pylint: disable=invalid-name
@@ -75,9 +78,6 @@ def main():
 
     client = JSONRPCClient(module)
 
-    json_output = {}
-    json_output["changed"] = False
-
     commands = module.params.get("commands")
     out_format = module.params.get("output_format")
 
@@ -87,24 +87,17 @@ def main():
         "method": "cli",
         "params": {"commands": commands, "output-format": out_format},
     }
-    ret = client.post(payload=json.dumps(data))
+    response = client.post(payload=json.dumps(data))
+    convertResponseKeys(response)
 
-    # populate the output using custom keys
-    json_output["jsonrpc_req_id"] = ret["id"]
-    json_output["jsonrpc_version"] = ret["jsonrpc"]
-    json_output["result"] = ret.get("result")
-    err = ret.get("error")
-    if err:
-        json_output["error"] = err
-
-    if ret and ret.get("result"):
-        module.exit_json(**json_output)
+    if response and response.get("result"):
+        module.exit_json(**response)
 
     # handling error case
-    json_output["failed"] = True
+    response["failed"] = True
     module.fail_json(
-        msg=json_output["error"]["message"],
-        jsonrpc_req_id=json_output["jsonrpc_req_id"],
+        msg=response["error"]["message"],
+        jsonrpc_req_id=response["jsonrpc_req_id"],
     )
 
 

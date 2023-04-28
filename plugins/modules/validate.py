@@ -9,7 +9,10 @@ import json
 import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertResponseKeys,
+)
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
 )
@@ -133,8 +136,6 @@ def main():
 
     client = JSONRPCClient(module)
 
-    json_output = {"changed": False}
-
     updates = module.params.get("update") or []
     deletes = module.params.get("deletes") or []
     replaces = module.params.get("replace") or []
@@ -160,15 +161,18 @@ def main():
             "yang-models": yang_models,
         },
     }
-    ret = client.post(payload=json.dumps(data))
+    response = client.post(payload=json.dumps(data))
+    convertResponseKeys(response)
 
     # If the request was successful, we return the result
-    if ret and not ret.get("error"):
-        module.exit_json(**json_output)
+    if response and not response.get("error"):
+        module.exit_json(**response)
 
-    json_output["json"] = ret
-    json_output["failed"] = True
-    module.exit_json(**json_output)
+    response["failed"] = True
+    module.fail_json(
+        msg=response["error"]["message"],
+        jsonrpc_req_id=response["jsonrpc_req_id"],
+    )
 
 
 if __name__ == "__main__":
