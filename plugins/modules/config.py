@@ -171,15 +171,15 @@ def main():
     yang_models = module.params.get("yang_models")
 
     commands = []
-    for x in updates:
-        x["action"] = "update"
-        commands += [x]
-    for x in deletes:
-        x["action"] = "delete"
-        commands += [x]
-    for x in replaces:
-        x["action"] = "replace"
-        commands += [x]
+    for obj in updates:
+        obj["action"] = "update"
+        commands += [obj]
+    for obj in replaces:
+        obj["action"] = "replace"
+        commands += [obj]
+    for obj in deletes:
+        obj["action"] = "delete"
+        commands += [obj]
 
     diff_resp = {}
     # if datastore is tools, collecting diff is a noop, as well as check and diff modes

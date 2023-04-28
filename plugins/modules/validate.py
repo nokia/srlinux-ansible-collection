@@ -142,15 +142,15 @@ def main():
     yang_models = module.params.get("yang_models")
 
     commands = []
-    for x in updates:
-        x["action"] = "update"
-        commands += [x]
-    for x in deletes:
-        x["action"] = "delete"
-        commands += [x]
-    for x in replaces:
-        x["action"] = "replace"
-        commands += [x]
+    for obj in updates:
+        obj["action"] = "update"
+        commands += [obj]
+    for obj in replaces:
+        obj["action"] = "replace"
+        commands += [obj]
+    for obj in deletes:
+        obj["action"] = "delete"
+        commands += [obj]
 
     data = {
         "jsonrpc": JSON_RPC_VERSION,
