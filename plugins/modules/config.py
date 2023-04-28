@@ -199,18 +199,12 @@ def main():
         diff_resp = client.post(payload=json.dumps(data))
         convertResponseKeys(diff_resp)
 
-        # failed to get diff response means something went wrong
-        # we have to fail the module
-        if not diff_resp:
-            json_output["failed"] = True
-            module.fail_json(**json_output)
-
-    # fail the module if an error is reported by diff
-    if diff_resp.get("error"):
-        json_output["failed"] = True
-        module.fail_json(
-            msg=diff_resp["error"]["message"], method="diff", id=diff_resp["id"]
-        )
+        # we should fail the module if no diff response is returned
+        # or any errors were reported by it
+        if not diff_resp or diff_resp.get("error"):
+            diff_resp["failed"] = True
+            msg = diff_resp.get("error", {}).get("message", "No diff response")
+            module.fail_json(msg=msg, method="diff", id=diff_resp["jsonrpc_req_id"])
 
     # if diff response is not empty, we have a diff
     # we need to set the changed flag to True
@@ -263,7 +257,7 @@ def main():
         if module._diff and changed:  # pylint: disable=protected-access
             json_output.update({"diff": {"prepared": diff_resp.get("result")[0]}})
         json_output["changed"] = changed
-        json_output["id"] = set_resp["id"]
+        json_output["jsonrpc_req_id"] = set_resp["jsonrpc_req_id"]
 
         # saving configuration if needed
         if not module.check_mode and (
@@ -293,7 +287,9 @@ def main():
     # we have an error
     if set_resp.get("error"):
         json_output["failed"] = True
-        module.fail_json(msg=set_resp["error"]["message"], id=set_resp["id"])
+        module.fail_json(
+            msg=set_resp["error"]["message"], id=set_resp["jsonrpc_req_id"]
+        )
 
 
 if __name__ == "__main__":
