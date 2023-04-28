@@ -13,7 +13,7 @@
           - path: /system/informations
             datastore: state
       register: response
-      failed_when: not response.failed and "Path not found" not in response.msg
+      failed_when: (not response.failed) or ("Path not valid" not in response.msg)
 
     - debug:
         var: response
