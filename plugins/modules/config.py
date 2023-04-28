@@ -9,18 +9,18 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import random
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
+    JSON_RPC_VERSION,
+    SAVE_CONFIG_PATH,
+    TEXT_FORMAT,
+    TOOLS_DATASTORE,
+)
 from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
     JSONRPCClient,
     convertResponseKeys,
-)
-from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
-    JSON_RPC_VERSION,
-    TEXT_FORMAT,
-    TOOLS_DATASTORE,
-    SAVE_CONFIG_PATH,
+    rpcID,
 )
 
 # pylint: disable=invalid-name
@@ -187,7 +187,7 @@ def main():
         # collecting the diff
         data = {
             "jsonrpc": JSON_RPC_VERSION,
-            "id": random.randint(0, 65535),
+            "id": rpcID(),
             "method": "diff",
             "params": {
                 "commands": commands,
@@ -233,7 +233,7 @@ def main():
     # when not in check mode, we proceed with modifying the configuration
     data = {
         "jsonrpc": JSON_RPC_VERSION,
-        "id": random.randint(0, 65535),
+        "id": rpcID(),
         "method": "set",
         "params": {
             "commands": commands,
@@ -265,7 +265,7 @@ def main():
         ):
             data = {
                 "jsonrpc": JSON_RPC_VERSION,
-                "id": random.randint(0, 65535),
+                "id": rpcID(),
                 "method": "set",
                 "params": {
                     "datastore": TOOLS_DATASTORE,

@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, print_function
 
 # pylint: disable=invalid-name
 __metaclass__ = type
+from datetime import datetime
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection
@@ -85,3 +86,9 @@ def convertResponseKeys(response):
         response["jsonrpc_version"] = response.pop("jsonrpc")
     if "id" in response:
         response["jsonrpc_req_id"] = response.pop("id")
+
+
+def rpcID():
+    """Generates an id for the JSON-RPC request
+    which follows the UTC datetime"""
+    return datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S:%f")

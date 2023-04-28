@@ -8,16 +8,16 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import random
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
+    JSON_RPC_VERSION,
+)
 from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
     JSONRPCClient,
     convertIdentifiers,
     convertResponseKeys,
-)
-from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
-    JSON_RPC_VERSION,
+    rpcID,
 )
 
 # pylint: disable=invalid-name
@@ -109,7 +109,7 @@ def main():
 
     data = {
         "jsonrpc": JSON_RPC_VERSION,
-        "id": random.randint(1, 65535),
+        "id": rpcID(),
         "method": "get",
         "params": {
             "commands": paths,
