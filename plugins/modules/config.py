@@ -53,7 +53,7 @@ options:
         type: str
         required: true
       value:
-        type: dict
+        type: raw
         description:
           - values to update
   delete:
@@ -84,7 +84,7 @@ options:
         description:
           - values to replace
         required: true
-        type: dict
+        type: raw
   datastore:
     type: str
     description:
@@ -128,7 +128,7 @@ def main():
             "required": False,
             "options": {
                 "path": {"type": "str", "required": True},
-                "value": {"type": "dict"},
+                "value": {"type": "raw"},
             },
         },
         "delete": {
@@ -145,7 +145,7 @@ def main():
             "required": False,
             "options": {
                 "path": {"type": "str", "required": True},
-                "value": {"type": "dict", "required": True},
+                "value": {"type": "raw", "required": True},
             },
         },
         "save_when": {"choices": ["always", "never", "changed"], "default": "never"},

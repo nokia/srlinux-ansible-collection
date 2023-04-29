@@ -12,7 +12,13 @@
           - path: /system/information
             value:
               location: Some location
+              contact: initial contact
+          # ensure that update overrides the original value
+          - path: /system/information
+            value:
               contact: Some contact
+          - path: /interface[name=mgmt0]/description
+            value: "test setting description"
       register: set_response
 
     - debug:
@@ -23,8 +29,10 @@
         paths:
           - path: /system/information
             datastore: state
+          - path: /interface[name=mgmt0]/description
+            datastore: state
       register: get_response
-      failed_when: get_response.result[0].location != "Some location" or get_response.result[0].contact != "Some contact"
+      failed_when: (get_response.result[0].location != "Some location") or (get_response.result[0].contact != "Some contact") or (get_response.result[1] != "test setting description")
 
     - debug:
         var: get_response
