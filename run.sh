@@ -185,6 +185,12 @@ function test-set-wrong-value {
   ansible-playbook playbooks/set-wrong-value.yml "$@"
 }
 
+function test-set-multiple-paths {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-multiple-paths.yml "$@"
+}
+
 function test-set-oc-leaf {
   _cdTests
   revert-to-checkpoint
@@ -241,6 +247,7 @@ function _run-tests {
   test-set-check-mode "$@"
   test-set-leaves "$@"
   test-set-wrong-value "$@"
+  test-set-multiple-paths "$@"
   test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"

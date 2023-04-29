@@ -1,0 +1,39 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set multiple paths
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Set with multiple operations
+      nokia.srlinux.config:
+        update:
+          - path: /system/information/location
+            value: Some location
+        replace:
+          - path: /system/gnmi-server/trace-options
+            value:
+              - request
+              - common
+        delete:
+          - path: /system/json-rpc-server/network-instance[name=mgmt]/https
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: Ensure changes were made to the device
+      nokia.srlinux.get:
+        paths:
+          - path: /system/information/location
+            datastore: state
+          - path: /system/gnmi-server/trace-options
+            datastore: state
+          - path: /system/json-rpc-server/network-instance[name=mgmt]/https
+            datastore: state
+      register: get_response
+      failed_when: (get_response.result[0] != "Some location") or (get_response.result[1] != ["request", "common"]) or (get_response.result[2] != {})
+
+    - debug:
+        var: get_response
