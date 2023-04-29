@@ -1,0 +1,19 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set wrong value
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Set system information with values
+      nokia.srlinux.config:
+        update:
+          - path: /system/information
+            value:
+              wrong: Some location
+      register: set_response
+      failed_when: (not set_response.failed) or ("has no local leaf with the name 'wrong'" not in set_response.msg)
+
+    - debug:
+        var: set_response

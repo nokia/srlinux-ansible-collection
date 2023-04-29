@@ -124,6 +124,12 @@ function test-get-container {
   ansible-playbook playbooks/get-container.yml "$@"
 }
 
+function test-get-multiple-paths {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/get-multiple-paths.yml "$@"
+}
+
 function test-get-oc-container {
   _cdTests
   ansible-playbook playbooks/get-oc-container.yml "$@"
@@ -171,6 +177,12 @@ function test-set-leaves {
   _cdTests
   revert-to-checkpoint
   ansible-playbook playbooks/set-leaves.yml "$@"
+}
+
+function test-set-wrong-value {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-wrong-value.yml "$@"
 }
 
 function test-set-oc-leaf {
@@ -228,10 +240,12 @@ function _run-tests {
   test-tls-skip "$@"
   test-set-check-mode "$@"
   test-set-leaves "$@"
+  test-set-wrong-value "$@"
   test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
+  test-get-multiple-paths "$@"
 
   # OC-related tests
   test-get-oc-container "$@"

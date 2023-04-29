@@ -9,15 +9,18 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
+    SAVE_CONFIG_PATH,
     TEXT_FORMAT,
     TOOLS_DATASTORE,
-    SAVE_CONFIG_PATH,
+)
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertResponseKeys,
+    rpcID,
 )
 
 # pylint: disable=invalid-name
@@ -168,15 +171,15 @@ def main():
     yang_models = module.params.get("yang_models")
 
     commands = []
-    for x in updates:
-        x["action"] = "update"
-        commands += [x]
-    for x in deletes:
-        x["action"] = "delete"
-        commands += [x]
-    for x in replaces:
-        x["action"] = "replace"
-        commands += [x]
+    for obj in updates:
+        obj["action"] = "update"
+        commands += [obj]
+    for obj in replaces:
+        obj["action"] = "replace"
+        commands += [obj]
+    for obj in deletes:
+        obj["action"] = "delete"
+        commands += [obj]
 
     diff_resp = {}
     # if datastore is tools, collecting diff is a noop, as well as check and diff modes
@@ -184,7 +187,7 @@ def main():
         # collecting the diff
         data = {
             "jsonrpc": JSON_RPC_VERSION,
-            "id": random.randint(0, 65535),
+            "id": rpcID(),
             "method": "diff",
             "params": {
                 "commands": commands,
@@ -194,18 +197,14 @@ def main():
         }
 
         diff_resp = client.post(payload=json.dumps(data))
-        # failed to get diff response means something went wrong
-        # we have to fail the module
-        if not diff_resp:
-            json_output["failed"] = True
-            module.fail_json(**json_output)
+        convertResponseKeys(diff_resp)
 
-    # fail the module if an error is reported by diff
-    if diff_resp.get("error"):
-        json_output["failed"] = True
-        module.fail_json(
-            msg=diff_resp["error"]["message"], method="diff", id=diff_resp["id"]
-        )
+        # we should fail the module if no diff response is returned
+        # or any errors were reported by it
+        if not diff_resp or diff_resp.get("error"):
+            diff_resp["failed"] = True
+            msg = diff_resp.get("error", {}).get("message", "No diff response")
+            module.fail_json(msg=msg, method="diff", id=diff_resp["jsonrpc_req_id"])
 
     # if diff response is not empty, we have a diff
     # we need to set the changed flag to True
@@ -234,7 +233,7 @@ def main():
     # when not in check mode, we proceed with modifying the configuration
     data = {
         "jsonrpc": JSON_RPC_VERSION,
-        "id": random.randint(0, 65535),
+        "id": rpcID(),
         "method": "set",
         "params": {
             "commands": commands,
@@ -243,6 +242,7 @@ def main():
         },
     }
     set_resp = client.post(payload=json.dumps(data))
+    convertResponseKeys(set_resp)
 
     # failed to get set response means something went wrong
     # we have to fail the module
@@ -250,14 +250,14 @@ def main():
         json_output["failed"] = True
         module.fail_json(**json_output)
 
-    # we have a successfull operation
+    # we have a successful operation
     if set_resp.get("result"):
         # if diff mode was set without check mode,
         # we add the prepared diff to the output if diff response is not empty
         if module._diff and changed:  # pylint: disable=protected-access
             json_output.update({"diff": {"prepared": diff_resp.get("result")[0]}})
         json_output["changed"] = changed
-        json_output["id"] = set_resp["id"]
+        json_output["jsonrpc_req_id"] = set_resp["jsonrpc_req_id"]
 
         # saving configuration if needed
         if not module.check_mode and (
@@ -265,7 +265,7 @@ def main():
         ):
             data = {
                 "jsonrpc": JSON_RPC_VERSION,
-                "id": random.randint(0, 65535),
+                "id": rpcID(),
                 "method": "set",
                 "params": {
                     "datastore": TOOLS_DATASTORE,
@@ -287,7 +287,9 @@ def main():
     # we have an error
     if set_resp.get("error"):
         json_output["failed"] = True
-        module.fail_json(msg=set_resp["error"]["message"], id=set_resp["id"])
+        module.fail_json(
+            msg=set_resp["error"]["message"], id=set_resp["jsonrpc_req_id"]
+        )
 
 
 if __name__ == "__main__":

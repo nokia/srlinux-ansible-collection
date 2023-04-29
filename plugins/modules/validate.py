@@ -6,12 +6,15 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import random
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import JSONRPCClient
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
+)
+from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
+    JSONRPCClient,
+    convertResponseKeys,
+    rpcID,
 )
 
 # pylint: disable=invalid-name
@@ -133,42 +136,43 @@ def main():
 
     client = JSONRPCClient(module)
 
-    json_output = {"changed": False}
-
     updates = module.params.get("update") or []
     deletes = module.params.get("deletes") or []
     replaces = module.params.get("replace") or []
     yang_models = module.params.get("yang_models")
 
     commands = []
-    for x in updates:
-        x["action"] = "update"
-        commands += [x]
-    for x in deletes:
-        x["action"] = "delete"
-        commands += [x]
-    for x in replaces:
-        x["action"] = "replace"
-        commands += [x]
+    for obj in updates:
+        obj["action"] = "update"
+        commands += [obj]
+    for obj in replaces:
+        obj["action"] = "replace"
+        commands += [obj]
+    for obj in deletes:
+        obj["action"] = "delete"
+        commands += [obj]
 
     data = {
         "jsonrpc": JSON_RPC_VERSION,
-        "id": random.randint(0, 65535),
+        "id": rpcID(),
         "method": "validate",
         "params": {
             "commands": commands,
             "yang-models": yang_models,
         },
     }
-    ret = client.post(payload=json.dumps(data))
+    response = client.post(payload=json.dumps(data))
+    convertResponseKeys(response)
 
     # If the request was successful, we return the result
-    if ret and not ret.get("error"):
-        module.exit_json(**json_output)
+    if response and not response.get("error"):
+        module.exit_json(**response)
 
-    json_output["json"] = ret
-    json_output["failed"] = True
-    module.exit_json(**json_output)
+    response["failed"] = True
+    module.fail_json(
+        msg=response["error"]["message"],
+        jsonrpc_req_id=response["jsonrpc_req_id"],
+    )
 
 
 if __name__ == "__main__":
