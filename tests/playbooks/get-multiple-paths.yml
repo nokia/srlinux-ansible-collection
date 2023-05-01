@@ -10,8 +10,8 @@
     - name: Get multiple paths
       nokia.srlinux.get:
         paths:
+          # skipped datastore defaults to state
           - path: /system/state/hostname
-            datastore: state
             yang_models: oc
           - path: /system/information/description
             datastore: state
