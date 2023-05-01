@@ -179,6 +179,12 @@ function test-set-leaves {
   ansible-playbook playbooks/set-leaves.yml "$@"
 }
 
+function test-set-interface {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-interface.yml "$@"
+}
+
 function test-set-wrong-value {
   _cdTests
   revert-to-checkpoint
@@ -248,6 +254,7 @@ function _run-tests {
   test-set-leaves "$@"
   test-set-wrong-value "$@"
   test-set-multiple-paths "$@"
+  test-set-interface "$@"
   test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"
