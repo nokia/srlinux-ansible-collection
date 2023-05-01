@@ -166,6 +166,9 @@ def main():
 
     # If the request was successful, we return the result
     if response and not response.get("error"):
+        response.pop(
+            "result"
+        )  # we don't need the result as it is empty in success case
         module.exit_json(**response)
 
     response["failed"] = True
