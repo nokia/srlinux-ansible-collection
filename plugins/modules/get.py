@@ -49,6 +49,7 @@ options:
           - running
           - state
           - tools
+        default: state
         required: true
       path:
         description:
@@ -90,6 +91,7 @@ def main():
                 "datastore": {
                     "type": "str",
                     "choices": ["baseline", "candidate", "running", "state", "tools"],
+                    "default": "state",
                     "required": True,
                 },
                 "yang_models": {
