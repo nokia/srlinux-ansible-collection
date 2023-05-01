@@ -50,7 +50,6 @@ options:
           - state
           - tools
         default: state
-        required: true
       path:
         description:
           - the YANG path of a datastore node
@@ -92,7 +91,6 @@ def main():
                     "type": "str",
                     "choices": ["baseline", "candidate", "running", "state", "tools"],
                     "default": "state",
-                    "required": True,
                 },
                 "yang_models": {
                     "type": "str",
