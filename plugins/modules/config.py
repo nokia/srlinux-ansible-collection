@@ -102,6 +102,8 @@ options:
       - srl
       - oc
     default: srl
+  confirm_timeout:
+    type: int
 author:
   - Patrick Dumais (@Nokia)
   - Roman Dodin (@Nokia)
@@ -151,6 +153,7 @@ def main():
         "save_when": {"choices": ["always", "never", "changed"], "default": "never"},
         "datastore": {"choices": ["candidate", "tools"], "default": "candidate"},
         "yang_models": {"choices": ["srl", "oc"], "default": "srl"},
+        "confirm_timeout": {"type": "int"},
     }
 
     module = AnsibleModule(argument_spec=argspec, supports_check_mode=True)
@@ -169,6 +172,7 @@ def main():
     replaces = module.params.get("replace") or []
     datastore = module.params.get("datastore")
     yang_models = module.params.get("yang_models")
+    confirm_timeout = module.params.get("confirm_timeout")
 
     commands = []
     for obj in updates:
@@ -239,6 +243,7 @@ def main():
             "commands": commands,
             "datastore": datastore,
             "yang-models": yang_models,
+            # "confirm-timeout": confirm_timeout,
         },
     }
     set_resp = client.post(payload=json.dumps(data))

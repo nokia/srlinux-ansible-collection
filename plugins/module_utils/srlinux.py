@@ -79,7 +79,7 @@ def convertIdentifiers(data):
 
 
 def convertResponseKeys(response):
-    """Converts keys in the reponse object in the following manner:
+    """Converts keys in the response object in the following manner:
     `jsonrpc` -> `jsonrpc_version
     `id` -> `jsonrpc_req_id`"""
     if "jsonrpc" in response:
