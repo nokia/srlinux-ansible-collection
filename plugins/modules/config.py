@@ -104,6 +104,8 @@ options:
     default: srl
   confirm_timeout:
     type: int
+    description:
+      - The number of seconds to wait for a confirmation before reverting the commit.
 author:
   - Patrick Dumais (@Nokia)
   - Roman Dodin (@Nokia)
