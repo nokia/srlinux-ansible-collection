@@ -1,0 +1,39 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Confirm timeout
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Add interface
+      nokia.srlinux.config:
+        update:
+          - path: /interface[name=ethernet-1/1]
+            value:
+              admin-state: enable
+              description: "interface description set with Ansible"
+              subinterface:
+                - index: 0
+                  admin-state: enable
+                  description: "subinterface description set with Ansible"
+                  ipv4:
+                    admin-state: enable
+                    address:
+                      - ip-prefix: 192.168.0.100/24
+
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    # - name: Ensure changes were made to the device
+    #   nokia.srlinux.get:
+    #     paths:
+    #       - path: /interface[name=ethernet-1/1]
+    #         datastore: state
+    #   register: get_response
+    # failed_when: (get_response.result[0].location != "Some location") or (get_response.result[0].contact != "Some contact") or (get_response.result[1] != "test setting description")
+
+    # - debug:
+    #     var: get_response

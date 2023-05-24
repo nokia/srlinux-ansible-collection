@@ -159,6 +159,12 @@ function test-cli-wrong-cmd {
   ansible-playbook playbooks/cli-wrong-cmd.yml "$@"
 }
 
+function test-cli-put-file {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/cli-put-file.yml "$@"
+}
+
 function test-set-check-mode {
   _cdTests
   revert-to-checkpoint
