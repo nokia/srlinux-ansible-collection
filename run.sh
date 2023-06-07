@@ -159,6 +159,12 @@ function test-cli-wrong-cmd {
   ansible-playbook playbooks/cli-wrong-cmd.yml "$@"
 }
 
+function test-cli-put-file {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/cli-put-file.yml "$@"
+}
+
 function test-set-check-mode {
   _cdTests
   revert-to-checkpoint
@@ -239,6 +245,12 @@ function test-oc-validate {
   ansible-playbook playbooks/oc-validate.yml "$@"
 }
 
+function test-commit-confirm {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-confirm-timeout.yml "$@"
+}
+
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {
@@ -260,6 +272,7 @@ function _run-tests {
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
   test-get-multiple-paths "$@"
+  test-commit-confirm "$@"
 
   # OC-related tests
   test-get-oc-container "$@"
@@ -278,7 +291,7 @@ function test {
 
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  install-containerlab 0.38.0
+  install-containerlab 0.41.2
   install-local-collection
   deploy-lab
 

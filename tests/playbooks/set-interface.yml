@@ -27,13 +27,13 @@
     - debug:
         var: set_response
 
-    # - name: Ensure changes were made to the device
-    #   nokia.srlinux.get:
-    #     paths:
-    #       - path: /interface[name=ethernet-1/1]
-    #         datastore: state
-    #   register: get_response
-    # failed_when: (get_response.result[0].location != "Some location") or (get_response.result[0].contact != "Some contact") or (get_response.result[1] != "test setting description")
+    - name: Ensure changes were made to the device
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=ethernet-1/1]
+            datastore: state
+      register: get_response
+      failed_when: (get_response.result[0].description != "interface description set with Ansible")
 
-    # - debug:
-    #     var: get_response
+    - debug:
+        var: get_response

@@ -6,6 +6,11 @@
 name: CICD
 "on":
   workflow_dispatch:
+    inputs:
+      srlinux-version:
+        description: "SR Linux version"
+        required: true
+        default: "23.3.2"
   pull_request:
   push:
     tags:
@@ -32,6 +37,11 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
     steps:
+      # setting env vars for the test based in user input
+      - name: Set Env vars
+        run: |
+          echo "SRLINUX_VERSION=${{ inputs.srlinux-version }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4

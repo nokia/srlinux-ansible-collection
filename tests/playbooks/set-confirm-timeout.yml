@@ -1,0 +1,75 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Confirm timeout
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Add interface description with confirm timeout
+      nokia.srlinux.config:
+        update:
+          - path: /interface[name=mgmt0]/description
+            value: "this description must be gone without commit confirm"
+        # after 3 seconds commit is reverted if not confirmed
+        confirm_timeout: 4
+
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: Ensure leaf has been set before timer expires
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0] != "this description must be gone without commit confirm"
+
+    - debug:
+        var: get_response
+
+    - ansible.builtin.pause:
+        prompt: "Waiting 4 seconds for commit to revert"
+        seconds: 4
+
+    - name: Ensure the commit has been reverted
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0]
+
+    - debug:
+        var: get_response
+
+    - name: Add again interface description with confirm timeout
+      nokia.srlinux.config:
+        update:
+          - path: /interface[name=mgmt0]/description
+            value: "this description must be gone without commit confirm"
+        # after 3 seconds commit is reverted if not confirmed
+        confirm_timeout: 2
+
+    - name: Confirm the commit
+      nokia.srlinux.config:
+        datastore: tools
+        update:
+          - path: /system/configuration/confirmed-accept
+
+    - ansible.builtin.pause:
+        prompt: "Waiting 2 seconds to ensure commit is not reverted"
+        seconds: 2
+
+    - name: Ensure leaf has been set before timer expires
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0] != "this description must be gone without commit confirm"
+
+    - debug:
+        var: get_response
