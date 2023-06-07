@@ -6,34 +6,70 @@
   hosts: clab
   gather_facts: false
   tasks:
-    - name: Add interface
+    - name: Add interface description with confirm timeout
       nokia.srlinux.config:
         update:
-          - path: /interface[name=ethernet-1/1]
-            value:
-              admin-state: enable
-              description: "interface description set with Ansible"
-              subinterface:
-                - index: 0
-                  admin-state: enable
-                  description: "subinterface description set with Ansible"
-                  ipv4:
-                    admin-state: enable
-                    address:
-                      - ip-prefix: 192.168.0.100/24
+          - path: /interface[name=mgmt0]/description
+            value: "this description must be gone without commit confirm"
+        # after 3 seconds commit is reverted if not confirmed
+        confirm_timeout: 4
 
       register: set_response
 
     - debug:
         var: set_response
 
-    # - name: Ensure changes were made to the device
-    #   nokia.srlinux.get:
-    #     paths:
-    #       - path: /interface[name=ethernet-1/1]
-    #         datastore: state
-    #   register: get_response
-    # failed_when: (get_response.result[0].location != "Some location") or (get_response.result[0].contact != "Some contact") or (get_response.result[1] != "test setting description")
+    - name: Ensure leaf has been set before timer expires
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0] != "this description must be gone without commit confirm"
 
-    # - debug:
-    #     var: get_response
+    - debug:
+        var: get_response
+
+    - ansible.builtin.pause:
+        prompt: "Waiting 4 seconds for commit to revert"
+        seconds: 4
+
+    - name: Ensure the commit has been reverted
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0]
+
+    - debug:
+        var: get_response
+
+    - name: Add again interface description with confirm timeout
+      nokia.srlinux.config:
+        update:
+          - path: /interface[name=mgmt0]/description
+            value: "this description must be gone without commit confirm"
+        # after 3 seconds commit is reverted if not confirmed
+        confirm_timeout: 2
+
+    - name: Confirm the commit
+      nokia.srlinux.config:
+        datastore: tools
+        update:
+          - path: /system/configuration/confirmed-accept
+
+    - ansible.builtin.pause:
+        prompt: "Waiting 2 seconds to ensure commit is not reverted"
+        seconds: 2
+
+    - name: Ensure leaf has been set before timer expires
+      nokia.srlinux.get:
+        paths:
+          - path: /interface[name=mgmt0]/description
+            datastore: state
+      register: get_response
+      failed_when: get_response.result[0] != "this description must be gone without commit confirm"
+
+    - debug:
+        var: get_response

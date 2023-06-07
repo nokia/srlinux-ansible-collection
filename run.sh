@@ -245,6 +245,12 @@ function test-oc-validate {
   ansible-playbook playbooks/oc-validate.yml "$@"
 }
 
+function test-commit-confirm {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-confirm-timeout.yml "$@"
+}
+
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {
@@ -266,6 +272,7 @@ function _run-tests {
   test-set-idempotent "$@"
   test-replace-full-congig "$@"
   test-get-multiple-paths "$@"
+  test-commit-confirm "$@"
 
   # OC-related tests
   test-get-oc-container "$@"

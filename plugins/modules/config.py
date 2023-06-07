@@ -245,9 +245,13 @@ def main():
             "commands": commands,
             "datastore": datastore,
             "yang-models": yang_models,
-            # "confirm-timeout": confirm_timeout,
         },
     }
+
+    # add confirm timeout if provided
+    if confirm_timeout:
+        data["params"]["confirm-timeout"] = confirm_timeout
+
     set_resp = client.post(payload=json.dumps(data))
     convertResponseKeys(set_resp)
 
