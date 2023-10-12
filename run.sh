@@ -27,6 +27,11 @@ function _cdTests() {
   fi
 }
 
+# transoforms ansible core version by swapping : with /
+function _transformAnsibleCoreVersion() {
+  echo "${1}" | sed 's/:/\//g'
+}
+
 # -----------------------------------------------------------------------------
 # Install functions.
 # -----------------------------------------------------------------------------
@@ -309,6 +314,11 @@ function sanity-test {
   ansible-test sanity --docker default -v "$@"
 
   remove-local-collection
+}
+
+# testing gh workflow
+function test-act-release {
+  gh act release -W '.github/workflows/container-build.yml' -e .github/workflows/release-event.json -s GITHUB_TOKEN="$(gh auth token)" --matrix ansible-core-image:2.14.10:py3.11
 }
 
 # -----------------------------------------------------------------------------

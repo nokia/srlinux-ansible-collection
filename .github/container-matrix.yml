@@ -1,0 +1,25 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+# a matrix list of variables used in the container build process
+#
+# python version are taken from ansible's support matrix - https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#support-life
+include:
+  # 2.14.10
+  - ansible-core-image: "2.14.10:pypy3.10"
+    runs-on: "ubuntu-22.04"
+
+  - ansible-core-image: "2.14.10:py3.11"
+    runs-on: "ubuntu-22.04"
+    addional-tags: "latest"
+
+  # 2.15.4
+  # - base-image: "pypy:3.10-slim"
+  #   ansible-core-version: "2.15.4"
+  #   runs-on: "ubuntu-22.04"
+
+  # - base-image: "python:3.11-slim"
+  #   ansible-core-version: "2.15.4"
+  #   runs-on: "ubuntu-22.04"
+  #   addional-tags: "latest"
