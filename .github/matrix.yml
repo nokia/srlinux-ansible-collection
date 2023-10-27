@@ -8,43 +8,65 @@
 
 include:
   # Python 3.8
-  - python-version: "3.8"
+  - &latest-2_12
+    python-version: "3.8"
     ansible-core-version: "2.12.10"
     runs-on: "ubuntu-22.04"
+
   - &latest-2_13
     python-version: "3.8"
     ansible-core-version: "2.13.13"
     runs-on: "ubuntu-22.04"
 
   # Python 3.9
-  - python-version: "3.9"
-    ansible-core-version: "2.12.10"
-    runs-on: "ubuntu-22.04"
-  - python-version: "3.9"
-    <<: *latest-2_13
-  - python-version: "3.9"
+  - <<: *latest-2_12
+    python-version: "3.9"
+
+  - <<: *latest-2_13
+    python-version: "3.9"
+
+  - &latest-2_14
+    python-version: "3.9"
     ansible-core-version: "2.14.11"
     runs-on: "ubuntu-22.04"
-  - python-version: "3.9"
+
+  - &latest-2_15
+    python-version: "3.9"
     ansible-core-version: "2.15.5"
     runs-on: "ubuntu-22.04"
 
   # Python 3.10
-  - python-version: "3.10"
-    ansible-core-version: "2.12.10"
-    runs-on: "ubuntu-22.04"
-  - python-version: "3.10"
-    <<: *latest-2_13
-  - python-version: "3.10"
-    ansible-core-version: "2.14.11"
-    runs-on: "ubuntu-22.04"
+  - <<: *latest-2_12
+    python-version: "3.10"
 
-    # Python 3.11
-  - python-version: "3.11"
-    ansible-core-version: "2.12.10"
-    runs-on: "ubuntu-22.04"
-  - python-version: "3.11"
-    <<: *latest-2_13
-  - python-version: "3.11"
-    ansible-core-version: "2.14.3"
-    runs-on: "ubuntu-22.04"
+  - <<: *latest-2_13
+    python-version: "3.10"
+
+  - <<: *latest-2_14
+    python-version: "3.10"
+
+  # Python 3.11
+  - <<: *latest-2_12
+    python-version: "3.11"
+
+  - <<: *latest-2_13
+    python-version: "3.11"
+
+  - <<: *latest-2_14
+    python-version: "3.11"
+
+  - <<: *latest-2_15
+    python-version: "3.11"
+
+  # Python 3.12
+  - <<: *latest-2_12
+    python-version: "3.12"
+
+  - <<: *latest-2_13
+    python-version: "3.12"
+
+  - <<: *latest-2_14
+    python-version: "3.12"
+
+  - <<: *latest-2_15
+    python-version: "3.12"
