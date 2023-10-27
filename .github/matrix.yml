@@ -6,11 +6,12 @@
 # kind of a manual way of creating a testing matrix with a flexibility of selecting permuatations
 # support matrix for ansible control node - https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#node-requirement-summary
 
+defaults:
+  latest-2.13: &latest-2_13
+    ansible-core-version: "2.13.13"
+    runs-on: "ubuntu-22.04"
+
 include:
-  - defaults:
-      latest-2.13: &latest-2_13
-        ansible-core-version: "2.13.13"
-        runs-on: "ubuntu-22.04"
   # Python 3.8
   - python-version: "3.8"
     ansible-core-version: "2.12.10"
