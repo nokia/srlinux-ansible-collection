@@ -16,8 +16,10 @@ include:
   - python-version: "3.8"
     ansible-core-version: "2.12.10"
     runs-on: "ubuntu-22.04"
-  - python-version: "3.8"
-    <<: *latest-2_13
+  - &latest-2_13
+    python-version: "3.8"
+    ansible-core-version: "2.13.13"
+    runs-on: "ubuntu-22.04"
 
   # Python 3.9
   - python-version: "3.9"
