@@ -7,8 +7,8 @@ name: ansible
 topology:
   nodes:
     srl:
-      kind: srl
-      image: ghcr.io/nokia/srlinux:${SRLINUX_VERSION:=23.7.2}
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:${SRLINUX_VERSION:=23.10.1}
       # type and startup config are used to test Openconfig modules
       type: ixr6
       startup-config: oc.cfg
