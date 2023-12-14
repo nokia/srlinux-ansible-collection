@@ -2,19 +2,20 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-- name: TLS missed check fail
+- name: TLS with custom CA
   hosts: clab
   gather_facts: false
   vars:
     ansible_httpapi_use_ssl: yes
+    ansible_httpapi_ca_path: "{{ playbook_dir }}/../../scripts/clab-ansible/.tls/ca/ca.pem"
   tasks:
-    - name: Get with TLS required but without setting skip verify or custom ca cert
+    - name: Get with TLS required and custom ca cert
       nokia.srlinux.get:
         paths:
           - path: /system/information
             datastore: state
       register: get_return
-      failed_when: not get_return.failed or "CERTIFICATE_VERIFY_FAILED" not in get_return.module_stderr
+      failed_when: get_return.failed
 
     - debug:
         var: get_return
