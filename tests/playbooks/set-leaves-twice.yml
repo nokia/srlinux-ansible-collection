@@ -1,0 +1,79 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Set leaves
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Set system information with values
+      nokia.srlinux.config:
+        update:
+          - path: /system/information
+            value:
+              location: some location
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: Ensure changes were made to the device
+      nokia.srlinux.get:
+        paths:
+          - path: /system/information
+            datastore: state
+      register: get_response
+      failed_when: (get_response.result[0].location != "some location")
+
+    - debug:
+        var: get_response
+
+    - name: get commits
+      nokia.srlinux.get:
+        paths:
+          - path: /system/configuration/commit
+      register: commits
+
+    - debug:
+        var: commits
+
+    - name: Count the number of commits registered after the first set
+      set_fact:
+        first_commit_count: "{{ commits.result[0].commit | length }}"
+
+    - name: Set information with the same value again
+      nokia.srlinux.config:
+        update:
+          - path: /system/information
+            value:
+              location: some location
+      register: set_response
+
+    - debug:
+        var: set_response
+
+    - name: check that no change has been recorded by the module
+      assert:
+        that:
+          - set_response.changed is false
+
+    - name: get commits again
+      nokia.srlinux.get:
+        paths:
+          - path: /system/configuration/commit
+      register: commits
+
+    - debug:
+        var: commits
+
+    - name: Count the number of commits registered after the second set
+      set_fact:
+        second_commit_count: "{{ commits.result[0].commit | length }}"
+
+    - debug:
+        msg: "1st commit count is: {{ first_commit_count }}, 2nd commit count is: {{ second_commit_count }}"
+
+    - name: check that no new commits have been recorded
+      assert:
+        that:
+          - first_commit_count == second_commit_count

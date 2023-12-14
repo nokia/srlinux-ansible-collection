@@ -190,6 +190,15 @@ function test-set-leaves {
   ansible-playbook playbooks/set-leaves.yml "$@"
 }
 
+# test that subsequent config changes are idempotent
+# and does not lead to commit being recorded since
+# the diff is empty
+function test-set-leaves-twice {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/set-leaves-twice.yml "$@"
+}
+
 function test-set-interface {
   _cdTests
   revert-to-checkpoint
@@ -269,6 +278,7 @@ function _run-tests {
   test-tls-skip "$@"
   test-set-check-mode "$@"
   test-set-leaves "$@"
+  test-set-leaves-twice "$@"
   test-set-wrong-value "$@"
   test-set-multiple-paths "$@"
   test-set-interface "$@"

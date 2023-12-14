@@ -212,6 +212,11 @@ def main():
             msg = diff_resp.get("error", {}).get("message", "No diff response")
             module.fail_json(msg=msg, method="diff", id=diff_resp["jsonrpc_req_id"])
 
+        # if diff response is empty, the operation is a noop and we can exit the module
+        if not [x for x in diff_resp.get("result") if x.strip() != ""]:
+            json_output["jsonrpc_req_id"] = diff_resp["jsonrpc_req_id"]
+            module.exit_json(**json_output)
+
     # if diff response is not empty, we have a diff
     # we need to set the changed flag to True
     # and save the diff response result in the json_output
