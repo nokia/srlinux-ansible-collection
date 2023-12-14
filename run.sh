@@ -123,6 +123,12 @@ function test-tls-skip {
   ansible-playbook playbooks/tls-skipped-check.yml "$@"
 }
 
+function test-tls-custom-ca {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/tls-with-custom-ca.yml "$@"
+}
+
 function test-get-container {
   _cdTests
   revert-to-checkpoint
@@ -276,6 +282,7 @@ function _run-tests {
   test-cli-wrong-cmd "$@"
   test-tls-fail "$@"
   test-tls-skip "$@"
+  test-tls-custom-ca "$@"
   test-set-check-mode "$@"
   test-set-leaves "$@"
   test-set-leaves-twice "$@"
@@ -306,7 +313,7 @@ function test {
 
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  install-containerlab 0.41.2
+  install-containerlab 0.48.6
   install-local-collection
   deploy-lab
 
