@@ -313,7 +313,7 @@ function test {
 
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  install-containerlab 0.41.2
+  install-containerlab 0.48.6
   install-local-collection
   deploy-lab
 
