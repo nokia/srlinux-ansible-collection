@@ -49,7 +49,7 @@ jobs:
         id: core-image
         run: |
           CORE_VERSION=$(./run.sh _transformAnsibleCoreVersion "${{ matrix.ansible-core-image }}")
-          echo "::set-output name=core-version::$CORE_VERSION"
+          echo "core-version=$CORE_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Docker meta
         id: meta
