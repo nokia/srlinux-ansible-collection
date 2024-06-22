@@ -313,11 +313,23 @@ function test {
   _run-tests "$@"
 }
 
+function dump-logs {
+  ansible-galaxy collection list
+  echo
+  pip list
+  python --version
+}
+
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
+  echo "Sleeping 30s before starting the tests to let the GH actions VM come to senses"
+  sleep 30
+
   install-containerlab ${CLAB_VERSION}
   install-local-collection
   deploy-lab
+  
+  dump-logs
 
 
   # at this point we are already in ./tests dir
