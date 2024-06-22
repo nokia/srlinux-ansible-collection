@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # a matrix list of variables used in testing
-# kind of a manual way of creating a testing matrix with a flexibility of selecting permuatations
+# kind of a manual way of creating a testing matrix with a flexibility of selecting permutations
 # support matrix for ansible control node - https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#node-requirement-summary
 
 include:
@@ -11,12 +11,12 @@ include:
   # Python 3.9
   ####################
   - &latest-2_14
-    ansible-core-version: "2.14.11"
+    ansible-core-version: "2.14.17"
     runs-on: "ubuntu-22.04"
     python-version: "3.9"
 
   - &latest-2_15
-    ansible-core-version: "2.15.5"
+    ansible-core-version: "2.15.12"
     runs-on: "ubuntu-22.04"
     python-version: "3.9"
 
@@ -30,6 +30,16 @@ include:
   - <<: *latest-2_15
     python-version: "3.10"
 
+  - &latest-2_16
+    ansible-core-version: "2.16.8"
+    runs-on: "ubuntu-22.04"
+    python-version: "3.10"
+
+  - &latest-2_17
+    ansible-core-version: "2.17.1"
+    runs-on: "ubuntu-22.04"
+    python-version: "3.10"
+
   ####################
   # Python 3.11
   ####################
@@ -40,8 +50,20 @@ include:
   - <<: *latest-2_15
     python-version: "3.11"
 
+  - <<: *latest-2_16
+    python-version: "3.11"
+
+  - <<: *latest-2_17
+    python-version: "3.11"
+
   ####################
   # Python 3.12
   ####################
   - <<: *latest-2_15
+    python-version: "3.12"
+
+  - <<: *latest-2_16
+    python-version: "3.12"
+
+  - <<: *latest-2_17
     python-version: "3.12"
