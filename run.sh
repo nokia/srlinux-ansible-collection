@@ -319,9 +319,6 @@ function ci-test {
   install-local-collection
   deploy-lab
 
-  # give some time for the gh actions
-  # to come to senses. Only happens in CI
-  sleep 30
 
   # at this point we are already in ./tests dir
   # since we changed into it in deploy-lab
