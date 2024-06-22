@@ -32,7 +32,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.output }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: fabasoad/data-format-converter-action@main
         id: matrix
         with:
@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "SRLINUX_VERSION=${{ inputs.srlinux-version }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v4
         with:
@@ -84,7 +84,7 @@ jobs:
   ansible-sanity-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v4
         with:
