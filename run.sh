@@ -273,7 +273,6 @@ function test-commit-confirm {
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {
-  sleep 10
   test-auth-fail "$@"
   test-get-container "$@"
   test-config-backup "$@"
@@ -319,6 +318,10 @@ function ci-test {
   install-containerlab ${CLAB_VERSION}
   install-local-collection
   deploy-lab
+
+  # give some time for the gh actions
+  # to come to senses. Only happens in CI
+  sleep 30
 
   # at this point we are already in ./tests dir
   # since we changed into it in deploy-lab
