@@ -12,7 +12,7 @@
           - path: /system/information/location
             value: Some location
         replace:
-          - path: /system/gnmi-server/trace-options
+          - path: /system/grpc-server[name=mgmt]/trace-options
             value:
               - request
               - common
@@ -28,7 +28,7 @@
         paths:
           - path: /system/information/location
             datastore: state
-          - path: /system/gnmi-server/trace-options
+          - path: /system/grpc-server[name=mgmt]/trace-options
             datastore: state
           - path: /system/json-rpc-server/network-instance[name=mgmt]/https
             datastore: state
