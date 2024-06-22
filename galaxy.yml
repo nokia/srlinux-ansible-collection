@@ -46,7 +46,7 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  "ansible.netcommon": ">=5.2.0"
+  "ansible.netcommon": "6.1.3"
 
 # The URL of the originating SCM repository
 repository: https://github.com/nokia/srlinux-ansible-collection
