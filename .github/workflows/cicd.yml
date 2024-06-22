@@ -10,9 +10,14 @@ name: CICD
       srlinux-version:
         description: "SR Linux version"
         required: true
-        default: "23.3.2"
-      start-tmate:
+        default: "24.3.2"
+      start-tmate-before-test:
         description: "start tmate before running tests"
+        type: boolean
+        required: false
+        default: false
+      start-tmate-after-test:
+        description: "start tmate after running tests"
         type: boolean
         required: false
         default: false
@@ -56,6 +61,10 @@ jobs:
       - name: Install ansible core
         run: pip install ansible-core==${{ matrix.ansible-core-version }}
 
+      - name: start tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ inputs.start-tmate-before-test }}
+
       # Uncomment this section to use private images
       # - name: ghcr.io login
       #   uses: docker/login-action@v2
@@ -70,7 +79,7 @@ jobs:
 
       - name: start tmate session
         uses: mxschmitt/action-tmate@v3
-        if: ${{ inputs.start-tmate }}
+        if: ${{ inputs.start-tmate-after-test }}
 
   ansible-sanity-test:
     runs-on: ubuntu-latest
