@@ -16,6 +16,9 @@ SCRIPTS_DIR="scripts"
 # Directory where the tests are located.
 TESTS_DIR="$(pwd)/tests"
 
+# Containerlab version to use in CI tests
+CLAB_VERSION="0.55.0"
+
 # -----------------------------------------------------------------------------
 # Helper functions start with _ and aren't listed in this script's help menu.
 # -----------------------------------------------------------------------------
@@ -297,9 +300,12 @@ function _run-tests {
   test-commit-confirm "$@"
 
   # OC-related tests
-  test-get-oc-container "$@"
-  test-set-oc-leaf "$@"
-  test-oc-validate "$@"
+  if [[ " $* " == *" oc-tests "* ]]; then
+    # OC-related tests
+    test-get-oc-container "$@"
+    test-set-oc-leaf "$@"
+    test-oc-validate "$@"
+  fi
 }
 
 # prepare local dev environment and run tests
@@ -313,7 +319,7 @@ function test {
 
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  install-containerlab 0.48.6
+  install-containerlab ${CLAB_VERSION}
   install-local-collection
   deploy-lab
 
