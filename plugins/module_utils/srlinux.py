@@ -2,7 +2,7 @@
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
 
-""" srlinux module utils """
+"""srlinux module utils"""
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function
@@ -13,7 +13,6 @@ from datetime import datetime
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection
-from ansible.module_utils.urls import CertificateError
 
 
 class JSONRPCClient:
@@ -47,10 +46,7 @@ class JSONRPCClient:
             self.module.fail_json(
                 msg=f"connection error occurred: {e}",
             )
-        except CertificateError as e:
-            self.module.fail_json(
-                msg=f"certificate error occurred: {e}",
-            )
+
         except ValueError as e:
             try:
                 self.module.fail_json(msg=f"certificate not found: {e}")

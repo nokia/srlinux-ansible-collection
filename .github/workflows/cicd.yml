@@ -10,9 +10,14 @@ name: CICD
       srlinux-version:
         description: "SR Linux version"
         required: true
-        default: "23.3.2"
-      start-tmate:
+        default: "24.3.2"
+      start-tmate-before-test:
         description: "start tmate before running tests"
+        type: boolean
+        required: false
+        default: false
+      start-tmate-after-test:
+        description: "start tmate after running tests"
         type: boolean
         required: false
         default: false
@@ -27,7 +32,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.output }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: fabasoad/data-format-converter-action@main
         id: matrix
         with:
@@ -37,7 +42,8 @@ jobs:
 
   test:
     runs-on: ${{ matrix.runs-on }}
-    needs: [prepare-matrix]
+    needs:
+      - prepare-matrix
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
@@ -47,14 +53,18 @@ jobs:
         run: |
           echo "SRLINUX_VERSION=${{ inputs.srlinux-version }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install ansible core
         run: pip install ansible-core==${{ matrix.ansible-core-version }}
+
+      - name: start tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ inputs.start-tmate-before-test }}
 
       # Uncomment this section to use private images
       # - name: ghcr.io login
@@ -63,25 +73,27 @@ jobs:
       #     registry: ghcr.io
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test
+        run: ./run.sh ci-test
+        # uncomment this line when you want to continue on error
+        # and run tmate after it
+        # continue-on-error: true
 
       - name: start tmate session
         uses: mxschmitt/action-tmate@v3
-        if: ${{ inputs.start-tmate }}
-
-      - name: Test
-        run: ./run.sh ci-test
+        if: ${{ inputs.start-tmate-after-test }}
 
   ansible-sanity-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: 3.11
 
       - name: Install ansible core
-        run: pip install ansible-core==2.13.8
+        run: pip install ansible-core==2.15.12
 
       - name: Ansible sanity test
         run: ./run.sh sanity-test

@@ -3,39 +3,20 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # a matrix list of variables used in testing
-# kind of a manual way of creating a testing matrix with a flexibility of selecting permuatations
+# kind of a manual way of creating a testing matrix with a flexibility of selecting permutations
 # support matrix for ansible control node - https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#node-requirement-summary
 
 include:
   ####################
-  # Python 3.8
-  ####################
-  - &latest-2_12
-    ansible-core-version: "2.12.10"
-    runs-on: "ubuntu-22.04"
-    python-version: "3.8"
-
-  - &latest-2_13
-    ansible-core-version: "2.13.13"
-    runs-on: "ubuntu-22.04"
-    python-version: "3.8"
-
-  ####################
   # Python 3.9
   ####################
-  - <<: *latest-2_12
-    python-version: "3.9"
-
-  - <<: *latest-2_13
-    python-version: "3.9"
-
   - &latest-2_14
-    ansible-core-version: "2.14.11"
+    ansible-core-version: "2.14.17"
     runs-on: "ubuntu-22.04"
     python-version: "3.9"
 
   - &latest-2_15
-    ansible-core-version: "2.15.5"
+    ansible-core-version: "2.15.12"
     runs-on: "ubuntu-22.04"
     python-version: "3.9"
 
@@ -43,39 +24,46 @@ include:
   # Python 3.10
   ####################
 
-  # removing 2_12 and 2_13 because TLS tests are failing
-  # this doesn't make the collection unusable with these versions
-  # when 23.10 comes out with TLS 1.3 we will remove these checks and bring back 2_12 and 2_13
-  # - <<: *latest-2_12
-  #   python-version: "3.10"
-
-  # - <<: *latest-2_13
-  #   python-version: "3.10"
-
   - <<: *latest-2_14
     python-version: "3.10"
 
   - <<: *latest-2_15
+    python-version: "3.10"
+
+  - &latest-2_16
+    ansible-core-version: "2.16.8"
+    runs-on: "ubuntu-22.04"
+    python-version: "3.10"
+
+  - &latest-2_17
+    ansible-core-version: "2.17.1"
+    runs-on: "ubuntu-22.04"
     python-version: "3.10"
 
   ####################
   # Python 3.11
   ####################
 
-  # - <<: *latest-2_12
-  #   python-version: "3.11"
-
-  # - <<: *latest-2_13
-  #   python-version: "3.11"
-
   - <<: *latest-2_14
     python-version: "3.11"
 
   - <<: *latest-2_15
     python-version: "3.11"
 
+  - <<: *latest-2_16
+    python-version: "3.11"
+
+  - <<: *latest-2_17
+    python-version: "3.11"
+
   ####################
   # Python 3.12
   ####################
   - <<: *latest-2_15
+    python-version: "3.12"
+
+  - <<: *latest-2_16
+    python-version: "3.12"
+
+  - <<: *latest-2_17
     python-version: "3.12"

@@ -16,6 +16,9 @@ SCRIPTS_DIR="scripts"
 # Directory where the tests are located.
 TESTS_DIR="$(pwd)/tests"
 
+# Containerlab version to use in CI tests
+CLAB_VERSION="0.55.1"
+
 # -----------------------------------------------------------------------------
 # Helper functions start with _ and aren't listed in this script's help menu.
 # -----------------------------------------------------------------------------
@@ -57,10 +60,6 @@ function remove-local-collection {
   rm -rf ~/.ansible/collections/ansible_collections/nokia
 }
 
-# Install a netcommon dependency in case ansible-core is installed.
-function install-netcommon {
-  ansible-galaxy collection install --force ansible.netcommon:==4.1.0
-}
 
 # Deploy test lab.
 function deploy-lab {
@@ -87,14 +86,7 @@ function revert-to-checkpoint {
   docker exec ${NODE_NAME} sr_cli /tools system configuration checkpoint initial revert
 }
 
-# copy sanity ignore files from ignore-2.10.txt to all other supported ansible versions
-function copy-sanity-ignore {
-  _cdTests
-  cd sanity
-  for version in 2.11 2.12 2.13 2.14; do
-    cp ignore-2.10.txt ignore-${version}.txt
-  done
-}
+
 
 # -----------------------------------------------------------------------------
 # Test functions.
@@ -297,9 +289,12 @@ function _run-tests {
   test-commit-confirm "$@"
 
   # OC-related tests
-  test-get-oc-container "$@"
-  test-set-oc-leaf "$@"
-  test-oc-validate "$@"
+  if [[ " $* " == *" oc-tests "* ]]; then
+    # OC-related tests
+    test-get-oc-container "$@"
+    test-set-oc-leaf "$@"
+    test-oc-validate "$@"
+  fi
 }
 
 # prepare local dev environment and run tests
@@ -311,16 +306,35 @@ function test {
   _run-tests "$@"
 }
 
+function dump-logs {
+  ansible-galaxy collection list
+  echo
+  pip list
+  python --version
+}
+
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  install-containerlab 0.48.6
+  install-containerlab ${CLAB_VERSION}
   install-local-collection
   deploy-lab
+  
+  dump-logs
+
 
   # at this point we are already in ./tests dir
   # since we changed into it in deploy-lab
   # we use ci-ansible.cfg to make sure default collections paths is used
   ANSIBLE_CONFIG=ci-ansible.cfg _run-tests "$@"
+}
+
+# copy sanity ignore files from ignore-2.10.txt to all other supported ansible versions
+function copy-sanity-ignore {
+  _cdTests
+  cd sanity
+  for version in 2.14 2.15 2.16 2.17; do
+    cp ignore-2.10.txt ignore-${version}.txt
+  done
 }
 
 # sanity-test runs ansible-test tool with sanity checks.
