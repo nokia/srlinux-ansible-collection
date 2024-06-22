@@ -60,10 +60,6 @@ function remove-local-collection {
   rm -rf ~/.ansible/collections/ansible_collections/nokia
 }
 
-# Install a netcommon dependency in case ansible-core is installed.
-function install-netcommon {
-  ansible-galaxy collection install --force ansible.netcommon:==4.1.0
-}
 
 # Deploy test lab.
 function deploy-lab {
@@ -94,7 +90,7 @@ function revert-to-checkpoint {
 function copy-sanity-ignore {
   _cdTests
   cd sanity
-  for version in 2.11 2.12 2.13 2.14; do
+  for version in 2.14; do
     cp ignore-2.10.txt ignore-${version}.txt
   done
 }
@@ -277,6 +273,7 @@ function test-commit-confirm {
 # Shouldn't be called directly, use test or ci-test instead.
 # Meant to define the collection of tests to run.
 function _run-tests {
+  sleep 10
   test-auth-fail "$@"
   test-get-container "$@"
   test-config-backup "$@"
