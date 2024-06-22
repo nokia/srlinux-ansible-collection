@@ -17,7 +17,7 @@ SCRIPTS_DIR="scripts"
 TESTS_DIR="$(pwd)/tests"
 
 # Containerlab version to use in CI tests
-CLAB_VERSION="0.55.0"
+CLAB_VERSION="0.55.1"
 
 # -----------------------------------------------------------------------------
 # Helper functions start with _ and aren't listed in this script's help menu.
