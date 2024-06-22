@@ -11,6 +11,11 @@ name: CICD
         description: "SR Linux version"
         required: true
         default: "23.3.2"
+      start-tmate:
+        description: "start tmate before running tests"
+        type: boolean
+        required: false
+        default: false
   pull_request:
   push:
     tags:
@@ -58,6 +63,10 @@ jobs:
       #     registry: ghcr.io
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: start tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ inputs.start-tmate }}
 
       - name: Test
         run: ./run.sh ci-test
