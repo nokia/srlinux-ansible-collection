@@ -86,14 +86,7 @@ function revert-to-checkpoint {
   docker exec ${NODE_NAME} sr_cli /tools system configuration checkpoint initial revert
 }
 
-# copy sanity ignore files from ignore-2.10.txt to all other supported ansible versions
-function copy-sanity-ignore {
-  _cdTests
-  cd sanity
-  for version in 2.14; do
-    cp ignore-2.10.txt ignore-${version}.txt
-  done
-}
+
 
 # -----------------------------------------------------------------------------
 # Test functions.
@@ -333,6 +326,15 @@ function ci-test {
   # since we changed into it in deploy-lab
   # we use ci-ansible.cfg to make sure default collections paths is used
   ANSIBLE_CONFIG=ci-ansible.cfg _run-tests "$@"
+}
+
+# copy sanity ignore files from ignore-2.10.txt to all other supported ansible versions
+function copy-sanity-ignore {
+  _cdTests
+  cd sanity
+  for version in 2.14 2.15 2.16 2.17; do
+    cp ignore-2.10.txt ignore-${version}.txt
+  done
 }
 
 # sanity-test runs ansible-test tool with sanity checks.
