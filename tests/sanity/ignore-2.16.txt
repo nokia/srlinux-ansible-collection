@@ -28,6 +28,8 @@ plugins/modules/validate.py import-3.7!skip
 plugins/modules/validate.py import-3.8!skip
 plugins/modules/validate.py validate-modules:missing-gplv3-license
 plugins/modules/validate.py validate-modules:import-before-documentation
+plugins/module_utils/srlinux.py compile-2.7!skip
+plugins/module_utils/srlinux.py compile-3.5!skip
 plugins/module_utils/srlinux.py import-2.7!skip
 plugins/module_utils/srlinux.py import-3.5!skip
 plugins/module_utils/srlinux.py import-3.6!skip
