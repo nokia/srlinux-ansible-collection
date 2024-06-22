@@ -64,12 +64,12 @@ jobs:
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Test
+        run: ./run.sh ci-test
+
       - name: start tmate session
         uses: mxschmitt/action-tmate@v3
         if: ${{ inputs.start-tmate }}
-
-      - name: Test
-        run: ./run.sh ci-test
 
   ansible-sanity-test:
     runs-on: ubuntu-latest

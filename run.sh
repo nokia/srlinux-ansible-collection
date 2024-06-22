@@ -322,9 +322,6 @@ function dump-logs {
 
 # ci-test is a wrapper for testing in CI which first setups the environment.
 function ci-test {
-  echo "Sleeping 30s before starting the tests to let the GH actions VM come to senses"
-  sleep 30
-
   install-containerlab ${CLAB_VERSION}
   install-local-collection
   deploy-lab
