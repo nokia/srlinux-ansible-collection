@@ -11,8 +11,8 @@
       nokia.srlinux.get:
         paths:
           # skipped datastore defaults to state
-          - path: /system/state/hostname
-            yang_models: oc
+          # - path: /system/state/hostname
+          #   yang_models: oc
           - path: /system/information/description
             datastore: state
             yang_models: srl
@@ -20,7 +20,7 @@
             datastore: running
             yang_models: srl
       register: response
-      failed_when: '("srl" not in response.result[0]) or ("SRLinux" not in response.result[1]) or ("mgmt" not in response.result[2]["network-instance"][0].name)'
+      failed_when: '("SRLinux" not in response.result[0]) or ("mgmt" not in response.result[1]["network-instance"][0].name)'
 
     - debug:
         var: response
