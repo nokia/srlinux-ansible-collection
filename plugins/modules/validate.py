@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 """Ansible module for validating configuration on SR Linux devices"""
+
 from __future__ import absolute_import, division, print_function
 
 import json
@@ -41,7 +42,7 @@ options:
         type: str
         required: true
       value:
-        type: dict
+        type: raw
         description:
           - values to update
         required: true
@@ -73,7 +74,7 @@ options:
         description:
           - values to replace
         required: true
-        type: dict
+        type: raw
   yang_models:
     type: str
     description:
@@ -109,7 +110,7 @@ def main():
             "required": False,
             "options": {
                 "path": {"type": "str", "required": True},
-                "value": {"type": "dict", "required": True},
+                "value": {"type": "raw", "required": True},
             },
         },
         "delete": {
@@ -126,7 +127,7 @@ def main():
             "required": False,
             "options": {
                 "path": {"type": "str", "required": True},
-                "value": {"type": "dict", "required": True},
+                "value": {"type": "raw", "required": True},
             },
         },
         "yang_models": {"choices": ["srl", "oc"], "default": "srl"},

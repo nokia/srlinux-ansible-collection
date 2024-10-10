@@ -17,7 +17,9 @@ SCRIPTS_DIR="scripts"
 TESTS_DIR="$(pwd)/tests"
 
 # Containerlab version to use in CI tests
-CLAB_VERSION="0.55.1"
+CLAB_VERSION="0.57.5"
+
+CHECKPOINT_NAME="clab-initial"
 
 # -----------------------------------------------------------------------------
 # Helper functions start with _ and aren't listed in this script's help menu.
@@ -65,8 +67,6 @@ function remove-local-collection {
 function deploy-lab {
   cd ${SCRIPTS_DIR}
   sudo -E containerlab deploy -c
-  # generate a checkpoint named "initial" that we can revert to to guarantee a clean state
-  docker exec ${NODE_NAME} sr_cli /tools system configuration generate-checkpoint name initial
 }
 
 # Prepare local dev environment by setting the symlink to the collection.
@@ -83,7 +83,7 @@ function prepare-dev-env {
 # revert to initial checkpoint to guarantee the node initial state
 function revert-to-checkpoint {
   # revert to the checkpoint named "initial" to guarantee a clean state
-  docker exec ${NODE_NAME} sr_cli /tools system configuration checkpoint initial revert
+  docker exec ${NODE_NAME} sr_cli /tools system configuration checkpoint ${CHECKPOINT_NAME} revert
 }
 
 
