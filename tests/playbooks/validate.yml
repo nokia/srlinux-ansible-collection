@@ -18,6 +18,16 @@
     - debug:
         var: response
 
+    - name: Validate a valid change set using the non dict value
+      nokia.srlinux.validate:
+        update:
+          - path: /system/information/location
+            value: Some location
+      register: response
+
+    - debug:
+        var: response
+
     - name: Validate an invalid change set
       nokia.srlinux.validate:
         update:

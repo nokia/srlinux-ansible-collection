@@ -29,8 +29,6 @@ To validate that the code passes Ansible's sanity check, run:
 ./run.sh sanity-test
 ```
 
-Note, that the lab uses IXR-6 chassis, which only runs for 5 minutes without a license. This is enough to finish the test suite, but if you want to play with the lab for a longer period, remove the type or provide a license.
-
 ### Running individual tests
 
 To run an individual test, first make sure that the local code base is used by ansible. This can be done by running:
