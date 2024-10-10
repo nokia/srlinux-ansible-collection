@@ -74,7 +74,7 @@ options:
         description:
           - values to replace
         required: true
-        type: dict
+        type: raw
   yang_models:
     type: str
     description:
