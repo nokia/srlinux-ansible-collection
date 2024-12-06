@@ -176,15 +176,21 @@ def main():
     yang_models = module.params.get("yang_models")
     confirm_timeout = module.params.get("confirm_timeout")
 
+    # since operations are modelled as a dict in this collection
+    # an ordering is implied when multiple operations are provided.
+    # we add all deletes, followed by replaces, and then followed by updates.
+    # this ordering should satisfy most use cases where multiple operations
+    # are bundled in a single request, where deletes are processed first and then
+    # replaces and updates can be used to enact new config values.
     commands = []
-    for obj in updates:
-        obj["action"] = "update"
+    for obj in deletes:
+        obj["action"] = "delete"
         commands += [obj]
     for obj in replaces:
         obj["action"] = "replace"
         commands += [obj]
-    for obj in deletes:
-        obj["action"] = "delete"
+    for obj in updates:
+        obj["action"] = "update"
         commands += [obj]
 
     diff_resp = {}
