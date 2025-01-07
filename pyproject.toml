@@ -1,0 +1,7 @@
+[project]
+name = "srlinux-ansible-collection"
+version = "0.6.0"
+description = "SR Linux Ansible Collection"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["ansible-core==2.16.2"]
