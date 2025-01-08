@@ -12,7 +12,7 @@
   tasks:
     - name: template config
       ansible.builtin.template:
-        src: "{{playbook_dir}}/golden/{{inventory_hostname}}-golden.cfg.json.j2"
+        src: "{{ playbook_dir }}/golden/{{ inventory_hostname }}-golden.cfg.json.j2"
         dest: /tmp/config.json
 # - name: Run "show version" CLI command with text output format
 #   hosts: clab
