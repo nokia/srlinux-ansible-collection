@@ -6,7 +6,7 @@
   hosts: clab
   gather_facts: false
   vars:
-    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_use_ssl: true
   tasks:
     - name: Get with TLS required but without setting skip verify or custom ca cert
       nokia.srlinux.get:

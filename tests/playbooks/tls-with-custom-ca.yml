@@ -6,7 +6,7 @@
   hosts: clab
   gather_facts: false
   vars:
-    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_use_ssl: true
     ansible_httpapi_ca_path: "{{ playbook_dir }}/../../scripts/clab-ansible/.tls/ca/ca.pem"
   tasks:
     - name: Get with TLS required and custom ca cert
