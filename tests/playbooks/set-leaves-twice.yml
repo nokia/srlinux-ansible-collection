@@ -38,7 +38,7 @@
         var: commits
 
     - name: Count the number of commits registered after the first set
-      set_fact:
+      - ansible.builtin.set_fact:
         first_commit_count: "{{ commits.result[0].commit | length }}"
 
     - name: Set information with the same value again
@@ -67,7 +67,7 @@
         var: commits
 
     - name: Count the number of commits registered after the second set
-      set_fact:
+      - ansible.builtin.set_fact:
         second_commit_count: "{{ commits.result[0].commit | length }}"
 
     - ansible.builtin.debug:
