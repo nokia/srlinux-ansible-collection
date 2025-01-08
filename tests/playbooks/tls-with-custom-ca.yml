@@ -17,5 +17,6 @@
       register: get_return
       failed_when: get_return.failed
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_return

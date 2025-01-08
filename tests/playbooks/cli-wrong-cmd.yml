@@ -13,5 +13,6 @@
       register: response
       failed_when: '("Parsing error: Unknown token" not in response.msg) or (response.failed is not true)'
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response

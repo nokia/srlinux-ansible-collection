@@ -20,5 +20,6 @@
       register: get_response
       failed_when: get_response.result[0] != "active"
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

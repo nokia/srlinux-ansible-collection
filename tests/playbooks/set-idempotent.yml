@@ -16,7 +16,8 @@
       diff: true
       register: set_response
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -27,7 +28,8 @@
       register: get_response
       failed_when: get_response.result[0].location != "Some location" or get_response.result[0].contact != "Some contact"
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response
 
     - name: Repeated set should not run
@@ -40,7 +42,8 @@
       register: set_response
       failed_when: set_response.failed or set_response.changed == true
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Repeated set should not run with diff
@@ -54,5 +57,6 @@
       diff: true
       failed_when: set_response.failed or set_response.changed == true
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response

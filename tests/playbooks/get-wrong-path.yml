@@ -15,5 +15,6 @@
       register: response
       failed_when: (not response.failed) or ("Path not valid" not in response.msg)
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response

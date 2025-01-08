@@ -15,7 +15,8 @@
               contact: Some contact
       register: response
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response
 
     - name: Validate a valid change set using the non dict value
@@ -25,7 +26,8 @@
             value: Some location
       register: response
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response
 
     - name: Validate an invalid change set
@@ -38,5 +40,6 @@
       register: response
       failed_when: (response.failed == false) or ("has no local leaf with the name 'wrong'" not in response.msg)
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response

@@ -15,5 +15,6 @@
       register: response
       failed_when: '"SRLinux" not in response.result[0].description'
 
-    - ansible.builtin.debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response
