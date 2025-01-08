@@ -30,7 +30,7 @@
       ansible.builtin.debug:
         var: get_response
 
-    - name: get commits
+    - name: Get commits
       nokia.srlinux.get:
         paths:
           - path: /system/configuration/commit
@@ -56,12 +56,12 @@
       ansible.builtin.debug:
         var: set_response
 
-    - name: check that no change has been recorded by the module
-      assert:
+    - name: Check that no change has been recorded by the module
+      ansible.builtin.assert:
         that:
           - set_response.changed is false
 
-    - name: get commits again
+    - name: Get commits again
       nokia.srlinux.get:
         paths:
           - path: /system/configuration/commit
@@ -79,7 +79,7 @@
       ansible.builtin.debug:
         msg: "1st commit count is: {{ first_commit_count }}, 2nd commit count is: {{ second_commit_count }}"
 
-    - name: check that no new commits have been recorded
-      assert:
+    - name: Check that no new commits have been recorded
+      ansible.builtin.assert:
         that:
           - first_commit_count == second_commit_count

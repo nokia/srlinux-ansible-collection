@@ -32,7 +32,8 @@
       ansible.builtin.debug:
         var: get_response
 
-    - ansible.builtin.pause:
+    - name: Pause
+      ansible.builtin.pause:
         prompt: "Waiting 4 seconds for commit to revert"
         seconds: 4
 
@@ -62,7 +63,8 @@
         update:
           - path: /system/configuration/confirmed-accept
 
-    - ansible.builtin.pause:
+    - name: Pause
+      ansible.builtin.pause:
         prompt: "Waiting 2 seconds to ensure commit is not reverted"
         seconds: 2
 

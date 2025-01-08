@@ -10,7 +10,7 @@
     ansible_connection: ssh
     ansible_password:
   tasks:
-    - name: template config
+    - name: Template config
       ansible.builtin.template:
         src: "{{ playbook_dir }}/golden/{{ inventory_hostname }}-golden.cfg.json.j2"
         dest: /tmp/config.json

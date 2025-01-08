@@ -26,7 +26,7 @@
             datastore: state
       register: get_response
       # check if the expected interface description is present as a result of config replace
-      failed_when: ("ethernet-1/1 interface on "+vars.inventory_hostname) not in get_response.result[0]
+      failed_when: ("ethernet-1/1 interface on " + vars.inventory_hostname) not in get_response.result[0]
 
     - name: Print debug
       ansible.builtin.debug:
