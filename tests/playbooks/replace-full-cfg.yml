@@ -15,7 +15,7 @@
       diff: true
       # check_mode: true
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -27,5 +27,5 @@
       # check if the expected interface description is present as a result of config replace
       failed_when: ("ethernet-1/1 interface on "+vars.inventory_hostname) not in get_response.result[0]
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response

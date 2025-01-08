@@ -16,5 +16,5 @@
       register: get_return
       failed_when: not get_return.failed or "AuthenticationFailed" not in get_return.msg
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_return

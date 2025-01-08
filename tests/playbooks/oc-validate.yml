@@ -15,7 +15,7 @@
         yang_models: oc
       register: response
 
-    - debug:
+    - ansible.builtin.debug:
         var: response
 
     - name: Validate an invalid change set
@@ -28,5 +28,5 @@
       register: response
       failed_when: (response.failed == false) or ("has no local leaf with the name 'wrong'" not in response.msg)
 
-    - debug:
+    - ansible.builtin.debug:
         var: response

@@ -16,7 +16,7 @@
 
       register: set_response
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response
 
     - name: Ensure leaf has been set before timer expires
@@ -27,7 +27,7 @@
       register: get_response
       failed_when: get_response.result[0] != "this description must be gone without commit confirm"
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response
 
     - ansible.builtin.pause:
@@ -42,7 +42,7 @@
       register: get_response
       failed_when: get_response.result[0]
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response
 
     - name: Add again interface description with confirm timeout
@@ -71,5 +71,5 @@
       register: get_response
       failed_when: get_response.result[0] != "this description must be gone without commit confirm"
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response

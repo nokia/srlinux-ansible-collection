@@ -15,5 +15,5 @@
       register: set_response
       failed_when: (not set_response.failed) or ("has no local leaf with the name 'wrong'" not in set_response.msg)
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response

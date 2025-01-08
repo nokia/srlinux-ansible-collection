@@ -22,5 +22,5 @@
       register: response
       failed_when: '("SRLinux" not in response.result[0]) or ("mgmt" not in response.result[1]["network-instance"][0].name)'
 
-    - debug:
+    - ansible.builtin.debug:
         var: response

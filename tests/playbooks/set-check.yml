@@ -18,7 +18,7 @@
       register: set_response
       failed_when: set_response.changed != true and "Some contact" not in set_response.diff.prepared
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response
 
     - name: Test check mode with diff
@@ -33,7 +33,7 @@
       register: set_response
       failed_when: set_response.changed != true and "Some contact" not in set_response.diff.prepared
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response
 
     - name: Ensure no changes were made to the device
@@ -44,5 +44,5 @@
       register: get_response
       failed_when: response.result[0].location is defined
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response

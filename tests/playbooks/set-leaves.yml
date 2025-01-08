@@ -21,7 +21,7 @@
             value: "test setting description"
       register: set_response
 
-    - debug:
+    - ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -34,5 +34,5 @@
       register: get_response
       failed_when: (get_response.result[0].location != "Some location") or (get_response.result[0].contact != "Some contact") or (get_response.result[1] != "test setting description")
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_response

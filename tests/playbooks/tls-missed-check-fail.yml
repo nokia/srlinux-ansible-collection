@@ -16,5 +16,5 @@
       register: get_return
       failed_when: not get_return.failed or "CERTIFICATE_VERIFY_FAILED" not in get_return.module_stderr
 
-    - debug:
+    - ansible.builtin.debug:
         var: get_return
