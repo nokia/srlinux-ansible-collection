@@ -217,7 +217,7 @@ wheels = [
 
 [[package]]
 name = "srlinux-ansible-collection"
-version = "0.6.0"
+version = "1.0.1"
 source = { virtual = "." }
 dependencies = [
     { name = "ansible-core" },

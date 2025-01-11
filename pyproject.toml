@@ -1,6 +1,6 @@
 [project]
 name = "srlinux-ansible-collection"
-version = "0.6.0"
+version = "1.0.1"
 description = "SR Linux Ansible Collection"
 readme = "README.md"
 requires-python = ">=3.11"
