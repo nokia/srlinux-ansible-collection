@@ -6,10 +6,10 @@
   hosts: clab
   gather_facts: false
   vars:
-    ansible_httpapi_use_ssl: yes
-    ansible_httpapi_validate_certs: no
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
   tasks:
-    - name: json RPC get
+    - name: Get system information
       nokia.srlinux.get:
         paths:
           - path: /system/information
@@ -17,5 +17,6 @@
       register: get_return
       failed_when: get_return.failed
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_return

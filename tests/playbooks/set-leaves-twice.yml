@@ -14,7 +14,8 @@
               location: some location
       register: set_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -25,20 +26,22 @@
       register: get_response
       failed_when: (get_response.result[0].location != "some location")
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response
 
-    - name: get commits
+    - name: Get commits
       nokia.srlinux.get:
         paths:
           - path: /system/configuration/commit
       register: commits
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: commits
 
     - name: Count the number of commits registered after the first set
-      set_fact:
+      ansible.builtin.set_fact:
         first_commit_count: "{{ commits.result[0].commit | length }}"
 
     - name: Set information with the same value again
@@ -49,31 +52,34 @@
               location: some location
       register: set_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
-    - name: check that no change has been recorded by the module
-      assert:
+    - name: Check that no change has been recorded by the module
+      ansible.builtin.assert:
         that:
           - set_response.changed is false
 
-    - name: get commits again
+    - name: Get commits again
       nokia.srlinux.get:
         paths:
           - path: /system/configuration/commit
       register: commits
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: commits
 
     - name: Count the number of commits registered after the second set
-      set_fact:
+      ansible.builtin.set_fact:
         second_commit_count: "{{ commits.result[0].commit | length }}"
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         msg: "1st commit count is: {{ first_commit_count }}, 2nd commit count is: {{ second_commit_count }}"
 
-    - name: check that no new commits have been recorded
-      assert:
+    - name: Check that no new commits have been recorded
+      ansible.builtin.assert:
         that:
           - first_commit_count == second_commit_count

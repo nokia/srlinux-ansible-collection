@@ -19,5 +19,6 @@
       register: response
       failed_when: '("SRLinux" not in response.result[1].description) or ("srl" not in response.result[0])'
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response

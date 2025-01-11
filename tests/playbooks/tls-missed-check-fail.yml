@@ -6,7 +6,7 @@
   hosts: clab
   gather_facts: false
   vars:
-    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_use_ssl: true
   tasks:
     - name: Get with TLS required but without setting skip verify or custom ca cert
       nokia.srlinux.get:
@@ -16,5 +16,6 @@
       register: get_return
       failed_when: not get_return.failed or "CERTIFICATE_VERIFY_FAILED" not in get_return.module_stderr
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_return

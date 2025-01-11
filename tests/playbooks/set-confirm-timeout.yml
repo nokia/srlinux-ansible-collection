@@ -16,7 +16,8 @@
 
       register: set_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure leaf has been set before timer expires
@@ -27,10 +28,12 @@
       register: get_response
       failed_when: get_response.result[0] != "this description must be gone without commit confirm"
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response
 
-    - ansible.builtin.pause:
+    - name: Pause
+      ansible.builtin.pause:
         prompt: "Waiting 4 seconds for commit to revert"
         seconds: 4
 
@@ -42,7 +45,8 @@
       register: get_response
       failed_when: get_response.result[0]
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response
 
     - name: Add again interface description with confirm timeout
@@ -59,7 +63,8 @@
         update:
           - path: /system/configuration/confirmed-accept
 
-    - ansible.builtin.pause:
+    - name: Pause
+      ansible.builtin.pause:
         prompt: "Waiting 2 seconds to ensure commit is not reverted"
         seconds: 2
 
@@ -71,5 +76,6 @@
       register: get_response
       failed_when: get_response.result[0] != "this description must be gone without commit confirm"
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

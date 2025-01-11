@@ -17,7 +17,7 @@ SCRIPTS_DIR="scripts"
 TESTS_DIR="$(pwd)/tests"
 
 # Containerlab version to use in CI tests
-CLAB_VERSION="0.57.5"
+CLAB_VERSION="0.61.0"
 
 CHECKPOINT_NAME="clab-initial"
 
@@ -32,7 +32,7 @@ function _cdTests() {
   fi
 }
 
-# transoforms ansible core version by swapping : with /
+# transforms ansible core version by swapping : with /
 function _transformAnsibleCoreVersion() {
   echo "${1}" | sed 's/:/\//g'
 }
@@ -69,6 +69,19 @@ function deploy-lab {
   sudo -E containerlab deploy -c
 }
 
+# Parse dependencies from galaxy.yml and install each one in the local venv
+function install-collection-deps {
+  python3 -c '
+import yaml
+with open("galaxy.yml") as f:
+    deps = yaml.safe_load(f).get("dependencies", {})
+    for name, version in deps.items():
+        print(f"'{name}:{version}'")
+' | while read dep; do
+    ansible-galaxy collection install $dep
+  done
+}
+
 # Prepare local dev environment by setting the symlink to the collection.
 function prepare-dev-env {
   # setup the symlink for ansible to resolve collection paths
@@ -78,6 +91,9 @@ function prepare-dev-env {
 
   # setup .env file for python to resolve imports
   echo "PYTHONPATH=$(realpath ~)/.ansible/collections:/tmp/srl_ansible_dev" > .env
+
+  # install collection dependencies
+  install-collection-deps
 }
 
 # revert to initial checkpoint to guarantee the node initial state

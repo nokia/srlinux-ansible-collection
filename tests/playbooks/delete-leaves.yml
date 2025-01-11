@@ -22,7 +22,8 @@
           - path: /system/information/contact
       register: delete_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: delete_response
 
     - name: Ensure leaves were deleted
@@ -33,5 +34,6 @@
       register: get_response
       failed_when: get_response.result[0].location is defined or get_response.result[0].contact is defined
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

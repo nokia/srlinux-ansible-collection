@@ -10,12 +10,13 @@
       nokia.srlinux.config:
         replace:
           - path: /
-            value: "{{lookup('ansible.builtin.template', '{{playbook_dir}}/golden/{{inventory_hostname}}-golden.cfg.json.j2') }}"
+            value: "{{ lookup('ansible.builtin.template', '{{ playbook_dir }}/golden/{{ inventory_hostname }}-golden.cfg.json.j2') }}"
       register: set_response
       diff: true
       # check_mode: true
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -25,7 +26,8 @@
             datastore: state
       register: get_response
       # check if the expected interface description is present as a result of config replace
-      failed_when: ("ethernet-1/1 interface on "+vars.inventory_hostname) not in get_response.result[0]
+      failed_when: ("ethernet-1/1 interface on " + vars.inventory_hostname) not in get_response.result[0]
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

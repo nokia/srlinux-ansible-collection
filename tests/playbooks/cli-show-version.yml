@@ -13,7 +13,8 @@
       register: response
       failed_when: response.result[0]["basic system info"].Architecture != "x86_64"
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response
 
 - name: Run "show version" CLI command with text output format
@@ -28,5 +29,6 @@
       register: response
       failed_when: '"Serial Number        : Sim Serial No" not in response.result[0]'
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: response

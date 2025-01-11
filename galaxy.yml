@@ -12,7 +12,7 @@ namespace: nokia
 name: srlinux
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 0.6.0
+version: 1.0.1
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -39,7 +39,7 @@ tags:
   - srlinux
   - jsonrpc
   - httpapi
-  - network
+  - networking
 
 # Collections that this collection requires to be installed for it to be usable. The key of the dict is the
 # collection label 'namespace.name'. The value is a version range
@@ -68,3 +68,4 @@ build_ignore:
   - run.sh
   - .github
   - .vscode
+  - .venv

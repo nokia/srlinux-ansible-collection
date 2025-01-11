@@ -15,7 +15,8 @@
         yang_models: oc
       register: set_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -27,5 +28,6 @@
       register: get_response
       failed_when: get_response.result[0] != "hey ansible"
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

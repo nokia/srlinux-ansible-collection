@@ -20,7 +20,8 @@
           - path: /system/json-rpc-server/network-instance[name=mgmt]/https
       register: set_response
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: set_response
 
     - name: Ensure changes were made to the device
@@ -35,5 +36,6 @@
       register: get_response
       failed_when: (get_response.result[0] != "Some location") or (get_response.result[1] != ["request", "common"]) or (get_response.result[2] != {})
 
-    - debug:
+    - name: Print debug
+      ansible.builtin.debug:
         var: get_response

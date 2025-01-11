@@ -1,1176 +1,1204 @@
 srl_nokia-acl:acl:
     acl-filter:
-    -   entry:
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMP unreachable messages
-            match:
-                ipv4:
-                    icmp:
-                        type: dest-unreachable
-                    protocol: icmp
-            sequence-id: 10
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMP time-exceeded messages
-            match:
-                ipv4:
-                    icmp:
-                        type: time-exceeded
-                    protocol: icmp
-            sequence-id: 20
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMP echo messages
-            match:
-                ipv4:
-                    icmp:
-                        type: echo
-                    protocol: icmp
-            sequence-id: 40
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMP echo-reply messages
-            match:
-                ipv4:
-                    icmp:
-                        type: echo-reply
-                    protocol: icmp
-            sequence-id: 50
-        -   action:
-                accept: {}
-            description: Accept incoming SSH when the other host initiates the TCP
-                connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 22
-            sequence-id: 60
-        -   action:
-                accept: {}
-            description: Accept incoming SSH when this router initiates the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 22
-            sequence-id: 70
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming Telnet when the
-                other host initiates the TCP connection'
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 23
-            sequence-id: 88
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming Telnet when this
-                router initiates the TCP connection'
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 23
-            sequence-id: 98
-        -   action:
-                accept: {}
-            description: Accept incoming TACACS+ when the other host initiates the
-                TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 49
-            sequence-id: 100
-        -   action:
-                accept: {}
-            description: Accept incoming TACACS+ when this router initiates the TCP
-                connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 49
-            sequence-id: 110
-        -   action:
-                accept: {}
-            description: Accept incoming DNS response messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 53
-            sequence-id: 120
-        -   action:
-                accept: {}
-            description: Accept incoming DHCP messages targeted for BOOTP/DHCP client
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 68
-            sequence-id: 130
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming HTTP(JSON-RPC)
-                when the other host initiates the TCP connection'
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 80
-            sequence-id: 158
-        -   action:
-                accept: {}
-            description: Accept incoming HTTP(JSON-RPC) when this router initiates
-                the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 80
-            sequence-id: 160
-        -   action:
-                accept: {}
-            description: Accept incoming NTP messages from servers
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 123
-            sequence-id: 170
-        -   action:
-                accept: {}
-            description: Accept incoming SNMP GET/GETNEXT messages from servers
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 161
-            sequence-id: 180
-        -   action:
-                accept: {}
-            description: Accept incoming BGP when the other router initiates the TCP
-                connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 179
-            sequence-id: 190
-        -   action:
-                accept: {}
-            description: Accept incoming BGP when this router initiates the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 179
-            sequence-id: 200
-        -   action:
-                accept: {}
-            description: Accept incoming HTTPS(JSON-RPC) when the other host initiates
-                the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 443
-            sequence-id: 210
-        -   action:
-                accept: {}
-            description: Accept incoming HTTPS(JSON-RPC) when this router initiates
-                the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 443
-            sequence-id: 220
-        -   action:
-                accept: {}
-            description: Accept incoming single-hop BFD session messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 3784
-            sequence-id: 230
-        -   action:
-                accept: {}
-            description: Accept incoming multi-hop BFD session messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 4784
-            sequence-id: 240
-        -   action:
-                accept: {}
-            description: Accept incoming uBFD session messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 6784
-            sequence-id: 250
-        -   action:
-                accept: {}
-            description: Accept incoming gRPC messages when the other host initiates
-                the TCP connection
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 57400
-            sequence-id: 260
-        -   action:
-                accept: {}
-            description: Accept incoming UDP traceroute messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        range:
-                            end: 33464
-                            start: 33434
-            sequence-id: 270
-        -   action:
-                accept: {}
-            description: Accept incoming OSPF messages
-            match:
-                ipv4:
-                    protocol: 89
-            sequence-id: 290
-        -   action:
-                accept: {}
-            description: Accept incoming DHCP relay messages targeted for BOOTP/DHCP
-                server
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 67
-            sequence-id: 300
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept ICMP fragment packets
-            match:
-                ipv4:
-                    fragment: true
-                    protocol: icmp
-            sequence-id: 310
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 320
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets with source-port 646
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 330
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets with destination-port 646
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 340
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming gRPC over port
-                57401 for the insecure-mgmt gRPC server'
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 57401
-            sequence-id: 358
-        -   action:
-                accept: {}
-            description: Accept incoming IGMP packets
-            match:
-                ipv4:
-                    protocol: igmp
-            sequence-id: 370
-        -   action:
-                accept: {}
-            description: Accept incoming PIM packets
-            match:
-                ipv4:
-                    protocol: pim
-            sequence-id: 380
-        -   action:
-                accept: {}
-            description: Accept incoming RADIUS AAA packets
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        range:
-                            end: 1813
-                            start: 1812
-            sequence-id: 390
-        -   action:
-                accept: {}
-            description: Accept incoming PTP messages with destination-ports 319 and
-                320
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        range:
-                            end: 320
-                            start: 319
-            sequence-id: 410
-        -   action:
-                accept: {}
-            description: Accept incoming PCEP packets with destination-port 4189
-            match:
-                ipv4:
-                    protocol: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 4189
-            sequence-id: 420
-        -   action:
-                accept: {}
-            description: Accept incoming SBFD session messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 7784
-            sequence-id: 430
-        -   action:
-                accept: {}
-            description: Accept incoming SBFD session messages
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 7784
-            sequence-id: 440
-        -   action:
-                accept: {}
-            description: Accept incoming LSP MPLS Echo requests and replies
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 3503
-            sequence-id: 450
-        -   action:
-                accept: {}
-            description: Accept incoming LSP MPLS Echo requests and replies
-            match:
-                ipv4:
-                    protocol: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 3503
-            sequence-id: 460
-        -   action:
-                drop: {}
-                log: true
-            description: Drop all else
-            sequence-id: 1000
-        name: cpm
-        statistics-per-entry: true
-        type: ipv4
-    -   entry:
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 unreachable messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: dest-unreachable
-                    next-header: icmp6
-            sequence-id: 10
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 packet-too-big messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: packet-too-big
-                    next-header: icmp6
-            sequence-id: 20
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 time-exceeded messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: time-exceeded
-                    next-header: icmp6
-            sequence-id: 30
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 echo-request messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: echo-request
-                    next-header: icmp6
-            sequence-id: 50
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 echo-reply messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: echo-reply
-                    next-header: icmp6
-            sequence-id: 60
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 router-advertisement messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: router-advertise
-                    next-header: icmp6
-            sequence-id: 70
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 neighbor-solicitation messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: neighbor-solicit
-                    next-header: icmp6
-            sequence-id: 80
-        -   action:
-                accept:
-                    rate-limit:
-                        system-cpu-policer: icmp
-            description: Accept incoming ICMPv6 neighbor-advertisement messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: neighbor-advertise
-                    next-header: icmp6
-            sequence-id: 90
-        -   action:
-                accept: {}
-            description: Accept incoming SSH when the other host initiates the TCP
-                connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 22
-            sequence-id: 100
-        -   action:
-                accept: {}
-            description: Accept incoming SSH when this router initiates the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 22
-            sequence-id: 110
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming Telnet when the
-                other host initiates the TCP connection'
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 23
-            sequence-id: 128
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming Telnet when this
-                router initiates the TCP connection'
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 23
-            sequence-id: 138
-        -   action:
-                accept: {}
-            description: Accept incoming TACACS+ when the other host initiates the
-                TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 49
-            sequence-id: 140
-        -   action:
-                accept: {}
-            description: Accept incoming TACACS+ when this router initiates the TCP
-                connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 49
-            sequence-id: 150
-        -   action:
-                accept: {}
-            description: Accept incoming DNS response messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 53
-            sequence-id: 160
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming HTTP(JSON-RPC)
-                when the other host initiates the TCP connection'
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 80
-            sequence-id: 188
-        -   action:
-                accept: {}
-            description: Accept incoming HTTP(JSON-RPC) when this router initiates
-                the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 80
-            sequence-id: 190
-        -   action:
-                accept: {}
-            description: Accept incoming NTP messages from servers
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 123
-            sequence-id: 200
-        -   action:
-                accept: {}
-            description: Accept incoming SNMP GET/GETNEXT messages from servers
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 161
-            sequence-id: 210
-        -   action:
-                accept: {}
-            description: Accept incoming BGP when the other router initiates the TCP
-                connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 179
-            sequence-id: 220
-        -   action:
-                accept: {}
-            description: Accept incoming BGP when this router initiates the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 179
-            sequence-id: 230
-        -   action:
-                accept: {}
-            description: Accept incoming HTTPS(JSON-RPC) when the other host initiates
-                the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 443
-            sequence-id: 240
-        -   action:
-                accept: {}
-            description: Accept incoming HTTPS(JSON-RPC) when this router initiates
-                the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 443
-            sequence-id: 250
-        -   action:
-                accept: {}
-            description: Accept incoming DHCPv6 client messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 546
-            sequence-id: 260
-        -   action:
-                accept: {}
-            description: Accept incoming single-hop BFD session messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 3784
-            sequence-id: 270
-        -   action:
-                accept: {}
-            description: Accept incoming multi-hop BFD session messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 4784
-            sequence-id: 280
-        -   action:
-                accept: {}
-            description: Accept incoming uBFD session messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 6784
-            sequence-id: 290
-        -   action:
-                accept: {}
-            description: Accept incoming gRPC messages when the other host initiates
-                the TCP connection
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 57400
-            sequence-id: 300
-        -   action:
-                accept: {}
-            description: Accept incoming UDP traceroute messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        range:
-                            end: 33464
-                            start: 33434
-            sequence-id: 310
-        -   action:
-                accept: {}
-            description: Accept incoming IPV6 hop-in-hop messages
-            match:
-                ipv6:
-                    next-header: 0
-            sequence-id: 320
-        -   action:
-                accept: {}
-            description: Accept incoming OSPF messages
-            match:
-                ipv6:
-                    next-header: 89
-            sequence-id: 340
-        -   action:
-                accept: {}
-            description: Accept incoming DHCPv6 relay messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 547
-            sequence-id: 350
-        -   action:
-                accept: {}
-            description: 'Containerlab-added rule: Accept incoming gRPC over port
-                57401 for the insecure-mgmt gRPC server'
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 57401
-            sequence-id: 368
-        -   action:
-                accept: {}
-            description: Accept incoming MLDv1 report messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: mld-report
-                    next-header: icmp6
-            sequence-id: 380
-        -   action:
-                accept: {}
-            description: Accept incoming MLDv2 report messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: mld-v2
-                    next-header: icmp6
-            sequence-id: 390
-        -   action:
-                accept: {}
-            description: Accept incoming MLDv1 done messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: mld-done
-                    next-header: icmp6
-            sequence-id: 400
-        -   action:
-                accept: {}
-            description: Accept incoming MLD query messages
-            match:
-                ipv6:
-                    icmp6:
-                        type: mld-query
-                    next-header: icmp6
-            sequence-id: 410
-        -   action:
-                accept: {}
-            description: Accept incoming PIM messages
-            match:
-                ipv6:
-                    next-header: pim
-            sequence-id: 420
-        -   action:
-                accept: {}
-            description: Accept incoming RADIUS AAA messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    source-port:
-                        range:
-                            end: 1813
-                            start: 1812
-            sequence-id: 430
-        -   action:
-                accept: {}
-            description: Accept incoming PTP messages with destination-ports 319 and
-                320
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        range:
-                            end: 320
-                            start: 319
-            sequence-id: 450
-        -   action:
-                accept: {}
-            description: Accept incoming PCEP packets with destination-port 4189
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 4189
-            sequence-id: 460
-        -   action:
-                accept: {}
-            description: Accept incoming SBFD session messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 7784
-            sequence-id: 470
-        -   action:
-                accept: {}
-            description: Accept incoming SBFD session messages
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 7784
-            sequence-id: 480
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets
-            match:
-                ipv6:
-                    next-header: udp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 490
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets with source-port 646
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    source-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 500
-        -   action:
-                accept: {}
-            description: Accept incoming LDP packets with destination-port 646
-            match:
-                ipv6:
-                    next-header: tcp
-                transport:
-                    destination-port:
-                        operator: eq
-                        value: 646
-            sequence-id: 510
-        -   action:
-                drop: {}
-                log: true
-            description: Drop all else
-            sequence-id: 1000
-        name: cpm
-        statistics-per-entry: true
-        type: ipv6
+        - entry:
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMP unreachable messages
+                match:
+                    ipv4:
+                        icmp:
+                            type: dest-unreachable
+                        protocol: icmp
+                sequence-id: 10
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMP time-exceeded messages
+                match:
+                    ipv4:
+                        icmp:
+                            type: time-exceeded
+                        protocol: icmp
+                sequence-id: 20
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMP echo messages
+                match:
+                    ipv4:
+                        icmp:
+                            type: echo
+                        protocol: icmp
+                sequence-id: 40
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMP echo-reply messages
+                match:
+                    ipv4:
+                        icmp:
+                            type: echo-reply
+                        protocol: icmp
+                sequence-id: 50
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming SSH when the other host initiates the TCP
+                    connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 22
+                sequence-id: 60
+              - action:
+                    accept: {}
+                description: Accept incoming SSH when this router initiates the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 22
+                sequence-id: 70
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming Telnet when the
+                    other host initiates the TCP connection"
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 23
+                sequence-id: 88
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming Telnet when this
+                    router initiates the TCP connection"
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 23
+                sequence-id: 98
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming TACACS+ when the other host initiates the
+                    TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 49
+                sequence-id: 100
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming TACACS+ when this router initiates the TCP
+                    connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 49
+                sequence-id: 110
+              - action:
+                    accept: {}
+                description: Accept incoming DNS response messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 53
+                sequence-id: 120
+              - action:
+                    accept: {}
+                description: Accept incoming DHCP messages targeted for BOOTP/DHCP client
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 68
+                sequence-id: 130
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming HTTP(JSON-RPC)
+                    when the other host initiates the TCP connection"
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 80
+                sequence-id: 158
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTP(JSON-RPC) when this router initiates
+                    the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 80
+                sequence-id: 160
+              - action:
+                    accept: {}
+                description: Accept incoming NTP messages from servers
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 123
+                sequence-id: 170
+              - action:
+                    accept: {}
+                description: Accept incoming SNMP GET/GETNEXT messages from servers
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 161
+                sequence-id: 180
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming BGP when the other router initiates the TCP
+                    connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 179
+                sequence-id: 190
+              - action:
+                    accept: {}
+                description: Accept incoming BGP when this router initiates the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 179
+                sequence-id: 200
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTPS(JSON-RPC) when the other host initiates
+                    the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 443
+                sequence-id: 210
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTPS(JSON-RPC) when this router initiates
+                    the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 443
+                sequence-id: 220
+              - action:
+                    accept: {}
+                description: Accept incoming single-hop BFD session messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 3784
+                sequence-id: 230
+              - action:
+                    accept: {}
+                description: Accept incoming multi-hop BFD session messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 4784
+                sequence-id: 240
+              - action:
+                    accept: {}
+                description: Accept incoming uBFD session messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 6784
+                sequence-id: 250
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming gRPC messages when the other host initiates
+                    the TCP connection
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 57400
+                sequence-id: 260
+              - action:
+                    accept: {}
+                description: Accept incoming UDP traceroute messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            range:
+                                end: 33464
+                                start: 33434
+                sequence-id: 270
+              - action:
+                    accept: {}
+                description: Accept incoming OSPF messages
+                match:
+                    ipv4:
+                        protocol: 89
+                sequence-id: 290
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming DHCP relay messages targeted for BOOTP/DHCP
+                    server
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 67
+                sequence-id: 300
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept ICMP fragment packets
+                match:
+                    ipv4:
+                        fragment: true
+                        protocol: icmp
+                sequence-id: 310
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 320
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets with source-port 646
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 330
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets with destination-port 646
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 340
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming gRPC over port
+                    57401 for the insecure-mgmt gRPC server"
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 57401
+                sequence-id: 358
+              - action:
+                    accept: {}
+                description: Accept incoming IGMP packets
+                match:
+                    ipv4:
+                        protocol: igmp
+                sequence-id: 370
+              - action:
+                    accept: {}
+                description: Accept incoming PIM packets
+                match:
+                    ipv4:
+                        protocol: pim
+                sequence-id: 380
+              - action:
+                    accept: {}
+                description: Accept incoming RADIUS AAA packets
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            range:
+                                end: 1813
+                                start: 1812
+                sequence-id: 390
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming PTP messages with destination-ports 319 and
+                    320
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            range:
+                                end: 320
+                                start: 319
+                sequence-id: 410
+              - action:
+                    accept: {}
+                description: Accept incoming PCEP packets with destination-port 4189
+                match:
+                    ipv4:
+                        protocol: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 4189
+                sequence-id: 420
+              - action:
+                    accept: {}
+                description: Accept incoming SBFD session messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 7784
+                sequence-id: 430
+              - action:
+                    accept: {}
+                description: Accept incoming SBFD session messages
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 7784
+                sequence-id: 440
+              - action:
+                    accept: {}
+                description: Accept incoming LSP MPLS Echo requests and replies
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 3503
+                sequence-id: 450
+              - action:
+                    accept: {}
+                description: Accept incoming LSP MPLS Echo requests and replies
+                match:
+                    ipv4:
+                        protocol: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 3503
+                sequence-id: 460
+              - action:
+                    drop: {}
+                    log: true
+                description: Drop all else
+                sequence-id: 1000
+          name: cpm
+          statistics-per-entry: true
+          type: ipv4
+        - entry:
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 unreachable messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: dest-unreachable
+                        next-header: icmp6
+                sequence-id: 10
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 packet-too-big messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: packet-too-big
+                        next-header: icmp6
+                sequence-id: 20
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 time-exceeded messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: time-exceeded
+                        next-header: icmp6
+                sequence-id: 30
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 echo-request messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: echo-request
+                        next-header: icmp6
+                sequence-id: 50
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 echo-reply messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: echo-reply
+                        next-header: icmp6
+                sequence-id: 60
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 router-advertisement messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: router-advertise
+                        next-header: icmp6
+                sequence-id: 70
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 neighbor-solicitation messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: neighbor-solicit
+                        next-header: icmp6
+                sequence-id: 80
+              - action:
+                    accept:
+                        rate-limit:
+                            system-cpu-policer: icmp
+                description: Accept incoming ICMPv6 neighbor-advertisement messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: neighbor-advertise
+                        next-header: icmp6
+                sequence-id: 90
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming SSH when the other host initiates the TCP
+                    connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 22
+                sequence-id: 100
+              - action:
+                    accept: {}
+                description: Accept incoming SSH when this router initiates the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 22
+                sequence-id: 110
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming Telnet when the
+                    other host initiates the TCP connection"
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 23
+                sequence-id: 128
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming Telnet when this
+                    router initiates the TCP connection"
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 23
+                sequence-id: 138
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming TACACS+ when the other host initiates the
+                    TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 49
+                sequence-id: 140
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming TACACS+ when this router initiates the TCP
+                    connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 49
+                sequence-id: 150
+              - action:
+                    accept: {}
+                description: Accept incoming DNS response messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 53
+                sequence-id: 160
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming HTTP(JSON-RPC)
+                    when the other host initiates the TCP connection"
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 80
+                sequence-id: 188
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTP(JSON-RPC) when this router initiates
+                    the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 80
+                sequence-id: 190
+              - action:
+                    accept: {}
+                description: Accept incoming NTP messages from servers
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 123
+                sequence-id: 200
+              - action:
+                    accept: {}
+                description: Accept incoming SNMP GET/GETNEXT messages from servers
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 161
+                sequence-id: 210
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming BGP when the other router initiates the TCP
+                    connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 179
+                sequence-id: 220
+              - action:
+                    accept: {}
+                description: Accept incoming BGP when this router initiates the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 179
+                sequence-id: 230
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTPS(JSON-RPC) when the other host initiates
+                    the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 443
+                sequence-id: 240
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming HTTPS(JSON-RPC) when this router initiates
+                    the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 443
+                sequence-id: 250
+              - action:
+                    accept: {}
+                description: Accept incoming DHCPv6 client messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 546
+                sequence-id: 260
+              - action:
+                    accept: {}
+                description: Accept incoming single-hop BFD session messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 3784
+                sequence-id: 270
+              - action:
+                    accept: {}
+                description: Accept incoming multi-hop BFD session messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 4784
+                sequence-id: 280
+              - action:
+                    accept: {}
+                description: Accept incoming uBFD session messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 6784
+                sequence-id: 290
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming gRPC messages when the other host initiates
+                    the TCP connection
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 57400
+                sequence-id: 300
+              - action:
+                    accept: {}
+                description: Accept incoming UDP traceroute messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            range:
+                                end: 33464
+                                start: 33434
+                sequence-id: 310
+              - action:
+                    accept: {}
+                description: Accept incoming IPV6 hop-in-hop messages
+                match:
+                    ipv6:
+                        next-header: 0
+                sequence-id: 320
+              - action:
+                    accept: {}
+                description: Accept incoming OSPF messages
+                match:
+                    ipv6:
+                        next-header: 89
+                sequence-id: 340
+              - action:
+                    accept: {}
+                description: Accept incoming DHCPv6 relay messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 547
+                sequence-id: 350
+              - action:
+                    accept: {}
+                description:
+                    "Containerlab-added rule: Accept incoming gRPC over port
+                    57401 for the insecure-mgmt gRPC server"
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 57401
+                sequence-id: 368
+              - action:
+                    accept: {}
+                description: Accept incoming MLDv1 report messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: mld-report
+                        next-header: icmp6
+                sequence-id: 380
+              - action:
+                    accept: {}
+                description: Accept incoming MLDv2 report messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: mld-v2
+                        next-header: icmp6
+                sequence-id: 390
+              - action:
+                    accept: {}
+                description: Accept incoming MLDv1 done messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: mld-done
+                        next-header: icmp6
+                sequence-id: 400
+              - action:
+                    accept: {}
+                description: Accept incoming MLD query messages
+                match:
+                    ipv6:
+                        icmp6:
+                            type: mld-query
+                        next-header: icmp6
+                sequence-id: 410
+              - action:
+                    accept: {}
+                description: Accept incoming PIM messages
+                match:
+                    ipv6:
+                        next-header: pim
+                sequence-id: 420
+              - action:
+                    accept: {}
+                description: Accept incoming RADIUS AAA messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        source-port:
+                            range:
+                                end: 1813
+                                start: 1812
+                sequence-id: 430
+              - action:
+                    accept: {}
+                description:
+                    Accept incoming PTP messages with destination-ports 319 and
+                    320
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            range:
+                                end: 320
+                                start: 319
+                sequence-id: 450
+              - action:
+                    accept: {}
+                description: Accept incoming PCEP packets with destination-port 4189
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 4189
+                sequence-id: 460
+              - action:
+                    accept: {}
+                description: Accept incoming SBFD session messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 7784
+                sequence-id: 470
+              - action:
+                    accept: {}
+                description: Accept incoming SBFD session messages
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 7784
+                sequence-id: 480
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets
+                match:
+                    ipv6:
+                        next-header: udp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 490
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets with source-port 646
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        source-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 500
+              - action:
+                    accept: {}
+                description: Accept incoming LDP packets with destination-port 646
+                match:
+                    ipv6:
+                        next-header: tcp
+                    transport:
+                        destination-port:
+                            operator: eq
+                            value: 646
+                sequence-id: 510
+              - action:
+                    drop: {}
+                    log: true
+                description: Drop all else
+                sequence-id: 1000
+          name: cpm
+          statistics-per-entry: true
+          type: ipv6
     policers:
         system-cpu-policer:
-        -   entry-specific: false
-            max-packet-burst: 1000
-            name: icmp
-            peak-packet-rate: 1000
+            - entry-specific: false
+              max-packet-burst: 1000
+              name: icmp
+              peak-packet-rate: 1000
 srl_nokia-interfaces:interface:
--   admin-state: enable
-    name: mgmt0
-    subinterface:
-    -   admin-state: enable
-        index: 0
-        ip-mtu: 1500
-        ipv4:
-            admin-state: enable
-            srl_nokia-interfaces-ip-dhcp:dhcp-client: {}
-        ipv6:
-            admin-state: enable
-            srl_nokia-interfaces-ip-dhcp:dhcp-client: {}
+    - admin-state: enable
+      name: mgmt0
+      subinterface:
+          - admin-state: enable
+            index: 0
+            ip-mtu: 1500
+            ipv4:
+                admin-state: enable
+                srl_nokia-interfaces-ip-dhcp:dhcp-client: {}
+            ipv6:
+                admin-state: enable
+                srl_nokia-interfaces-ip-dhcp:dhcp-client: {}
 srl_nokia-network-instance:network-instance:
--   admin-state: enable
-    description: Management network instance
-    interface:
-    -   name: mgmt0.0
-    name: mgmt
-    protocols:
-        srl_nokia-linux:linux:
-            export-neighbors: true
-            export-routes: true
-            import-routes: true
-    type: srl_nokia-network-instance:ip-vrf
+    - admin-state: enable
+      description: Management network instance
+      interface:
+          - name: mgmt0.0
+      name: mgmt
+      protocols:
+          srl_nokia-linux:linux:
+              export-neighbors: true
+              export-routes: true
+              import-routes: true
+      type: srl_nokia-network-instance:ip-vrf
 srl_nokia-system:system:
     control-plane-traffic:
         input:
             srl_nokia-acl:acl:
                 acl-filter:
-                -   name: cpm
-                    type: ipv4
-                -   name: cpm
-                    type: ipv6
+                    - name: cpm
+                      type: ipv4
+                    - name: cpm
+                      type: ipv6
     srl_nokia-aaa:aaa:
         authentication:
             admin-user:
                 ssh-key:
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBJRPA9kC25PYrFE8+DPAvxlzj7KNAloyKPsBEHjmLFgRbkjhK3F3kNHTd/afnPx5nC5R9g7mIPXjsHnzcR9n7OxegyqEQvwGJYOC5n94UfC/Htod5FhB4FcMAR1iuJWQCmGrg+Evs4LEBdST81PKIOORsFquZ84P5i/ZifjbKE+m+3tJLu484slMZqHANNUlfmTT1MkRDeXlv6eif9YWzP3w1M4l6+WOhowfyKU5N1scEf2gPIa5uqdzL3YTWWVid/EjTx4WNLO4w8FRRxxabcqAZ6rmw5CEHfQyXfqCW+v5d3thkylYpHMGohf7BifF0oDiJkaQUgO6vQBOpSbkLZ/ZCth4RqDEmZPO8DH25Hr+rkYZleWQoNL5JpHAMlNMHAOk+b2icBT+qw0+1zpzHuQow+48BkCLwQNyZmkqJB4SABzx5JWC8nLMczvpJqkWhG/Nzp5PdoDrsqxTNt9oaTUWdBDgFCTDduisyqvtzn6UOJJn6+hKqdxMyT1bcezd9s4AiJTTBzpLy560QrANyEIX+nt2yR8fJhfg+R4RsXw0hVlYh31a9oG2+NwCwBaTrCML97m/lVFsoSb4uJ1rwqUKbdzCV3EB2xINkkKXwafYh5lHMjo7TPcgo0VQIe2lSWLiHF4h3HTD/HIP0NqxIm+Pk5pVE99gC+IUUXlmhJQ==
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILKdXYzPIq8kHRJtDrh21wMVI76AnuPk7HDLeDteKN74
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtxsljGhy2DWg9/VwyRwsz2xEfscEuXOgd+z9aXLBXjEEPedzVAs84fAo981ap4xVmbB7gZOPwDM0jWWrGhv94WbWG5ZA7RjoAdp7EscCtv68r2gudagfxvaRHFQntgZt0c5tJztleXYLjaSvH5Nk/TDnVmOKiVKz/DZLuUx80YTb0udtz4qmFxSLswVbCr5YDtkdfaZ2fef3uEq21siVe+KNwL3gurBSUMKiWAPcQiSlBFXOjt0dLT3juy3D7ck3RaLirq07xeJvrJwDghEpvSpZnPZf7v8UmyIyv90edjC/0YogJV962IMzoT8s8+179glEKQBNHHRPm0KdX1BKjOpAFhx3zcTK6cxbG5Zbjcq0Vw86SjsiO4gz8QkBda6o/AtvqdQ8KOg+IpfVJ/j9/zyIeU1Ep9oWXzmx8i2s+rSTkNTdvi1lTKGpTCD2jFa5uxisR5dVoeKxMsJNaS7NxjIo0ZARriwGMnh+s8mA3ZZVYqnKJsGMUs02I0aSd0QU=
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLTxDZjy70GF3lZIePu/yz0lqaglkIYm2actUb4/Fq43z1VkSsdUKknCZuMnnAuHoAI3nMs8bmm5Ba9Kc9mqfZg8A6LYUYjUbRyv1qUgfok80G4k6JqUdly9E6CiI301ysxbqzYMyX0uWz3K/mY3kClNJJVuNXw+pDu9Obm8g2BDBVH9ecQ+IVtrt8s2rwoBzb2uSCLdqpTGQvo3RF5Ds4x7uSYyMNPvyQfewUnF60PPe/BlPL1DGFXX9xYxIMnbAuQ/KnpdyB216AnOd1xakY0l7n7iw6CNbbusN0WwnuyeWtO3sD7dNBaSd6ZtwU9Vaw0tZYbrvVc2ZIG6wLX+semg//DWwvcPxAZGSUyg3KjmTS0iWLCB93bif/tzrim/cZXfe2LPYAIXtWMEELzt+iUbKOMx9zrmjZ1gcaNLOTPY4XYTSwJslER5DScz1W9VtL7cKDe+2JVsrwSIb3MMq9XwIAFptApZBlhkjLLFBu0oBJ1z8JKD9mkJb3S2uH4icsGgZU7mY8n7xl3rSurSHuM8y5gAhy7fso0U/Rk7hsUjhElwTxMRtU+zjyV8G3pUyN4yx8uYEz3KPAO/aWrZqO0uoqj+F1Mb71Bn1wNUK5QnPaDEH1ByzTGIAIyJgs++i/KxiTwIskpR02ZrN87cw8ZzDSnL/fegF12UQhzN4o5Q==
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNEsOytypejPqd4csAycRShsJAtCKAy/PxXtTzcpoU7PTLaxTGiZUGhZ33pZ86/hzyA8/GksvHsYj3tumILe1HTdV2rKGkbRIYJ8sAEkmhKtEiC0PuXVCLS4zy7YMOIQAJ1edn0RUqvAe+rb/E50eucqzJeMriEuWUtrLZpRRaUCQOmqTkTpxHR3T+5TF+ia/ii4ZY3VwsChVrPHfoVNk3NGSb8hPsjuSE61kwYxI135hHK2ZI9iv/QKUUrR9xFaMGMCAPX+9C1EhclwkeB1t4EKwam6qQs15jnhBO7kEq9oCX7vjrmra5neQD7yxkM+I0aJTYRfmldlyf/pWpGXxPn55f1eLFH5uTKxCnEJepe5P1jm24vvTdij9DF256GVjEwBrZ0ro8Pg45PT4ZT/jkAkfC+SLpQutcDggvNbOOUOjCak/lBv5bAIQOe/sbfIW6NOdWSNm6HZShYZUAfik1oXu2VasCZHcyNpwGx3p3Cr7HSVInDpzC9WGzv+hOzJ8=
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8N+eYfTO7cF0d7AAnDceARMG6ftHfomgJ4UZb2HuRe
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQComgPcG3DJaOI/Hj6SteEvwuIObe9qSLdecDHmAPLbhyvClEKN7i2AVc0UHCY10Lxxc0XsLuNPgHZYlWk1Ii9SFMHE/60MdlpP7TvcUdLBTuy0Byhx7i+0LO+vMTDJMWsil8Ivgc9xCT6iL5a/kEc3AR7FQwf3K/3jidyLpLFBy+Nliz060Y5j7X+u5sqPogdoa47qdSOJCzCD7DfThaxyPLcnNiGuco/5OoAujC/ZLCFgj2JnIrsf3ZAvl8yzrJfH3KtDK3klNlA5oc2+l92NOcTdasE7iTHZfZg3HXWvdKP5U63FsXNzisIeHkmjs4AtuTvTyCam2PEKwPuy1X+ogTBTKTSAlud5rkDeoGBIyhbO6gZTQnqb8dyLpD4mz2Fyn/6k97YcZn3KVgS6OTEzHhOOhEd1OlFlRgNdREw3YqL4B2ooq/In0GJjhPHQg6L8cyyhL+oPm2noQUp8jw9Sp42EHDgG33dYPiwbQ2eq6Ql2PLCc0M8YXJdVtFhENV6zoPTtosxx4OEWtauoART931a000/qa51cvuJX7bSEvJGhGUh3sTSYGke3X0gQKMHtVh/5iDcb0IowW0J/e/UnITwP6FgTE2AhOsEXaoJiSd4BcUUDG1mHMuLKxRSFw63V7T0XTOHSousHS8QNKMJoNe1PcaArFCJ+gOZmY68Mzw==
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBJRPA9kC25PYrFE8+DPAvxlzj7KNAloyKPsBEHjmLFgRbkjhK3F3kNHTd/afnPx5nC5R9g7mIPXjsHnzcR9n7OxegyqEQvwGJYOC5n94UfC/Htod5FhB4FcMAR1iuJWQCmGrg+Evs4LEBdST81PKIOORsFquZ84P5i/ZifjbKE+m+3tJLu484slMZqHANNUlfmTT1MkRDeXlv6eif9YWzP3w1M4l6+WOhowfyKU5N1scEf2gPIa5uqdzL3YTWWVid/EjTx4WNLO4w8FRRxxabcqAZ6rmw5CEHfQyXfqCW+v5d3thkylYpHMGohf7BifF0oDiJkaQUgO6vQBOpSbkLZ/ZCth4RqDEmZPO8DH25Hr+rkYZleWQoNL5JpHAMlNMHAOk+b2icBT+qw0+1zpzHuQow+48BkCLwQNyZmkqJB4SABzx5JWC8nLMczvpJqkWhG/Nzp5PdoDrsqxTNt9oaTUWdBDgFCTDduisyqvtzn6UOJJn6+hKqdxMyT1bcezd9s4AiJTTBzpLy560QrANyEIX+nt2yR8fJhfg+R4RsXw0hVlYh31a9oG2+NwCwBaTrCML97m/lVFsoSb4uJ1rwqUKbdzCV3EB2xINkkKXwafYh5lHMjo7TPcgo0VQIe2lSWLiHF4h3HTD/HIP0NqxIm+Pk5pVE99gC+IUUXlmhJQ==
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILKdXYzPIq8kHRJtDrh21wMVI76AnuPk7HDLeDteKN74
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtxsljGhy2DWg9/VwyRwsz2xEfscEuXOgd+z9aXLBXjEEPedzVAs84fAo981ap4xVmbB7gZOPwDM0jWWrGhv94WbWG5ZA7RjoAdp7EscCtv68r2gudagfxvaRHFQntgZt0c5tJztleXYLjaSvH5Nk/TDnVmOKiVKz/DZLuUx80YTb0udtz4qmFxSLswVbCr5YDtkdfaZ2fef3uEq21siVe+KNwL3gurBSUMKiWAPcQiSlBFXOjt0dLT3juy3D7ck3RaLirq07xeJvrJwDghEpvSpZnPZf7v8UmyIyv90edjC/0YogJV962IMzoT8s8+179glEKQBNHHRPm0KdX1BKjOpAFhx3zcTK6cxbG5Zbjcq0Vw86SjsiO4gz8QkBda6o/AtvqdQ8KOg+IpfVJ/j9/zyIeU1Ep9oWXzmx8i2s+rSTkNTdvi1lTKGpTCD2jFa5uxisR5dVoeKxMsJNaS7NxjIo0ZARriwGMnh+s8mA3ZZVYqnKJsGMUs02I0aSd0QU=
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLTxDZjy70GF3lZIePu/yz0lqaglkIYm2actUb4/Fq43z1VkSsdUKknCZuMnnAuHoAI3nMs8bmm5Ba9Kc9mqfZg8A6LYUYjUbRyv1qUgfok80G4k6JqUdly9E6CiI301ysxbqzYMyX0uWz3K/mY3kClNJJVuNXw+pDu9Obm8g2BDBVH9ecQ+IVtrt8s2rwoBzb2uSCLdqpTGQvo3RF5Ds4x7uSYyMNPvyQfewUnF60PPe/BlPL1DGFXX9xYxIMnbAuQ/KnpdyB216AnOd1xakY0l7n7iw6CNbbusN0WwnuyeWtO3sD7dNBaSd6ZtwU9Vaw0tZYbrvVc2ZIG6wLX+semg//DWwvcPxAZGSUyg3KjmTS0iWLCB93bif/tzrim/cZXfe2LPYAIXtWMEELzt+iUbKOMx9zrmjZ1gcaNLOTPY4XYTSwJslER5DScz1W9VtL7cKDe+2JVsrwSIb3MMq9XwIAFptApZBlhkjLLFBu0oBJ1z8JKD9mkJb3S2uH4icsGgZU7mY8n7xl3rSurSHuM8y5gAhy7fso0U/Rk7hsUjhElwTxMRtU+zjyV8G3pUyN4yx8uYEz3KPAO/aWrZqO0uoqj+F1Mb71Bn1wNUK5QnPaDEH1ByzTGIAIyJgs++i/KxiTwIskpR02ZrN87cw8ZzDSnL/fegF12UQhzN4o5Q==
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNEsOytypejPqd4csAycRShsJAtCKAy/PxXtTzcpoU7PTLaxTGiZUGhZ33pZ86/hzyA8/GksvHsYj3tumILe1HTdV2rKGkbRIYJ8sAEkmhKtEiC0PuXVCLS4zy7YMOIQAJ1edn0RUqvAe+rb/E50eucqzJeMriEuWUtrLZpRRaUCQOmqTkTpxHR3T+5TF+ia/ii4ZY3VwsChVrPHfoVNk3NGSb8hPsjuSE61kwYxI135hHK2ZI9iv/QKUUrR9xFaMGMCAPX+9C1EhclwkeB1t4EKwam6qQs15jnhBO7kEq9oCX7vjrmra5neQD7yxkM+I0aJTYRfmldlyf/pWpGXxPn55f1eLFH5uTKxCnEJepe5P1jm24vvTdij9DF256GVjEwBrZ0ro8Pg45PT4ZT/jkAkfC+SLpQutcDggvNbOOUOjCak/lBv5bAIQOe/sbfIW6NOdWSNm6HZShYZUAfik1oXu2VasCZHcyNpwGx3p3Cr7HSVInDpzC9WGzv+hOzJ8=
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8N+eYfTO7cF0d7AAnDceARMG6ftHfomgJ4UZb2HuRe
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQComgPcG3DJaOI/Hj6SteEvwuIObe9qSLdecDHmAPLbhyvClEKN7i2AVc0UHCY10Lxxc0XsLuNPgHZYlWk1Ii9SFMHE/60MdlpP7TvcUdLBTuy0Byhx7i+0LO+vMTDJMWsil8Ivgc9xCT6iL5a/kEc3AR7FQwf3K/3jidyLpLFBy+Nliz060Y5j7X+u5sqPogdoa47qdSOJCzCD7DfThaxyPLcnNiGuco/5OoAujC/ZLCFgj2JnIrsf3ZAvl8yzrJfH3KtDK3klNlA5oc2+l92NOcTdasE7iTHZfZg3HXWvdKP5U63FsXNzisIeHkmjs4AtuTvTyCam2PEKwPuy1X+ogTBTKTSAlud5rkDeoGBIyhbO6gZTQnqb8dyLpD4mz2Fyn/6k97YcZn3KVgS6OTEzHhOOhEd1OlFlRgNdREw3YqL4B2ooq/In0GJjhPHQg6L8cyyhL+oPm2noQUp8jw9Sp42EHDgG33dYPiwbQ2eq6Ql2PLCc0M8YXJdVtFhENV6zoPTtosxx4OEWtauoART931a000/qa51cvuJX7bSEvJGhGUh3sTSYGke3X0gQKMHtVh/5iDcb0IowW0J/e/UnITwP6FgTE2AhOsEXaoJiSd4BcUUDG1mHMuLKxRSFw63V7T0XTOHSousHS8QNKMJoNe1PcaArFCJ+gOZmY68Mzw==
             authentication-method:
-            - local
+                - local
             idle-timeout: 7200
             linuxadmin-user:
                 password: $y$j9T$DbT6fPrCRIFoKCGhsL3pB0$Rb53YfyCdnjkUtguz8KWuI4ADfYM8WKI9XavXvzvS/C
                 ssh-key:
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBJRPA9kC25PYrFE8+DPAvxlzj7KNAloyKPsBEHjmLFgRbkjhK3F3kNHTd/afnPx5nC5R9g7mIPXjsHnzcR9n7OxegyqEQvwGJYOC5n94UfC/Htod5FhB4FcMAR1iuJWQCmGrg+Evs4LEBdST81PKIOORsFquZ84P5i/ZifjbKE+m+3tJLu484slMZqHANNUlfmTT1MkRDeXlv6eif9YWzP3w1M4l6+WOhowfyKU5N1scEf2gPIa5uqdzL3YTWWVid/EjTx4WNLO4w8FRRxxabcqAZ6rmw5CEHfQyXfqCW+v5d3thkylYpHMGohf7BifF0oDiJkaQUgO6vQBOpSbkLZ/ZCth4RqDEmZPO8DH25Hr+rkYZleWQoNL5JpHAMlNMHAOk+b2icBT+qw0+1zpzHuQow+48BkCLwQNyZmkqJB4SABzx5JWC8nLMczvpJqkWhG/Nzp5PdoDrsqxTNt9oaTUWdBDgFCTDduisyqvtzn6UOJJn6+hKqdxMyT1bcezd9s4AiJTTBzpLy560QrANyEIX+nt2yR8fJhfg+R4RsXw0hVlYh31a9oG2+NwCwBaTrCML97m/lVFsoSb4uJ1rwqUKbdzCV3EB2xINkkKXwafYh5lHMjo7TPcgo0VQIe2lSWLiHF4h3HTD/HIP0NqxIm+Pk5pVE99gC+IUUXlmhJQ==
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILKdXYzPIq8kHRJtDrh21wMVI76AnuPk7HDLeDteKN74
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtxsljGhy2DWg9/VwyRwsz2xEfscEuXOgd+z9aXLBXjEEPedzVAs84fAo981ap4xVmbB7gZOPwDM0jWWrGhv94WbWG5ZA7RjoAdp7EscCtv68r2gudagfxvaRHFQntgZt0c5tJztleXYLjaSvH5Nk/TDnVmOKiVKz/DZLuUx80YTb0udtz4qmFxSLswVbCr5YDtkdfaZ2fef3uEq21siVe+KNwL3gurBSUMKiWAPcQiSlBFXOjt0dLT3juy3D7ck3RaLirq07xeJvrJwDghEpvSpZnPZf7v8UmyIyv90edjC/0YogJV962IMzoT8s8+179glEKQBNHHRPm0KdX1BKjOpAFhx3zcTK6cxbG5Zbjcq0Vw86SjsiO4gz8QkBda6o/AtvqdQ8KOg+IpfVJ/j9/zyIeU1Ep9oWXzmx8i2s+rSTkNTdvi1lTKGpTCD2jFa5uxisR5dVoeKxMsJNaS7NxjIo0ZARriwGMnh+s8mA3ZZVYqnKJsGMUs02I0aSd0QU=
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLTxDZjy70GF3lZIePu/yz0lqaglkIYm2actUb4/Fq43z1VkSsdUKknCZuMnnAuHoAI3nMs8bmm5Ba9Kc9mqfZg8A6LYUYjUbRyv1qUgfok80G4k6JqUdly9E6CiI301ysxbqzYMyX0uWz3K/mY3kClNJJVuNXw+pDu9Obm8g2BDBVH9ecQ+IVtrt8s2rwoBzb2uSCLdqpTGQvo3RF5Ds4x7uSYyMNPvyQfewUnF60PPe/BlPL1DGFXX9xYxIMnbAuQ/KnpdyB216AnOd1xakY0l7n7iw6CNbbusN0WwnuyeWtO3sD7dNBaSd6ZtwU9Vaw0tZYbrvVc2ZIG6wLX+semg//DWwvcPxAZGSUyg3KjmTS0iWLCB93bif/tzrim/cZXfe2LPYAIXtWMEELzt+iUbKOMx9zrmjZ1gcaNLOTPY4XYTSwJslER5DScz1W9VtL7cKDe+2JVsrwSIb3MMq9XwIAFptApZBlhkjLLFBu0oBJ1z8JKD9mkJb3S2uH4icsGgZU7mY8n7xl3rSurSHuM8y5gAhy7fso0U/Rk7hsUjhElwTxMRtU+zjyV8G3pUyN4yx8uYEz3KPAO/aWrZqO0uoqj+F1Mb71Bn1wNUK5QnPaDEH1ByzTGIAIyJgs++i/KxiTwIskpR02ZrN87cw8ZzDSnL/fegF12UQhzN4o5Q==
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNEsOytypejPqd4csAycRShsJAtCKAy/PxXtTzcpoU7PTLaxTGiZUGhZ33pZ86/hzyA8/GksvHsYj3tumILe1HTdV2rKGkbRIYJ8sAEkmhKtEiC0PuXVCLS4zy7YMOIQAJ1edn0RUqvAe+rb/E50eucqzJeMriEuWUtrLZpRRaUCQOmqTkTpxHR3T+5TF+ia/ii4ZY3VwsChVrPHfoVNk3NGSb8hPsjuSE61kwYxI135hHK2ZI9iv/QKUUrR9xFaMGMCAPX+9C1EhclwkeB1t4EKwam6qQs15jnhBO7kEq9oCX7vjrmra5neQD7yxkM+I0aJTYRfmldlyf/pWpGXxPn55f1eLFH5uTKxCnEJepe5P1jm24vvTdij9DF256GVjEwBrZ0ro8Pg45PT4ZT/jkAkfC+SLpQutcDggvNbOOUOjCak/lBv5bAIQOe/sbfIW6NOdWSNm6HZShYZUAfik1oXu2VasCZHcyNpwGx3p3Cr7HSVInDpzC9WGzv+hOzJ8=
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8N+eYfTO7cF0d7AAnDceARMG6ftHfomgJ4UZb2HuRe
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQComgPcG3DJaOI/Hj6SteEvwuIObe9qSLdecDHmAPLbhyvClEKN7i2AVc0UHCY10Lxxc0XsLuNPgHZYlWk1Ii9SFMHE/60MdlpP7TvcUdLBTuy0Byhx7i+0LO+vMTDJMWsil8Ivgc9xCT6iL5a/kEc3AR7FQwf3K/3jidyLpLFBy+Nliz060Y5j7X+u5sqPogdoa47qdSOJCzCD7DfThaxyPLcnNiGuco/5OoAujC/ZLCFgj2JnIrsf3ZAvl8yzrJfH3KtDK3klNlA5oc2+l92NOcTdasE7iTHZfZg3HXWvdKP5U63FsXNzisIeHkmjs4AtuTvTyCam2PEKwPuy1X+ogTBTKTSAlud5rkDeoGBIyhbO6gZTQnqb8dyLpD4mz2Fyn/6k97YcZn3KVgS6OTEzHhOOhEd1OlFlRgNdREw3YqL4B2ooq/In0GJjhPHQg6L8cyyhL+oPm2noQUp8jw9Sp42EHDgG33dYPiwbQ2eq6Ql2PLCc0M8YXJdVtFhENV6zoPTtosxx4OEWtauoART931a000/qa51cvuJX7bSEvJGhGUh3sTSYGke3X0gQKMHtVh/5iDcb0IowW0J/e/UnITwP6FgTE2AhOsEXaoJiSd4BcUUDG1mHMuLKxRSFw63V7T0XTOHSousHS8QNKMJoNe1PcaArFCJ+gOZmY68Mzw==
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBJRPA9kC25PYrFE8+DPAvxlzj7KNAloyKPsBEHjmLFgRbkjhK3F3kNHTd/afnPx5nC5R9g7mIPXjsHnzcR9n7OxegyqEQvwGJYOC5n94UfC/Htod5FhB4FcMAR1iuJWQCmGrg+Evs4LEBdST81PKIOORsFquZ84P5i/ZifjbKE+m+3tJLu484slMZqHANNUlfmTT1MkRDeXlv6eif9YWzP3w1M4l6+WOhowfyKU5N1scEf2gPIa5uqdzL3YTWWVid/EjTx4WNLO4w8FRRxxabcqAZ6rmw5CEHfQyXfqCW+v5d3thkylYpHMGohf7BifF0oDiJkaQUgO6vQBOpSbkLZ/ZCth4RqDEmZPO8DH25Hr+rkYZleWQoNL5JpHAMlNMHAOk+b2icBT+qw0+1zpzHuQow+48BkCLwQNyZmkqJB4SABzx5JWC8nLMczvpJqkWhG/Nzp5PdoDrsqxTNt9oaTUWdBDgFCTDduisyqvtzn6UOJJn6+hKqdxMyT1bcezd9s4AiJTTBzpLy560QrANyEIX+nt2yR8fJhfg+R4RsXw0hVlYh31a9oG2+NwCwBaTrCML97m/lVFsoSb4uJ1rwqUKbdzCV3EB2xINkkKXwafYh5lHMjo7TPcgo0VQIe2lSWLiHF4h3HTD/HIP0NqxIm+Pk5pVE99gC+IUUXlmhJQ==
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILKdXYzPIq8kHRJtDrh21wMVI76AnuPk7HDLeDteKN74
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtxsljGhy2DWg9/VwyRwsz2xEfscEuXOgd+z9aXLBXjEEPedzVAs84fAo981ap4xVmbB7gZOPwDM0jWWrGhv94WbWG5ZA7RjoAdp7EscCtv68r2gudagfxvaRHFQntgZt0c5tJztleXYLjaSvH5Nk/TDnVmOKiVKz/DZLuUx80YTb0udtz4qmFxSLswVbCr5YDtkdfaZ2fef3uEq21siVe+KNwL3gurBSUMKiWAPcQiSlBFXOjt0dLT3juy3D7ck3RaLirq07xeJvrJwDghEpvSpZnPZf7v8UmyIyv90edjC/0YogJV962IMzoT8s8+179glEKQBNHHRPm0KdX1BKjOpAFhx3zcTK6cxbG5Zbjcq0Vw86SjsiO4gz8QkBda6o/AtvqdQ8KOg+IpfVJ/j9/zyIeU1Ep9oWXzmx8i2s+rSTkNTdvi1lTKGpTCD2jFa5uxisR5dVoeKxMsJNaS7NxjIo0ZARriwGMnh+s8mA3ZZVYqnKJsGMUs02I0aSd0QU=
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLTxDZjy70GF3lZIePu/yz0lqaglkIYm2actUb4/Fq43z1VkSsdUKknCZuMnnAuHoAI3nMs8bmm5Ba9Kc9mqfZg8A6LYUYjUbRyv1qUgfok80G4k6JqUdly9E6CiI301ysxbqzYMyX0uWz3K/mY3kClNJJVuNXw+pDu9Obm8g2BDBVH9ecQ+IVtrt8s2rwoBzb2uSCLdqpTGQvo3RF5Ds4x7uSYyMNPvyQfewUnF60PPe/BlPL1DGFXX9xYxIMnbAuQ/KnpdyB216AnOd1xakY0l7n7iw6CNbbusN0WwnuyeWtO3sD7dNBaSd6ZtwU9Vaw0tZYbrvVc2ZIG6wLX+semg//DWwvcPxAZGSUyg3KjmTS0iWLCB93bif/tzrim/cZXfe2LPYAIXtWMEELzt+iUbKOMx9zrmjZ1gcaNLOTPY4XYTSwJslER5DScz1W9VtL7cKDe+2JVsrwSIb3MMq9XwIAFptApZBlhkjLLFBu0oBJ1z8JKD9mkJb3S2uH4icsGgZU7mY8n7xl3rSurSHuM8y5gAhy7fso0U/Rk7hsUjhElwTxMRtU+zjyV8G3pUyN4yx8uYEz3KPAO/aWrZqO0uoqj+F1Mb71Bn1wNUK5QnPaDEH1ByzTGIAIyJgs++i/KxiTwIskpR02ZrN87cw8ZzDSnL/fegF12UQhzN4o5Q==
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNEsOytypejPqd4csAycRShsJAtCKAy/PxXtTzcpoU7PTLaxTGiZUGhZ33pZ86/hzyA8/GksvHsYj3tumILe1HTdV2rKGkbRIYJ8sAEkmhKtEiC0PuXVCLS4zy7YMOIQAJ1edn0RUqvAe+rb/E50eucqzJeMriEuWUtrLZpRRaUCQOmqTkTpxHR3T+5TF+ia/ii4ZY3VwsChVrPHfoVNk3NGSb8hPsjuSE61kwYxI135hHK2ZI9iv/QKUUrR9xFaMGMCAPX+9C1EhclwkeB1t4EKwam6qQs15jnhBO7kEq9oCX7vjrmra5neQD7yxkM+I0aJTYRfmldlyf/pWpGXxPn55f1eLFH5uTKxCnEJepe5P1jm24vvTdij9DF256GVjEwBrZ0ro8Pg45PT4ZT/jkAkfC+SLpQutcDggvNbOOUOjCak/lBv5bAIQOe/sbfIW6NOdWSNm6HZShYZUAfik1oXu2VasCZHcyNpwGx3p3Cr7HSVInDpzC9WGzv+hOzJ8=
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8N+eYfTO7cF0d7AAnDceARMG6ftHfomgJ4UZb2HuRe
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQComgPcG3DJaOI/Hj6SteEvwuIObe9qSLdecDHmAPLbhyvClEKN7i2AVc0UHCY10Lxxc0XsLuNPgHZYlWk1Ii9SFMHE/60MdlpP7TvcUdLBTuy0Byhx7i+0LO+vMTDJMWsil8Ivgc9xCT6iL5a/kEc3AR7FQwf3K/3jidyLpLFBy+Nliz060Y5j7X+u5sqPogdoa47qdSOJCzCD7DfThaxyPLcnNiGuco/5OoAujC/ZLCFgj2JnIrsf3ZAvl8yzrJfH3KtDK3klNlA5oc2+l92NOcTdasE7iTHZfZg3HXWvdKP5U63FsXNzisIeHkmjs4AtuTvTyCam2PEKwPuy1X+ogTBTKTSAlud5rkDeoGBIyhbO6gZTQnqb8dyLpD4mz2Fyn/6k97YcZn3KVgS6OTEzHhOOhEd1OlFlRgNdREw3YqL4B2ooq/In0GJjhPHQg6L8cyyhL+oPm2noQUp8jw9Sp42EHDgG33dYPiwbQ2eq6Ql2PLCc0M8YXJdVtFhENV6zoPTtosxx4OEWtauoART931a000/qa51cvuJX7bSEvJGhGUh3sTSYGke3X0gQKMHtVh/5iDcb0IowW0J/e/UnITwP6FgTE2AhOsEXaoJiSd4BcUUDG1mHMuLKxRSFw63V7T0XTOHSousHS8QNKMJoNe1PcaArFCJ+gOZmY68Mzw==
         server-group:
-        -   name: local
-            type: srl_nokia-aaa-types:local
+            - name: local
+              type: srl_nokia-aaa-types:local
     srl_nokia-dns:dns:
         network-instance: mgmt
         server-list:
-        - 10.171.10.1
-        - 10.171.10.2
+            - 10.171.10.1
+            - 10.171.10.2
     srl_nokia-grpc:grpc-server:
-    -   admin-state: enable
-        name: insecure-mgmt
-        network-instance: mgmt
-        port: 57401
-        rate-limit: 65000
-        services:
-        - srl_nokia-grpc:gnmi
-        - srl_nokia-grpc:gnoi
-        - srl_nokia-grpc:gribi
-        - srl_nokia-grpc:p4rt
-        trace-options:
-        - request
-        - response
-        - common
-        unix-socket:
-            admin-state: enable
-    -   admin-state: enable
-        name: mgmt
-        network-instance: mgmt
-        rate-limit: 65000
-        services:
-        - srl_nokia-grpc:gnmi
-        - srl_nokia-grpc:gnoi
-        - srl_nokia-grpc:gribi
-        - srl_nokia-grpc:p4rt
-        tls-profile: clab-profile
-        trace-options:
-        - request
-        - response
-        - common
-        unix-socket:
-            admin-state: enable
+        - admin-state: enable
+          name: insecure-mgmt
+          network-instance: mgmt
+          port: 57401
+          rate-limit: 65000
+          services:
+              - srl_nokia-grpc:gnmi
+              - srl_nokia-grpc:gnoi
+              - srl_nokia-grpc:gribi
+              - srl_nokia-grpc:p4rt
+          trace-options:
+              - request
+              - response
+              - common
+          unix-socket:
+              admin-state: enable
+        - admin-state: enable
+          name: mgmt
+          network-instance: mgmt
+          rate-limit: 65000
+          services:
+              - srl_nokia-grpc:gnmi
+              - srl_nokia-grpc:gnoi
+              - srl_nokia-grpc:gribi
+              - srl_nokia-grpc:p4rt
+          tls-profile: clab-profile
+          trace-options:
+              - request
+              - response
+              - common
+          unix-socket:
+              admin-state: enable
     srl_nokia-json-rpc:json-rpc-server:
         admin-state: enable
         network-instance:
-        -   http:
-                admin-state: enable
-            https:
-                admin-state: enable
-                tls-profile: clab-profile
-            name: mgmt
+            - http:
+                  admin-state: enable
+              https:
+                  admin-state: enable
+                  tls-profile: clab-profile
+              name: mgmt
     srl_nokia-lldp:lldp:
         admin-state: enable
     srl_nokia-logging:logging:
         buffer:
-        -   buffer-name: messages
-            facility:
-            -   facility-name: local6
-                priority:
-                    match-above: informational
-            rotate: 3
-            size: '10000000'
-        -   buffer-name: system
-            facility:
-            -   facility-name: auth
-                priority:
-                    match-above: warning
-            -   facility-name: cron
-                priority:
-                    match-above: warning
-            -   facility-name: daemon
-                priority:
-                    match-above: warning
-            -   facility-name: ftp
-                priority:
-                    match-above: warning
-            -   facility-name: kern
-                priority:
-                    match-above: warning
-            -   facility-name: lpr
-                priority:
-                    match-above: warning
-            -   facility-name: mail
-                priority:
-                    match-above: warning
-            -   facility-name: news
-                priority:
-                    match-above: warning
-            -   facility-name: syslog
-                priority:
-                    match-above: warning
-            -   facility-name: user
-                priority:
-                    match-above: warning
-            -   facility-name: uucp
-                priority:
-                    match-above: warning
-            -   facility-name: local0
-                priority:
-                    match-above: warning
-            -   facility-name: local1
-                priority:
-                    match-above: warning
-            -   facility-name: local2
-                priority:
-                    match-above: warning
-            -   facility-name: local3
-                priority:
-                    match-above: warning
-            -   facility-name: local4
-                priority:
-                    match-above: warning
-            -   facility-name: local5
-                priority:
-                    match-above: warning
-            -   facility-name: local7
-                priority:
-                    match-above: warning
+            - buffer-name: messages
+              facility:
+                  - facility-name: local6
+                    priority:
+                        match-above: informational
+              rotate: 3
+              size: "10000000"
+            - buffer-name: system
+              facility:
+                  - facility-name: auth
+                    priority:
+                        match-above: warning
+                  - facility-name: cron
+                    priority:
+                        match-above: warning
+                  - facility-name: daemon
+                    priority:
+                        match-above: warning
+                  - facility-name: ftp
+                    priority:
+                        match-above: warning
+                  - facility-name: kern
+                    priority:
+                        match-above: warning
+                  - facility-name: lpr
+                    priority:
+                        match-above: warning
+                  - facility-name: mail
+                    priority:
+                        match-above: warning
+                  - facility-name: news
+                    priority:
+                        match-above: warning
+                  - facility-name: syslog
+                    priority:
+                        match-above: warning
+                  - facility-name: user
+                    priority:
+                        match-above: warning
+                  - facility-name: uucp
+                    priority:
+                        match-above: warning
+                  - facility-name: local0
+                    priority:
+                        match-above: warning
+                  - facility-name: local1
+                    priority:
+                        match-above: warning
+                  - facility-name: local2
+                    priority:
+                        match-above: warning
+                  - facility-name: local3
+                    priority:
+                        match-above: warning
+                  - facility-name: local4
+                    priority:
+                        match-above: warning
+                  - facility-name: local5
+                    priority:
+                        match-above: warning
+                  - facility-name: local7
+                    priority:
+                        match-above: warning
         file:
-        -   facility:
-            -   facility-name: local6
-                priority:
-                    match-above: warning
-            file-name: messages
-            rotate: 3
-            size: '10000000'
+            - facility:
+                  - facility-name: local6
+                    priority:
+                        match-above: warning
+              file-name: messages
+              rotate: 3
+              size: "10000000"
     srl_nokia-ssh:ssh-server:
-    -   admin-state: enable
-        name: mgmt
-        network-instance: mgmt
-        use-credentialz: true
+        - admin-state: enable
+          name: mgmt
+          network-instance: mgmt
+          use-credentialz: true
     srl_nokia-system-banner:banner:
-        login-banner: '................................................................
+        login-banner:
+            "................................................................
 
             :                  Welcome to Nokia SR Linux!                  :
 
@@ -1200,66 +1228,66 @@ srl_nokia-system:system:
 
             ................................................................
 
-            '
+            "
     srl_nokia-system-snmp:snmp:
         access-group:
-        -   community-entry:
-            -   community: $aes1$AWBtjFCTurY1fG8=$pH/M5cgn/zKEl7OuOv8HSA==
-                name: RO-Community
-            name: SNMPv2-RO-Community
-            security-level: no-auth-no-priv
+            - community-entry:
+                  - community: $aes1$AWBtjFCTurY1fG8=$pH/M5cgn/zKEl7OuOv8HSA==
+                    name: RO-Community
+              name: SNMPv2-RO-Community
+              security-level: no-auth-no-priv
         network-instance:
-        -   admin-state: enable
-            name: mgmt
+            - admin-state: enable
+              name: mgmt
     srl_nokia-tls:tls:
         server-profile:
-        -   authenticate-client: false
-            certificate: '-----BEGIN CERTIFICATE-----
+            - authenticate-client: false
+              certificate: "-----BEGIN CERTIFICATE-----
 
-                MIID0DCCArigAwIBAgICBnowDQYJKoZIhvcNAQELBQAwUzELMAkGA1UEBhMCVVMx
+                  MIID0DCCArigAwIBAgICBnowDQYJKoZIhvcNAQELBQAwUzELMAkGA1UEBhMCVVMx
 
-                CTAHBgNVBAcTADEVMBMGA1UEChMMY29udGFpbmVybGFiMQkwBwYDVQQLEwAxFzAV
+                  CTAHBgNVBAcTADEVMBMGA1UEChMMY29udGFpbmVybGFiMQkwBwYDVQQLEwAxFzAV
 
-                BgNVBAMTDmFuc2libGUgbGFiIENBMB4XDTI0MDYyMjE1MDk1NFoXDTI1MDYyMjE1
+                  BgNVBAMTDmFuc2libGUgbGFiIENBMB4XDTI0MDYyMjE1MDk1NFoXDTI1MDYyMjE1
 
-                MDk1NFowUzELMAkGA1UEBhMCVVMxCTAHBgNVBAcTADEVMBMGA1UEChMMY29udGFp
+                  MDk1NFowUzELMAkGA1UEBhMCVVMxCTAHBgNVBAcTADEVMBMGA1UEChMMY29udGFp
 
-                bmVybGFiMQkwBwYDVQQLEwAxFzAVBgNVBAMTDnNybC5hbnNpYmxlLmlvMIIBIjAN
+                  bmVybGFiMQkwBwYDVQQLEwAxFzAVBgNVBAMTDnNybC5hbnNpYmxlLmlvMIIBIjAN
 
-                BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvfMTDTDaVdyFORkN8PEkjPcTeei9
+                  BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvfMTDTDaVdyFORkN8PEkjPcTeei9
 
-                OnMXMPtX4gHGrC/2JUmUJVdT8T5QBLEzCICQGJYpm4J1K7K/OWAFUIffZlR0oLQT
+                  OnMXMPtX4gHGrC/2JUmUJVdT8T5QBLEzCICQGJYpm4J1K7K/OWAFUIffZlR0oLQT
 
-                Xb9vW+aXsabxyZ8uFoDq5/PrMqTl/hze6jNmtgZTULOAazFGY+ULXKDyDlDZv+12
+                  Xb9vW+aXsabxyZ8uFoDq5/PrMqTl/hze6jNmtgZTULOAazFGY+ULXKDyDlDZv+12
 
-                qdXbgEnu7Ooued8bcb9wCR85wbKhoeD1FT48ifQIk6eAU8xNyy6PiMW/4xYF4+m1
+                  qdXbgEnu7Ooued8bcb9wCR85wbKhoeD1FT48ifQIk6eAU8xNyy6PiMW/4xYF4+m1
 
-                BcqPYTrkTCZxsdfXPEDEPZn30Arwpavv+Uy8VX626uiNIHY28Qc9Qw1m+7HTHy8j
+                  BcqPYTrkTCZxsdfXPEDEPZn30Arwpavv+Uy8VX626uiNIHY28Qc9Qw1m+7HTHy8j
 
-                +9K0xQ+r0EHjw6WQWpe3Qs5Js0I4Z2RSDZZWQpx4dSaZrjyOchGeo/+y4wIDAQAB
+                  +9K0xQ+r0EHjw6WQWpe3Qs5Js0I4Z2RSDZZWQpx4dSaZrjyOchGeo/+y4wIDAQAB
 
-                o4GtMIGqMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYB
+                  o4GtMIGqMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYB
 
-                BQUHAwEwDgYDVR0OBAcEBQECAwQGMB8GA1UdIwQYMBaAFNLlMFe7s2fIb4VLOFmE
+                  BQUHAwEwDgYDVR0OBAcEBQECAwQGMB8GA1UdIwQYMBaAFNLlMFe7s2fIb4VLOFmE
 
-                g5+ebA23MEgGA1UdEQRBMD+CA3NybIIQY2xhYi1hbnNpYmxlLXNybIIOc3JsLmFu
+                  g5+ebA23MEgGA1UdEQRBMD+CA3NybIIQY2xhYi1hbnNpYmxlLXNybIIOc3JsLmFu
 
-                c2libGUuaW+HBKwUFAKHECABAXIAIAAgAAAAAAAAAAIwDQYJKoZIhvcNAQELBQAD
+                  c2libGUuaW+HBKwUFAKHECABAXIAIAAgAAAAAAAAAAIwDQYJKoZIhvcNAQELBQAD
 
-                ggEBABQxO1P8xid+ZNhjlT1L+HEf3mOlxy76DBF4jni6yaPPHQqbKXHWUh9hFMLK
+                  ggEBABQxO1P8xid+ZNhjlT1L+HEf3mOlxy76DBF4jni6yaPPHQqbKXHWUh9hFMLK
 
-                Y4uo/XIdx5oeIG8xrJ/4UCzWMiV7bGzw19kXm7L+u17IN42Wgtx0o50mrKOuc4d7
+                  Y4uo/XIdx5oeIG8xrJ/4UCzWMiV7bGzw19kXm7L+u17IN42Wgtx0o50mrKOuc4d7
 
-                O9cgF/9tE0T5AJVOtskDHgEI71RFxfC8+NEwZkKtB6nN78en03/JDPKjRlOEc+XM
+                  O9cgF/9tE0T5AJVOtskDHgEI71RFxfC8+NEwZkKtB6nN78en03/JDPKjRlOEc+XM
 
-                92/C743EZK6ttQpliFkohYZKWLdML8SRX2R/P5ks4qlhxw14TbLNVOT7tkdfJZBe
+                  92/C743EZK6ttQpliFkohYZKWLdML8SRX2R/P5ks4qlhxw14TbLNVOT7tkdfJZBe
 
-                pDERkQUHB6vJh7Sd1tNixdK+CndDqUEbaKSGA1/3gwQ259lQvwcgzRowgCdxtlxW
+                  pDERkQUHB6vJh7Sd1tNixdK+CndDqUEbaKSGA1/3gwQ259lQvwcgzRowgCdxtlxW
 
-                wDk+ysL4hAnVWCOrdlbipGFlS6U=
+                  wDk+ysL4hAnVWCOrdlbipGFlS6U=
 
-                -----END CERTIFICATE-----
+                  -----END CERTIFICATE-----
 
-                '
-            key: $aes1$ATSWKgszP5gks28=$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
-            name: clab-profile
+                  "
+              key: $aes1$ATSWKgszP5gks28=$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
+              name: clab-profile

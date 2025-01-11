@@ -10,9 +10,9 @@
     ansible_connection: ssh
     ansible_password:
   tasks:
-    - name: template config
+    - name: Template config
       ansible.builtin.template:
-        src: "{{playbook_dir}}/golden/{{inventory_hostname}}-golden.cfg.json.j2"
+        src: "{{ playbook_dir }}/golden/{{ inventory_hostname }}-golden.cfg.json.j2"
         dest: /tmp/config.json
 # - name: Run "show version" CLI command with text output format
 #   hosts: clab
@@ -26,5 +26,5 @@
 #       register: response
 #       failed_when: '"Serial Number        : Sim Serial No" not in response.result[0]'
 
-#     - debug:
+#     - ansible.builtin.debug:
 #         var: response
