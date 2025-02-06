@@ -40,7 +40,7 @@ jobs:
           from: "yaml"
           to: "json"
       - id: set-matrix
-        run: echo "matrix=$(cat ${{ steps.converter.outputs.result-path }})" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(cat ${{ steps.converter.outputs.result-path }}/matrix.json )" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ${{ matrix.runs-on }}
