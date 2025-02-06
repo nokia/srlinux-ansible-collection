@@ -306,7 +306,7 @@ function _run-tests {
   test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"
-  test-replace-full-congig "$@"
+  test-replace-full-config "$@"
   test-replace-json-rpc-config "$@"
   test-get-multiple-paths "$@"
   test-commit-confirm "$@"
