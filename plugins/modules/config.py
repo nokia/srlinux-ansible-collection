@@ -13,13 +13,13 @@ import json
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
     JSON_RPC_VERSION,
-    SAVE_CONFIG_PATH,
     TEXT_FORMAT,
     TOOLS_DATASTORE,
 )
 from ansible_collections.nokia.srlinux.plugins.module_utils.srlinux import (
     JSONRPCClient,
     convertResponseKeys,
+    process_save_when,
     rpcID,
 )
 
@@ -285,24 +285,7 @@ def main():
         if not module.check_mode and (
             save_when == "always" or (save_when == "changed" and changed)
         ):
-            data = {
-                "jsonrpc": JSON_RPC_VERSION,
-                "id": rpcID(),
-                "method": "set",
-                "params": {
-                    "datastore": TOOLS_DATASTORE,
-                    "commands": [
-                        {
-                            "action": "update",
-                            "path": SAVE_CONFIG_PATH,
-                        },
-                    ],
-                },
-            }
-            set_resp = client.post(payload=json.dumps(data))
-
-            if set_resp and set_resp.get("result"):
-                json_output["saved"] = True
+            json_output = process_save_when(client, json_output)
 
         module.exit_json(**json_output)
 

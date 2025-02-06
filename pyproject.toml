@@ -5,3 +5,9 @@ description = "SR Linux Ansible Collection"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["ansible-core==2.16.2"]
+
+[dependency-groups]
+dev = [
+    "rich>=13.9.4",
+    "ruff>=0.9.4",
+]

@@ -1,0 +1,15 @@
+- path: /system/json-rpc-server/admin-state
+  value: enable
+- path: /system/json-rpc-server/commit-confirmed-timeout
+  value: "0"
+- path: /system/json-rpc-server/network-instance[name=mgmt]/http/admin-state
+  value: enable
+- path: /system/json-rpc-server/network-instance[name=mgmt]/http/use-authentication
+  value: "true"
+- path: /system/json-rpc-server/network-instance[name=mgmt]/http/port
+  value: "80"
+- path: /system/json-rpc-server/network-instance[name=mgmt]/http/session-limit
+  value: "10"
+- path: /system/json-rpc-server/network-instance[name=mgmt]/http/source-address
+  value:
+    - 172.20.20.222

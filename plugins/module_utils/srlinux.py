@@ -7,12 +7,21 @@
 
 from __future__ import absolute_import, division, print_function
 
+from typing import Any
+
 # pylint: disable=invalid-name
 __metaclass__ = type
+import json
 from datetime import datetime
+from time import sleep
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection
+from ansible_collections.nokia.srlinux.plugins.module_utils.const import (
+    JSON_RPC_VERSION,
+    SAVE_CONFIG_PATH,
+    TOOLS_DATASTORE,
+)
 
 
 class JSONRPCClient:
@@ -87,4 +96,42 @@ def convertResponseKeys(response):
 def rpcID():
     """Generates an id for the JSON-RPC request
     which follows the UTC datetime"""
-    return datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S:%f")
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")
+
+
+def process_save_when(client, json_output) -> Any:
+    """Handle save_when operation"""
+    data = {
+        "jsonrpc": JSON_RPC_VERSION,
+        "id": rpcID(),
+        "method": "set",
+        "params": {
+            "datastore": TOOLS_DATASTORE,
+            "commands": [
+                {
+                    "action": "update",
+                    "path": SAVE_CONFIG_PATH,
+                },
+            ],
+        },
+    }
+
+    # in case the config changes caused the reload of the json rpc server,
+    # we need to retry the save operation, as the first ones might fail due to the ongoing server reload
+    retries = 5
+    retry_delay = 2  # seconds between retries
+
+    for attempt in range(retries):
+        try:
+            set_resp = client.post(payload=json.dumps(data))
+            if set_resp and set_resp.get("result"):
+                json_output["saved"] = True
+                break
+        except (
+            Exception
+        ):  # You may want to catch specific exceptions based on what client.post raises
+            if attempt < retries - 1:  # Don't sleep on the last attempt
+                sleep(retry_delay)
+            continue
+
+    return json_output
