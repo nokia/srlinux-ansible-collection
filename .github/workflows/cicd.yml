@@ -30,15 +30,17 @@ jobs:
   prepare-matrix:
     runs-on: ubuntu-22.04
     outputs:
-      matrix: ${{ steps.matrix.outputs.output }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
       - uses: fabasoad/data-format-converter-action@v1
-        id: matrix
+        id: converter
         with:
           source-pattern: ".github/matrix.yml"
           from: "yaml"
           to: "json"
+      - id: set-matrix
+        run: echo "matrix=$(cat ${{ steps.converter.outputs.result-path }})" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ${{ matrix.runs-on }}
