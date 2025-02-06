@@ -33,10 +33,10 @@ jobs:
       matrix: ${{ steps.matrix.outputs.output }}
     steps:
       - uses: actions/checkout@v4
-      - uses: fabasoad/data-format-converter-action@main
+      - uses: fabasoad/data-format-converter-action@v1
         id: matrix
         with:
-          input: ".github/matrix.yml"
+          source-pattern: ".github/matrix.yml"
           from: "yaml"
           to: "json"
 
