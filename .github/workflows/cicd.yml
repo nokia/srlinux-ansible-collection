@@ -76,6 +76,8 @@ jobs:
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./run.sh ci-test
         # uncomment this line when you want to continue on error
         # and run tmate after it
