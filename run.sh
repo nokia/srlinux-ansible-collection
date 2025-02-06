@@ -307,9 +307,12 @@ function _run-tests {
   test-delete-leaves "$@"
   test-set-idempotent "$@"
   test-replace-full-config "$@"
-  test-replace-json-rpc-config "$@"
   test-get-multiple-paths "$@"
   test-commit-confirm "$@"
+  # we keep this test last, because it triggers json-rpc
+  # server restart, thus instead if introducing a delay for
+  # the tests after it, we push it to the end
+  test-replace-json-rpc-config "$@"
 
   # OC-related tests
   if [[ " $* " == *" oc-tests "* ]]; then
