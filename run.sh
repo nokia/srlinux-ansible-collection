@@ -17,7 +17,7 @@ SCRIPTS_DIR="scripts"
 TESTS_DIR="$(pwd)/tests"
 
 # Containerlab version to use in CI tests
-CLAB_VERSION="0.64.0"
+CLAB_VERSION="0.66.0"
 
 CHECKPOINT_NAME="clab-initial"
 
