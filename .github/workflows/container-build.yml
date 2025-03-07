@@ -24,7 +24,7 @@ jobs:
           from: "yaml"
           to: "json"
       - id: set-matrix
-        run: echo "matrix=$(jq -c . < ${{ steps.converter.outputs.result-path }}/matrix.json )" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(jq -c . < ${{ steps.converter.outputs.result-path }}/container-matrix.json )" >> $GITHUB_OUTPUT
 
   build:
     name: Build container
