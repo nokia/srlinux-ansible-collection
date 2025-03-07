@@ -5,6 +5,8 @@
     * [New modules](#new-modules)
   * [v1.0.2](#v102)
     * [Bug fixes](#bug-fixes)
+  * [v1.0.3](#v103)
+    * [Chores](#chores)
 
 ## v1.0.0
 
@@ -20,3 +22,9 @@
 ### Bug fixes
 
 * Retry on `save_when` when the json-rpc is undergoing a reload. This happens when the replace/update operation changes json-rpc server config.
+
+## v1.0.3
+
+### Chores
+
+* Removed unused artifacts from the build.
