@@ -1,0 +1,37 @@
+# Copyright 2023 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+- name: Replace JSON-RPC config
+  hosts: clab
+  gather_facts: false
+  tasks:
+    - name: Replace JSON-RPC config
+      nokia.srlinux.config:
+        replace: "{{ lookup('ansible.builtin.template', '{{ playbook_dir }}/templates/json-rpc-cfg.yml.j2') | from_yaml }}"
+        save_when: "always"
+      register: set_response
+      # diff: true
+      # check_mode: true
+
+    - name: Print debug
+      ansible.builtin.debug:
+        var: set_response
+
+    # the reload of json-rpc server might take time before we can connect again
+    # - name: sleep
+    #   ansible.builtin.pause:
+    #     seconds: 5
+
+    - name: Ensure changes were made to the device
+      nokia.srlinux.get:
+        paths:
+          - path: /system/json-rpc-server
+            datastore: state
+      register: get_response
+      # check if the expected interface description is present as a result of config replace
+      failed_when: (get_response.result[0]["network-instance"][0].http["source-address"][0] != "172.20.20.222")
+
+    - name: Print debug
+      ansible.builtin.debug:
+        var: get_response

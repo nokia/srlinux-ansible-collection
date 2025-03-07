@@ -17,7 +17,7 @@ SCRIPTS_DIR="scripts"
 TESTS_DIR="$(pwd)/tests"
 
 # Containerlab version to use in CI tests
-CLAB_VERSION="0.61.0"
+CLAB_VERSION="0.66.0"
 
 CHECKPOINT_NAME="clab-initial"
 
@@ -66,7 +66,7 @@ function remove-local-collection {
 # Deploy test lab.
 function deploy-lab {
   cd ${SCRIPTS_DIR}
-  sudo -E containerlab deploy -c
+  containerlab deploy -c
 }
 
 # Parse dependencies from galaxy.yml and install each one in the local venv
@@ -255,10 +255,16 @@ function test-set-idempotent {
   ansible-playbook playbooks/set-idempotent.yml "$@"
 }
 
-function test-replace-full-congig {
+function test-replace-full-config {
   _cdTests
   revert-to-checkpoint
   ansible-playbook playbooks/replace-full-cfg.yml "$@"
+}
+
+function test-replace-json-rpc-config {
+  _cdTests
+  revert-to-checkpoint
+  ansible-playbook playbooks/replace-json-rpc-cfg.yml "$@"
 }
 
 function test-validate {
@@ -300,9 +306,13 @@ function _run-tests {
   test-set-tools "$@"
   test-delete-leaves "$@"
   test-set-idempotent "$@"
-  test-replace-full-congig "$@"
+  test-replace-full-config "$@"
   test-get-multiple-paths "$@"
   test-commit-confirm "$@"
+  # we keep this test last, because it triggers json-rpc
+  # server restart, thus instead if introducing a delay for
+  # the tests after it, we push it to the end
+  test-replace-json-rpc-config "$@"
 
   # OC-related tests
   if [[ " $* " == *" oc-tests "* ]]; then

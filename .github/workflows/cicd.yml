@@ -30,15 +30,17 @@ jobs:
   prepare-matrix:
     runs-on: ubuntu-22.04
     outputs:
-      matrix: ${{ steps.matrix.outputs.output }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-      - uses: fabasoad/data-format-converter-action@main
-        id: matrix
+      - uses: fabasoad/data-format-converter-action@v1
+        id: converter
         with:
-          input: ".github/matrix.yml"
+          source-pattern: ".github/matrix.yml"
           from: "yaml"
           to: "json"
+      - id: set-matrix
+        run: echo "matrix=$(jq -c . < ${{ steps.converter.outputs.result-path }}/matrix.json )" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ${{ matrix.runs-on }}
@@ -74,6 +76,8 @@ jobs:
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./run.sh ci-test
         # uncomment this line when you want to continue on error
         # and run tmate after it
