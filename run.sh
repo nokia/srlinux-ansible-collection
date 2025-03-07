@@ -392,7 +392,7 @@ function build-collection {
 function publish-collection {
   # build the collection
   build-collection
-  ansible-galaxy collection publish -v --token $(cat apikey) $(ls -1 nokia-srlinux-*.tar.gz)
+  ansible-galaxy collection publish -v --token $(cat ./private/apikey) $(ls -1 nokia-srlinux-*.tar.gz)
 }
 
 # -----------------------------------------------------------------------------
