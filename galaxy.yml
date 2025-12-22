@@ -45,7 +45,7 @@ tags:
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-# fixed dependencies on ansible.netcommon and ansible.utils since newer versions drop support for ansible core 2.14. We can go to the latest version of these deps later
+# Minimum required versions of ansible.netcommon and ansible.utils for this collection.
 dependencies:
   "ansible.netcommon": ">=5.2.0"
   "ansible.utils": ">=3.0.0"
