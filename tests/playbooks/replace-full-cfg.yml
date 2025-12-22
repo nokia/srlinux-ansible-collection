@@ -10,7 +10,7 @@
       nokia.srlinux.config:
         replace:
           - path: /
-            value: "{{ lookup('ansible.builtin.template', playbook_dir ~ '/golden/' ~ inventory_hostname ~ '-golden.cfg.json.j2') }}"
+            value: "{{ lookup('ansible.builtin.template', playbook_dir ~ '/golden/' ~ inventory_hostname ~ '-golden.cfg.json.j2') | from_json }}"
       register: set_response
       diff: true
       # check_mode: true
