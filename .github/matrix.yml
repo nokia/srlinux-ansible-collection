@@ -10,10 +10,6 @@ include:
   ####################
   # Python 3.9
   ####################
-  - &latest-2_14
-    ansible-core-version: "2.14.17"
-    runs-on: "ubuntu-22.04"
-    python-version: "3.9"
 
   - &latest-2_15
     ansible-core-version: "2.15.12"
@@ -23,9 +19,6 @@ include:
   ####################
   # Python 3.10
   ####################
-
-  - <<: *latest-2_14
-    python-version: "3.10"
 
   - <<: *latest-2_15
     python-version: "3.10"
@@ -43,9 +36,6 @@ include:
   ####################
   # Python 3.11
   ####################
-
-  - <<: *latest-2_14
-    python-version: "3.11"
 
   - <<: *latest-2_15
     python-version: "3.11"
@@ -66,4 +56,14 @@ include:
     python-version: "3.12"
 
   - <<: *latest-2_17
+    python-version: "3.12"
+
+  - &latest-2_18
+    ansible-core-version: "2.18.12"
+    runs-on: "ubuntu-24.04"
+    python-version: "3.12"
+
+  - &latest-2_19
+    ansible-core-version: "2.19.5"
+    runs-on: "ubuntu-24.04"
     python-version: "3.12"
