@@ -8,7 +8,7 @@
   tasks:
     - name: Load template file
       ansible.builtin.set_fact:
-        config_content: "{{ lookup('ansible.builtin.file', playbook_dir ~ '/golden/' ~ inventory_hostname ~ '-golden.cfg.json.j2') }}"
+        config_content: "{{ lookup('ansible.builtin.template', playbook_dir ~ '/golden/' ~ inventory_hostname ~ '-golden.cfg.json.j2') }}"
 
     - name: Replace entire config from file
       nokia.srlinux.config:
