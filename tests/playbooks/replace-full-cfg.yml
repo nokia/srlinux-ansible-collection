@@ -14,7 +14,7 @@
       nokia.srlinux.config:
         replace:
           - path: /
-            value: "{{ config_content }}"
+            value: "{{ config_content | to_json }}"
       register: set_response
       diff: true
       # check_mode: true
