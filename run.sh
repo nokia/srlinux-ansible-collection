@@ -358,7 +358,7 @@ function ci-test {
 function copy-sanity-ignore {
   _cdTests
   cd sanity
-  for version in 2.14 2.15 2.16 2.17; do
+  for version in 2.16 2.17 2.18 2.19; do
     cp ignore-2.10.txt ignore-${version}.txt
   done
 }

@@ -97,7 +97,7 @@ jobs:
           python-version: 3.11
 
       - name: Install ansible core
-        run: pip install ansible-core==2.15.12
+        run: pip install ansible-core==2.16.12
 
       - name: Ansible sanity test
         run: ./run.sh sanity-test
