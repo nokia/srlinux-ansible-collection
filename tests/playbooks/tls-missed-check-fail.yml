@@ -14,7 +14,10 @@
           - path: /system/information
             datastore: state
       register: get_return
-      failed_when: not get_return.failed or "CERTIFICATE_VERIFY_FAILED" not in get_return.module_stderr or "CERTIFICATE_VERIFY_FAILED" not in get_return.msg
+      failed_when: >-
+        not get_return.failed or
+        ("CERTIFICATE_VERIFY_FAILED" not in (get_return.module_stderr | default('')) and
+         "CERTIFICATE_VERIFY_FAILED" not in (get_return.msg | default('')))
 
     - name: Print debug
       ansible.builtin.debug:
