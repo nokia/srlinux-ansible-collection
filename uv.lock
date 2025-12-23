@@ -1,9 +1,10 @@
 version = 1
+revision = 1
 requires-python = ">=3.11"
 
 [[package]]
 name = "ansible-core"
-version = "2.16.2"
+version = "2.16.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
@@ -12,9 +13,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "resolvelib" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/5f/3098fac361ca16fc42ac30a2da09939286afd9af289f156ac9fbe87595e9/ansible-core-2.16.2.tar.gz", hash = "sha256:e4ab559e7e525b1c6f99084fca873bb014775d5ecbe845b7c07b8e9d6c9c048b", size = 3163899 }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/c1/4602e408d012b01146a865ccd3a4fdfd44b2efc130d22289ee9971c29e39/ansible_core-2.16.12.tar.gz", hash = "sha256:5b594cf5fda0d49d5f21448e4b708c1859f61713bfa6fb85674dbbb0a44af1be", size = 3155014 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fe/0b/c28a50e7fbb7f6c6eb7bef4f023c5b408b0ff70934c2682be85e412b454d/ansible_core-2.16.2-py3-none-any.whl", hash = "sha256:494f002edcb17b02baef661ff27b8c9c750a534bdc0537ab29dc02e680817d92", size = 2249791 },
+    { url = "https://files.pythonhosted.org/packages/be/94/2972f647bef03df87e12b5a1c34d7cde821ebde200965181fa55c1390485/ansible_core-2.16.12-py3-none-any.whl", hash = "sha256:3091cc070c07de3441ef1afe57ec78ae2569989bfe6cef18eada4f065df3e3d7", size = 2252988 },
 ]
 
 [[package]]
@@ -285,10 +286,11 @@ wheels = [
 
 [[package]]
 name = "srlinux-ansible-collection"
-version = "1.0.1"
+version = "1.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "ansible-core" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -298,7 +300,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ansible-core", specifier = "==2.16.2" }]
+requires-dist = [
+    { name = "ansible-core", specifier = "==2.16.12" },
+    { name = "pyyaml" },
+]
 
 [package.metadata.requires-dev]
 dev = [
