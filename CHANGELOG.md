@@ -28,3 +28,8 @@
 ### Chores
 
 * Removed unused artifacts from the build.
+
+## v1.1.0
+
+* Removed ansible-core 2.15 support, added support for ansible-core 2.18 and 2.19.
+* Removed upper-bound restrictions on `ansible.utils` and `ansible.netcommon` versions.

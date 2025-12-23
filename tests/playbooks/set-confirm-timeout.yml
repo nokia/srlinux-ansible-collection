@@ -43,7 +43,9 @@
           - path: /interface[name=mgmt0]/description
             datastore: state
       register: get_response
-      failed_when: get_response.result[0]
+      # get_response.result[0] is an empty dict {}, and Ansible 2.19 requires explicit boolean expressions.
+      # This checks if result[0] is not a mapping (dict), OR if it is a mapping with content. The test should pass when the result is an empty dict {} (commit was reverted), and fail if there's actual content (commit wasn't reverted).
+      failed_when: get_response.result[0] is not mapping or get_response.result[0] | length > 0
 
     - name: Print debug
       ansible.builtin.debug:

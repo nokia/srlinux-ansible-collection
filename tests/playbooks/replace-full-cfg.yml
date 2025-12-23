@@ -6,11 +6,18 @@
   hosts: clab
   gather_facts: false
   tasks:
+    - name: Load template file
+      ansible.builtin.set_fact:
+        config_content: "{{ lookup('ansible.builtin.template', playbook_dir ~ '/golden/' ~ inventory_hostname ~ '-golden.cfg.json.j2') }}"
+
     - name: Replace entire config from file
       nokia.srlinux.config:
         replace:
           - path: /
-            value: "{{ lookup('ansible.builtin.template', '{{ playbook_dir }}/golden/{{ inventory_hostname }}-golden.cfg.json.j2') }}"
+            # ansible 2.19+ creates strings in ansible.builtin.template. Which needs to be converted from json
+            # to mapping before passing to the module
+            # in earlier ansible versions it is already a mapping
+            value: "{{ config_content if config_content is mapping else (config_content | from_json) }}"
       register: set_response
       diff: true
       # check_mode: true

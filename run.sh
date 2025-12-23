@@ -354,12 +354,12 @@ function ci-test {
   ANSIBLE_CONFIG=ci-ansible.cfg _run-tests "$@"
 }
 
-# copy sanity ignore files from ignore-2.10.txt to all other supported ansible versions
+# copy sanity ignore files from ignore-2.16.txt to all other supported ansible versions
 function copy-sanity-ignore {
   _cdTests
   cd sanity
-  for version in 2.14 2.15 2.16 2.17; do
-    cp ignore-2.10.txt ignore-${version}.txt
+  for version in 2.17 2.18 2.19; do
+    cp ignore-2.16.txt ignore-${version}.txt
   done
 }
 

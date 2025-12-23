@@ -1577,9 +1577,9 @@
             "system-cpu-policer": [
                 {
                     "entry-specific": false,
-                    "max-packet-burst": 1000,
+                    "maximum-burst-packet": 1000,
                     "name": "icmp",
-                    "peak-packet-rate": 1000
+                    "peak-rate-pps": 1000
                 }
             ]
         }

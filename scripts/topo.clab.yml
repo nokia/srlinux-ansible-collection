@@ -8,5 +8,5 @@ topology:
   nodes:
     srl:
       kind: nokia_srlinux
-      image: ghcr.io/nokia/srlinux:${SRLINUX_VERSION:=24.10.1}
+      image: ghcr.io/nokia/srlinux:${SRLINUX_VERSION:=25.10}
       mgmt-ipv4: 172.20.20.222

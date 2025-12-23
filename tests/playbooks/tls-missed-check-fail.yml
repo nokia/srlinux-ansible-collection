@@ -14,7 +14,20 @@
           - path: /system/information
             datastore: state
       register: get_return
-      failed_when: not get_return.failed or "CERTIFICATE_VERIFY_FAILED" not in get_return.module_stderr
+      ignore_errors: true
+
+    - name: Print debug
+      ansible.builtin.debug:
+        var: get_return
+
+    - name: Check the expected failure occurred
+      ansible.builtin.assert:
+        that:
+          - get_return.failed
+          - >-
+            "CERTIFICATE_VERIFY_FAILED" in (get_return.module_stderr | default('')) or
+            "CERTIFICATE_VERIFY_FAILED" in (get_return.msg | default(''))
+        fail_msg: "Expected CERTIFICATE_VERIFY_FAILED error did not occur"
 
     - name: Print debug
       ansible.builtin.debug:
